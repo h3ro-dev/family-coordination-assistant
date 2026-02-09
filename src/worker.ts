@@ -9,6 +9,8 @@ import { runRetentionCleanup } from "./workers/retentionCleanup";
 import { TwilioSmsAdapter } from "./adapters/sms/TwilioSmsAdapter";
 import { ResendEmailAdapter } from "./adapters/email/ResendEmailAdapter";
 import { compileSitterOptions, retrySitterOutreach } from "./workers/sitterJobs";
+import { FakeSmsAdapter } from "./adapters/sms/FakeSmsAdapter";
+import { FakeEmailAdapter } from "./adapters/email/FakeEmailAdapter";
 
 function requireString(val: string | undefined, name: string): string {
   if (!val) throw new Error(`Missing env var: ${name}`);
@@ -19,14 +21,30 @@ async function main() {
   const boss = createBoss();
   await boss.start();
 
+  const isProd = env.NODE_ENV === "production";
+
   const services = {
-    sms: new TwilioSmsAdapter({
-      accountSid: requireString(env.TWILIO_ACCOUNT_SID, "TWILIO_ACCOUNT_SID"),
-      authToken: requireString(env.TWILIO_AUTH_TOKEN, "TWILIO_AUTH_TOKEN")
-    }),
-    email: new ResendEmailAdapter({
-      apiKey: requireString(env.RESEND_API_KEY, "RESEND_API_KEY")
-    }),
+    sms:
+      env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN
+        ? new TwilioSmsAdapter({
+            accountSid: requireString(env.TWILIO_ACCOUNT_SID, "TWILIO_ACCOUNT_SID"),
+            authToken: requireString(env.TWILIO_AUTH_TOKEN, "TWILIO_AUTH_TOKEN")
+          })
+        : (() => {
+            if (isProd) throw new Error("Missing TWILIO_* env vars in production");
+            console.warn("[worker] TWILIO_* not set. Using FakeSmsAdapter.");
+            return new FakeSmsAdapter();
+          })(),
+    email:
+      env.RESEND_API_KEY && env.EMAIL_FROM
+        ? new ResendEmailAdapter({
+            apiKey: requireString(env.RESEND_API_KEY, "RESEND_API_KEY")
+          })
+        : (() => {
+            if (isProd) throw new Error("Missing RESEND_API_KEY/EMAIL_FROM in production");
+            console.warn("[worker] RESEND_* not set. Using FakeEmailAdapter.");
+            return new FakeEmailAdapter();
+          })(),
     boss
   };
 
