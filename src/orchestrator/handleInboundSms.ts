@@ -1,11 +1,12 @@
 import { DateTime } from "luxon";
 import { AppServices } from "../http/buildServer";
 import { withTransaction } from "../db/pool";
-import { parseSitterRequest } from "../domain/parsing/parseSitterRequest";
+import { isSitterIntent, parseSitterRequest } from "../domain/parsing/parseSitterRequest";
 import { parseContactList } from "../domain/parsing/parseContactList";
 import { parseYesNo } from "../domain/parsing/parseYesNo";
 import { JOB_COMPILE_SITTER_OPTIONS, JOB_RETRY_SITTER_OUTREACH } from "../jobs/boss";
 import { sendAndLogSms } from "./messaging";
+import { parseTimeWindow } from "../domain/parsing/parseTimeWindow";
 
 export type HandleInboundSmsArgs = {
   services: AppServices;
@@ -48,6 +49,15 @@ function isStopMessage(text: string): boolean {
 
 function isStartMessage(text: string): boolean {
   return text.trim().toLowerCase() === "start";
+}
+
+function isCancelMessage(text: string): boolean {
+  const t = text.trim().toLowerCase();
+  return t === "cancel" || t === "cancel task" || t === "never mind";
+}
+
+function isStatusMessage(text: string): boolean {
+  return text.trim().toLowerCase() === "status";
 }
 
 function safeJson(obj: unknown): Record<string, unknown> {
@@ -134,7 +144,13 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           "UPDATE contacts SET sms_opted_out = true, updated_at = now() WHERE id = $1",
           [contact.id]
         );
-        return { type: "noop" as const };
+        return {
+          type: "send_sms" as const,
+          family,
+          to: contact.phone_e164 ?? args.from,
+          from: family.assistant_phone_e164,
+          body: "You’re opted out. Reply START to re-subscribe."
+        };
       }
 
       if (isStartMessage(args.text)) {
@@ -142,7 +158,13 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           "UPDATE contacts SET sms_opted_out = false, updated_at = now() WHERE id = $1",
           [contact.id]
         );
-        return { type: "noop" as const };
+        return {
+          type: "send_sms" as const,
+          family,
+          to: contact.phone_e164 ?? args.from,
+          from: family.assistant_phone_e164,
+          body: "You’re re-subscribed. Reply STOP to opt out."
+        };
       }
 
       if (contact.sms_opted_out) return { type: "noop" as const };
@@ -276,7 +298,184 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
     );
     const awaitingTask = awaitingRes.rows[0];
 
+    if (isCancelMessage(args.text)) {
+      const target = awaitingTask
+        ? { id: awaitingTask.id, intent_type: awaitingTask.intent_type, status: awaitingTask.status }
+        : await (async () => {
+            const res = await client.query<{ id: string; intent_type: string; status: string }>(
+              `
+                SELECT id, intent_type, status
+                FROM tasks
+                WHERE family_id = $1 AND status NOT IN ('confirmed','cancelled','expired')
+                ORDER BY created_at DESC
+                LIMIT 1
+                FOR UPDATE
+              `,
+              [family.id]
+            );
+            return res.rows[0] ?? null;
+          })();
+
+      if (!target) {
+        return {
+          type: "send_sms" as const,
+          family,
+          to: args.from,
+          from: family.assistant_phone_e164,
+          body: "No active request to cancel."
+        };
+      }
+
+      await client.query(
+        `
+          UPDATE tasks
+          SET status = 'cancelled',
+              awaiting_parent = false,
+              awaiting_parent_reason = NULL,
+              updated_at = now()
+          WHERE id = $1
+        `,
+        [target.id]
+      );
+
+      return {
+        type: "send_sms" as const,
+        family,
+        to: args.from,
+        from: family.assistant_phone_e164,
+        body: `Cancelled (${target.intent_type}).`
+      };
+    }
+
+    if (isStatusMessage(args.text)) {
+      const res = await client.query<{ intent_type: string; status: string; awaiting_parent: boolean }>(
+        `
+          SELECT intent_type, status, awaiting_parent
+          FROM tasks
+          WHERE family_id = $1 AND status NOT IN ('confirmed','cancelled','expired')
+          ORDER BY created_at DESC
+          LIMIT 5
+        `,
+        [family.id]
+      );
+
+      if (res.rows.length === 0) {
+        return {
+          type: "send_sms" as const,
+          family,
+          to: args.from,
+          from: family.assistant_phone_e164,
+          body: "No active requests."
+        };
+      }
+
+      const lines = res.rows.map(
+        (r, i) => `${i + 1}) ${r.intent_type}: ${r.status}${r.awaiting_parent ? " (needs your reply)" : ""}`
+      );
+      return {
+        type: "send_sms" as const,
+        family,
+        to: args.from,
+        from: family.assistant_phone_e164,
+        body: `Active requests:\n${lines.join("\n")}`
+      };
+    }
+
     if (awaitingTask) {
+      if (awaitingTask.awaiting_parent_reason === "need_time_window") {
+        const now = DateTime.fromJSDate(args.occurredAt, { zone: family.timezone });
+        const parsedWindow = parseTimeWindow(args.text, now);
+        if (!parsedWindow) {
+          return {
+            type: "send_sms" as const,
+            family,
+            to: args.from,
+            from: family.assistant_phone_e164,
+            body: "What day and time? Reply like: 'Fri 6-10'."
+          };
+        }
+
+        // Save the time window, then proceed like a sitter task.
+        await client.query(
+          `
+            UPDATE tasks
+            SET requested_start = $2,
+                requested_end = $3,
+                parsed_at = now(),
+                updated_at = now()
+            WHERE id = $1
+          `,
+          [awaitingTask.id, parsedWindow.start.toJSDate(), parsedWindow.end.toJSDate()]
+        );
+
+        const sittersRes = await client.query<ContactRow>(
+          `
+            SELECT id, name, phone_e164, sms_opted_out
+            FROM contacts
+            WHERE family_id = $1 AND category = 'sitter'
+              AND phone_e164 IS NOT NULL
+              AND sms_opted_out = false
+            ORDER BY created_at ASC
+          `,
+          [family.id]
+        );
+        const sitters = sittersRes.rows;
+
+        if (sitters.length === 0) {
+          await client.query(
+            `
+              UPDATE tasks
+              SET awaiting_parent = true,
+                  awaiting_parent_reason = 'need_contacts',
+                  updated_at = now()
+              WHERE id = $1
+            `,
+            [awaitingTask.id]
+          );
+          return {
+            type: "send_sms" as const,
+            family,
+            to: args.from,
+            from: family.assistant_phone_e164,
+            body: "No sitters saved yet. Reply with sitter name + number (e.g., 'Sarah 801-555-1234')."
+          };
+        }
+
+        const outreachTargets = sitters.slice(0, 8).filter((s) => s.phone_e164);
+        for (const s of outreachTargets) {
+          await client.query(
+            `
+              INSERT INTO task_outreach (task_id, contact_id, channel, sent_at, status)
+              VALUES ($1,$2,'sms',NULL,'queued')
+              ON CONFLICT (task_id, contact_id, channel) DO NOTHING
+            `,
+            [awaitingTask.id, s.id]
+          );
+        }
+
+        await client.query(
+          `
+            UPDATE tasks
+            SET status = 'collecting',
+                awaiting_parent = false,
+                awaiting_parent_reason = NULL,
+                updated_at = now()
+            WHERE id = $1
+          `,
+          [awaitingTask.id]
+        );
+
+        return {
+          type: "start_outreach" as const,
+          family,
+          taskId: awaitingTask.id,
+          requestedStart: parsedWindow.start.toJSDate(),
+          requestedEnd: parsedWindow.end.toJSDate(),
+          contacts: outreachTargets.map((c) => ({ id: c.id, phoneE164: c.phone_e164 as string })),
+          ackToParent: true
+        };
+      }
+
       if (awaitingTask.awaiting_parent_reason === "need_contacts") {
         const parsed = parseContactList(args.text, "US");
         if (parsed.length === 0) {
@@ -475,6 +674,29 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
     const now = DateTime.fromJSDate(args.occurredAt, { zone: family.timezone });
     const parsed = parseSitterRequest(args.text, now);
     if (!parsed) {
+      if (isSitterIntent(args.text)) {
+        const metadata = { initiatorPhoneE164: args.from, originalText: args.text };
+        const taskIns = await client.query<{ id: string }>(
+          `
+            INSERT INTO tasks (
+              family_id, intent_type, status,
+              awaiting_parent, awaiting_parent_reason, metadata
+            ) VALUES ($1,'sitter','intent_created',true,'need_time_window',$2::jsonb)
+            RETURNING id
+          `,
+          [family.id, JSON.stringify(metadata)]
+        );
+
+        return {
+          type: "send_sms" as const,
+          family,
+          taskId: taskIns.rows[0].id,
+          to: args.from,
+          from: family.assistant_phone_e164,
+          body: "What day and time? Reply like: 'Fri 6-10'."
+        };
+      }
+
       return {
         type: "send_sms" as const,
         family,
