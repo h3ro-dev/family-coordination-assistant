@@ -136,10 +136,10 @@ export async function dialVoiceJob(services: AppServices, voiceJobId: string): P
 
   if (outcome.type !== "dial") return;
 
-  const answerUrl = buildVoiceWebhookUrl("/webhooks/twilio/voice/answer", outcome.job.id);
-  const statusCallbackUrl = buildVoiceWebhookUrl("/webhooks/twilio/voice/status", outcome.job.id);
-
   try {
+    const answerUrl = buildVoiceWebhookUrl("/webhooks/twilio/voice/answer", outcome.job.id);
+    const statusCallbackUrl = buildVoiceWebhookUrl("/webhooks/twilio/voice/status", outcome.job.id);
+
     const call = await services.voiceDialer.startCall({
       to: outcome.job.contact_phone_e164 as string,
       from: outcome.job.assistant_phone_e164,
@@ -206,10 +206,13 @@ export async function dialVoiceJob(services: AppServices, voiceJobId: string): P
       );
     });
 
-    // Retry policy:
+    const isConfigError = msg.includes("PUBLIC_BASE_URL");
+
+    // Retry policy (best-effort):
     // - availability calls: retry next day (matches the product "next-day attempt")
     // - booking calls: retry in 10 minutes (short hiccups)
-    if (services.boss) {
+    // Skip retries for obvious configuration errors.
+    if (services.boss && !isConfigError) {
       const isAvailability = outcome.job.kind === "availability";
       const startAfter = isAvailability
         ? DateTime.utc().plus({ hours: 24 }).toJSDate()
