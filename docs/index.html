@@ -35,8 +35,10 @@
 
         <nav class="nav">
           <a href="#overview">Overview</a>
+          <a href="#built">Built vs Not Built</a>
           <a href="#core-loop">Core Loop</a>
           <a href="#components">Components</a>
+          <a href="#recommended">Recommended Architecture</a>
           <a href="#workflow">Workflow Engine</a>
           <a href="#data-model">Data Model</a>
           <a href="#channels">Channels + Webhooks</a>
@@ -63,6 +65,45 @@
             In Phase 1, we prove one loop works end-to-end (sitter scheduling) and build the system
             so it can expand to activities and healthcare later.
           </p>
+        </section>
+
+        <section class="card" id="built">
+          <h2>Built vs Not Built (Explicit Boundary)</h2>
+          <p>
+            The most important thing to understand about this MVP is what it does <em>today</em>
+            and what it intentionally does <em>not</em> do yet. This keeps the pilot simple and
+            prevents us from accidentally claiming “voice calling” exists when it doesn’t.
+          </p>
+
+          <div class="grid2">
+            <div class="card">
+              <h3>Built Now</h3>
+              <ul>
+                <li>SMS-first assistant (Twilio inbound SMS webhook + outbound SMS)</li>
+                <li>Email outreach + inbound email replies (proxy-friendly)</li>
+                <li>Durable workflow engine (tasks, outreach, options, confirmation)</li>
+                <li>Safety rules: max 5 active tasks; max 1 awaiting-parent at a time</li>
+                <li>Voice: <strong>result ingestion</strong> (<span class="k">POST /webhooks/voice/result</span>)</li>
+                <li>Admin UI: create families, contacts, tasks, simulate voice results</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Not Built Yet (By Design)</h3>
+              <ul>
+                <li>Placing real phone calls to clinics (Twilio Voice)</li>
+                <li>A voice agent that runs the conversation (Grok/OpenAI/etc.)</li>
+                <li>Calendar booking integrations (Google/iOS)</li>
+                <li>End-user login, dashboards, marketplace/discovery, payments/insurance</li>
+                <li>Formal HIPAA compliance program (BAAs, audits, policies)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout warn" style="margin-top: 12px;">
+            Phase 1 voice work starts at a very specific boundary: <strong>“a phone call happened
+            somewhere, and here are the offered time slots.”</strong> The future voice system’s job
+            is to produce that structured result and POST it to the assistant.
+          </div>
         </section>
 
         <section class="card" id="core-loop">
@@ -117,7 +158,7 @@ flowchart TB
 
   API -->|outbound email| Resend
   Proxy -->|POST /webhooks/email/inbound| API
-  VoiceBridge -->|POST /webhooks/voice/result| API
+          VoiceBridge -->|POST /webhooks/voice/result| API
 
   API <--> DB
   Worker <--> DB
@@ -143,6 +184,72 @@ flowchart TB
                 <li>Keeps the “waiting” work off the API</li>
               </ul>
             </div>
+          </div>
+        </section>
+
+        <section class="card" id="recommended">
+          <h2>Recommended Architecture (How This Scales)</h2>
+          <p>
+            The long-term goal is to support many coordination “domains” (sitters, activities,
+            clinics) without turning the system into a fragile black box. The recommended approach
+            is to keep one reliable “coordination core” and treat each communication method (SMS,
+            email, voice) as a swappable adapter.
+          </p>
+
+          <div class="diagram">
+            <pre class="mermaid">
+flowchart TB
+  subgraph Core["Coordination Core (this repo)"]
+    Inbound["Inbound Webhooks<br/>SMS / Email / Voice-Result"]
+    Orchestrator["Orchestrator<br/>state machine + safety rules"]
+    Outbound["Outbound Messaging<br/>SMS + Email"]
+    Jobs["Background Jobs<br/>retry + compile + retention"]
+    Store["Postgres<br/>durable lists (tasks, contacts, logs)"]
+    Inbound --> Orchestrator
+    Orchestrator --> Store
+    Orchestrator --> Outbound
+    Jobs --> Store
+  end
+
+  subgraph Voice["Voice Bridge (future service)"]
+    Dial["Telephony (Twilio Voice)<br/>places phone calls"]
+    Agent["Voice Agent (Grok/OpenAI/etc.)<br/>talks + asks for availability"]
+    Extract["Slot Extractor<br/>turns conversation into offeredSlots[]"]
+    Dial --> Agent --> Extract
+    Extract -->|"POST /webhooks/voice/result"| Inbound
+  end
+
+  Parent["Parent (SMS)"] -->|"texts assistant"| Inbound
+  Outbound -->|"options + confirmations"| Parent
+  Clinic["Clinic Reception"] <-->|"phone call"| Dial
+            </pre>
+          </div>
+
+          <div class="grid2" style="margin-top: 14px;">
+            <div class="card">
+              <h3>Why Keep a “Coordination Core”</h3>
+              <ul>
+                <li>One durable source of truth (tasks + options) prevents confusion.</li>
+                <li>Safety rules stay consistent across channels (no mixed requests).</li>
+                <li>Retries and dedupe are centralized (providers will retry webhooks).</li>
+                <li>You can swap providers without rewriting the workflow logic.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Why Make Voice a Separate “Bridge”</h3>
+              <ul>
+                <li>Phone calls are long-running and failure-prone (hold music, transfers).</li>
+                <li>Audio + transcripts have higher privacy risk than SMS scheduling texts.</li>
+                <li>You can iterate on the call script/agent without risking the core system.</li>
+                <li>The bridge can be replaced (Twilio+Grok, Twilio+OpenAI, etc.).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 12px;">
+            As the product scales, the “coordination core” should stay boring and reliable. Most
+            innovation should happen at the edges: new intents, better parsing, new adapters, and
+            a voice bridge that produces cleaner structured results.
           </div>
         </section>
 
