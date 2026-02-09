@@ -92,6 +92,13 @@ Then add:
    - "1"
 6. System confirms to parent and notifies the selected contact.
 
+## Parent Commands (Pilot Quality-of-Life)
+
+These commands are designed to keep the SMS thread unambiguous:
+
+- `STATUS`: lists active requests and whether one needs a reply.
+- `CANCEL`: cancels the current awaiting-parent request (or the most recent active request).
+
 ## If You Have No Custom Email Domain Yet (Proxy)
 
 You can still do email replies without owning a domain:

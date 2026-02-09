@@ -21,6 +21,7 @@ Core functionality (Phase 1):
 - SMS channel (Twilio):
   - Inbound webhook: `POST /webhooks/twilio/sms`
   - Outbound SMS via Twilio REST API (not TwiML)
+  - SMS STOP/START opt-out is supported for SMS contacts (mirrors email opt-out).
 - Email channel:
   - Outbound email via Resend
   - Inbound email via:
@@ -42,6 +43,9 @@ Core functionality (Phase 1):
 - Safety / reliability constraints:
   - Max 5 active tasks per family.
   - Max 1 task awaiting a short parent reply at a time (prevents mixing requests).
+  - Parent commands:
+    - `STATUS` lists active requests.
+    - `CANCEL` cancels the current awaiting-parent request (or the most recent active request).
   - Inbound webhook deduplication via `(provider, provider_message_id)` uniqueness.
   - Per-family sequential processing using row locks on the family record.
 - Background jobs (pg-boss):
