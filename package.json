@@ -1,0 +1,46 @@
+{
+  "name": "family-coordination-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.25.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,worker -c blue,green \"pnpm dev:api\" \"pnpm dev:worker\"",
+    "dev:api": "tsx watch src/index.ts",
+    "dev:worker": "tsx watch src/worker.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "start:worker": "node dist/worker.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "tsx src/db/migrate.ts"
+  },
+  "dependencies": {
+    "@fastify/formbody": "^8.0.2",
+    "fastify": "^5.2.1",
+    "libphonenumber-js": "^1.12.3",
+    "luxon": "^3.6.0",
+    "pg": "^8.13.1",
+    "pg-boss": "^10.3.2",
+    "resend": "^4.8.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/luxon": "^3.6.2",
+    "@types/pg": "^8.11.10",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3",
+    "tsx": "^4.20.0",
+    "vitest": "^3.0.6"
+  }
+}
