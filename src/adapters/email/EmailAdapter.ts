@@ -3,6 +3,7 @@ export type SendEmailRequest = {
   to: string;
   subject: string;
   text: string;
+  replyTo?: string;
 };
 
 export type SendEmailResult = {
@@ -13,4 +14,3 @@ export type SendEmailResult = {
 export interface EmailAdapter {
   sendEmail(req: SendEmailRequest): Promise<SendEmailResult>;
 }
-

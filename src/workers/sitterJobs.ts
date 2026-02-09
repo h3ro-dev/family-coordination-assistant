@@ -1,7 +1,8 @@
 import { DateTime } from "luxon";
 import { withTransaction } from "../db/pool";
 import { AppServices } from "../http/buildServer";
-import { sendAndLogSms } from "../orchestrator/messaging";
+import { env } from "../config";
+import { sendAndLogEmail, sendAndLogSms } from "../orchestrator/messaging";
 import { JOB_COMPILE_SITTER_OPTIONS } from "../jobs/boss";
 
 type FamilyTaskRow = {
@@ -20,6 +21,14 @@ function safeJson(obj: unknown): Record<string, unknown> {
   if (!obj) return {};
   if (typeof obj === "object") return obj as Record<string, unknown>;
   return {};
+}
+
+function buildReplyToForFamily(familyId: string): string | undefined {
+  const base = env.EMAIL_REPLY_TO;
+  if (!base) return undefined;
+  const m = /^([^@]+)@(.+)$/.exec(base);
+  if (!m) return undefined;
+  return `${m[1]}+${familyId}@${m[2]}`;
 }
 
 export async function compileSitterOptions(
@@ -168,23 +177,30 @@ export async function retrySitterOutreach(
     if (row.status !== "collecting") return { type: "noop" as const };
     if (!row.requested_start || !row.requested_end) return { type: "noop" as const };
 
-    const targetsRes = await client.query<{ phone_e164: string }>(
+    const targetsRes = await client.query<{ channel: string; phone_e164: string | null; email: string | null }>(
       `
-        SELECT c.phone_e164
+        SELECT o.channel, c.phone_e164, c.email
         FROM task_outreach o
         JOIN contacts c ON c.id = o.contact_id
         LEFT JOIN task_contact_responses r
           ON r.task_id = o.task_id AND r.contact_id = o.contact_id
         WHERE o.task_id = $1
-          AND o.channel = 'sms'
-          AND c.sms_opted_out = false
-          AND c.phone_e164 IS NOT NULL
           AND r.id IS NULL
+          AND (
+            (o.channel = 'sms' AND c.sms_opted_out = false AND c.phone_e164 IS NOT NULL)
+            OR (o.channel = 'email' AND c.email_opted_out = false AND c.email IS NOT NULL)
+          )
       `,
       [row.task_id]
     );
 
-    const targets = targetsRes.rows.map((r) => r.phone_e164);
+    const targets = targetsRes.rows
+      .map((r) => {
+        if (r.channel === "email" && r.email) return { channel: "email" as const, to: r.email };
+        if (r.channel === "sms" && r.phone_e164) return { channel: "sms" as const, to: r.phone_e164 };
+        return null;
+      })
+      .filter(Boolean) as { channel: "sms" | "email"; to: string }[];
     if (targets.length === 0) return { type: "noop" as const };
 
     return { type: "retry" as const, row, targets };
@@ -199,13 +215,27 @@ export async function retrySitterOutreach(
     zone: outcome.row.timezone
   }).toFormat("h:mma");
 
-  for (const phone of outcome.targets) {
+  for (const target of outcome.targets) {
+    if (target.channel === "email") {
+      await sendAndLogEmail({
+        services,
+        familyId: outcome.row.family_id,
+        taskId: outcome.row.task_id,
+        to: target.to,
+        subject: "Availability check (follow-up)",
+        text: `Quick check: are you available ${start}-${end}? Reply YES or NO.`,
+        replyTo: buildReplyToForFamily(outcome.row.family_id),
+        occurredAt: new Date()
+      });
+      continue;
+    }
+
     await sendAndLogSms({
       services,
       familyId: outcome.row.family_id,
       taskId: outcome.row.task_id,
       from: outcome.row.assistant_phone_e164,
-      to: phone,
+      to: target.to,
       body: `Quick check: are you available ${start}-${end}? Reply YES or NO.`,
       occurredAt: new Date()
     });

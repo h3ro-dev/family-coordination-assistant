@@ -17,7 +17,8 @@ export class ResendEmailAdapter implements EmailAdapter {
       from: req.from,
       to: req.to,
       subject: req.subject,
-      text: req.text
+      text: req.text,
+      replyTo: req.replyTo
     });
 
     if (res.error) {
@@ -30,4 +31,3 @@ export class ResendEmailAdapter implements EmailAdapter {
     };
   }
 }
-

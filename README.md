@@ -60,6 +60,8 @@ Required environment variables:
 - `ADMIN_TOKEN` (single shared token for pilot admin endpoints)
 - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`
 - `RESEND_API_KEY`, `EMAIL_FROM`
+- `EMAIL_REPLY_TO` (inbound routing; can be a proxy mailbox like a Gmail address)
+- `INBOUND_EMAIL_TOKEN` (shared secret required by inbound email webhook)
 
 ## Twilio Webhook
 
@@ -68,6 +70,45 @@ Configure your Twilio phone number (Messaging) to send inbound SMS webhooks to:
 - `POST https://<your-domain>/webhooks/twilio/sms`
 
 This service replies by sending outbound SMS via the Twilio REST API (it does not rely on TwiML responses).
+
+## Admin UI (Pilot)
+
+The pilot also includes a minimal admin UI (no end-user login):
+
+- `GET /admin-ui`
+
+Auth:
+
+- Browser Basic Auth: username `admin`, password = `ADMIN_TOKEN`
+- Or `Authorization: Bearer <ADMIN_TOKEN>`
+
+Use it to create families, authorize parent phones, and manage contacts.
+
+## Inbound Email (Resend or Proxy)
+
+Outbound emails set `Reply-To` to:
+
+- `assistant+<familyId>@<EMAIL_REPLY_TO domain>`
+
+When a contact replies, you (Resend, Zapier, Apps Script, etc.) POST the parsed email to one of:
+
+- `POST /webhooks/resend/inbound`
+- `POST /webhooks/email/inbound` (provider-agnostic, recommended for proxies)
+
+Both require a header:
+
+- `x-inbound-token: <INBOUND_EMAIL_TOKEN>`
+
+Minimal JSON payload:
+
+```json
+{
+  "id": "provider-message-id",
+  "from": "Contact <person@example.com>",
+  "to": "assistant+<familyId>@example.com",
+  "text": "YES"
+}
+```
 
 ## Pilot Admin API
 

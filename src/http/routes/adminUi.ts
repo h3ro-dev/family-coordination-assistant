@@ -202,9 +202,10 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
           email: string | null;
           channel_pref: string;
           sms_opted_out: boolean;
+          email_opted_out: boolean;
         }>(
           `
-          SELECT id, name, category, phone_e164, email, channel_pref, sms_opted_out
+          SELECT id, name, category, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
           FROM contacts
           WHERE family_id = $1
           ORDER BY created_at DESC
@@ -249,7 +250,10 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
           (c) => `<tr>
             <td>${esc(c.name)}</td>
             <td>${esc(c.category)}</td>
-            <td>${esc(c.channel_pref)} ${c.sms_opted_out ? `<span class="pill danger">SMS opted out</span>` : ""}</td>
+            <td>${esc(c.channel_pref)}
+              ${c.sms_opted_out ? `<span class="pill danger">SMS opted out</span>` : ""}
+              ${c.email_opted_out ? `<span class="pill danger">Email opted out</span>` : ""}
+            </td>
             <td class="muted">${esc(c.phone_e164 ?? "")}</td>
             <td class="muted">${esc(c.email ?? "")}</td>
           </tr>`

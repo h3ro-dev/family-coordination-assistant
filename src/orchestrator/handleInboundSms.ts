@@ -1,11 +1,12 @@
 import { DateTime } from "luxon";
 import { AppServices } from "../http/buildServer";
 import { withTransaction } from "../db/pool";
+import { env } from "../config";
 import { isSitterIntent, parseSitterRequest } from "../domain/parsing/parseSitterRequest";
 import { parseContactList } from "../domain/parsing/parseContactList";
 import { parseYesNo } from "../domain/parsing/parseYesNo";
 import { JOB_COMPILE_SITTER_OPTIONS, JOB_RETRY_SITTER_OUTREACH } from "../jobs/boss";
-import { sendAndLogSms } from "./messaging";
+import { sendAndLogEmail, sendAndLogSms } from "./messaging";
 import { parseTimeWindow } from "../domain/parsing/parseTimeWindow";
 
 export type HandleInboundSmsArgs = {
@@ -40,7 +41,10 @@ type ContactRow = {
   id: string;
   name: string;
   phone_e164: string | null;
+  email: string | null;
+  channel_pref: string;
   sms_opted_out: boolean;
+  email_opted_out: boolean;
 };
 
 function isStopMessage(text: string): boolean {
@@ -58,6 +62,16 @@ function isCancelMessage(text: string): boolean {
 
 function isStatusMessage(text: string): boolean {
   return text.trim().toLowerCase() === "status";
+}
+
+function buildReplyToForFamily(familyId: string): string | undefined {
+  const base = env.EMAIL_REPLY_TO;
+  if (!base) return undefined;
+  const m = /^([^@]+)@(.+)$/.exec(base);
+  if (!m) return undefined;
+  const local = m[1];
+  const domain = m[2];
+  return `${local}+${familyId}@${domain}`;
 }
 
 function safeJson(obj: unknown): Record<string, unknown> {
@@ -129,7 +143,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
       // Contact path (e.g., sitter replies).
       const contactRes = await client.query<ContactRow>(
         `
-          SELECT id, name, phone_e164, sms_opted_out
+          SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
           FROM contacts
           WHERE family_id = $1 AND phone_e164 = $2
           LIMIT 1
@@ -410,11 +424,13 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
 
         const sittersRes = await client.query<ContactRow>(
           `
-            SELECT id, name, phone_e164, sms_opted_out
+            SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
             FROM contacts
             WHERE family_id = $1 AND category = 'sitter'
-              AND phone_e164 IS NOT NULL
-              AND sms_opted_out = false
+              AND (
+                (channel_pref = 'sms' AND phone_e164 IS NOT NULL AND sms_opted_out = false)
+                OR (channel_pref = 'email' AND email IS NOT NULL AND email_opted_out = false)
+              )
             ORDER BY created_at ASC
           `,
           [family.id]
@@ -441,15 +457,27 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           };
         }
 
-        const outreachTargets = sitters.slice(0, 8).filter((s) => s.phone_e164);
+        const outreachTargets = sitters
+          .slice(0, 8)
+          .map((s) => {
+            if (s.channel_pref === "sms" && s.phone_e164) {
+              return { id: s.id, channel: "sms" as const, to: s.phone_e164 };
+            }
+            if (s.channel_pref === "email" && s.email) {
+              return { id: s.id, channel: "email" as const, to: s.email };
+            }
+            return null;
+          })
+          .filter(Boolean) as { id: string; channel: "sms" | "email"; to: string }[];
+
         for (const s of outreachTargets) {
           await client.query(
             `
               INSERT INTO task_outreach (task_id, contact_id, channel, sent_at, status)
-              VALUES ($1,$2,'sms',NULL,'queued')
+              VALUES ($1,$2,$3,NULL,'queued')
               ON CONFLICT (task_id, contact_id, channel) DO NOTHING
             `,
-            [awaitingTask.id, s.id]
+            [awaitingTask.id, s.id, s.channel]
           );
         }
 
@@ -471,7 +499,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           taskId: awaitingTask.id,
           requestedStart: parsedWindow.start.toJSDate(),
           requestedEnd: parsedWindow.end.toJSDate(),
-          contacts: outreachTargets.map((c) => ({ id: c.id, phoneE164: c.phone_e164 as string })),
+          contacts: outreachTargets,
           ackToParent: true
         };
       }
@@ -545,7 +573,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           taskId: awaitingTask.id,
           requestedStart: awaitingTask.requested_start,
           requestedEnd: awaitingTask.requested_end,
-          contacts: createdContacts.map((c) => ({ id: c.id, phoneE164: c.phone_e164 }))
+          contacts: createdContacts.map((c) => ({ id: c.id, channel: "sms" as const, to: c.phone_e164 }))
         };
       }
 
@@ -566,6 +594,8 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           contact_id: string;
           name: string;
           phone_e164: string | null;
+          email: string | null;
+          channel_pref: string;
           slot_start: Date;
           slot_end: Date;
           rank: number;
@@ -576,6 +606,8 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
               c.id as contact_id,
               c.name,
               c.phone_e164,
+              c.email,
+              c.channel_pref,
               o.slot_start,
               o.slot_end,
               o.rank
@@ -638,11 +670,17 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           selectedContact: {
             id: selected.contact_id,
             name: selected.name,
-            phoneE164: selected.phone_e164
+            channel: selected.channel_pref === "email" ? ("email" as const) : ("sms" as const),
+            to: selected.channel_pref === "email" ? selected.email : selected.phone_e164
           },
           rejectedContacts: options
             .filter((o) => o.option_id !== selected.option_id)
-            .map((o) => ({ id: o.contact_id, name: o.name, phoneE164: o.phone_e164 })),
+            .map((o) => ({
+              id: o.contact_id,
+              name: o.name,
+              channel: o.channel_pref === "email" ? ("email" as const) : ("sms" as const),
+              to: o.channel_pref === "email" ? o.email : o.phone_e164
+            })),
           slotStart: selected.slot_start,
           slotEnd: selected.slot_end
         };
@@ -708,11 +746,13 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
 
     const sittersRes = await client.query<ContactRow>(
       `
-        SELECT id, name, phone_e164, sms_opted_out
+        SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
         FROM contacts
         WHERE family_id = $1 AND category = 'sitter'
-          AND phone_e164 IS NOT NULL
-          AND sms_opted_out = false
+          AND (
+            (channel_pref = 'sms' AND phone_e164 IS NOT NULL AND sms_opted_out = false)
+            OR (channel_pref = 'email' AND email IS NOT NULL AND email_opted_out = false)
+          )
         ORDER BY created_at ASC
       `,
       [family.id]
@@ -756,15 +796,27 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
     );
     const taskId = taskIns.rows[0].id;
 
-    const outreachTargets = sitters.slice(0, 8).filter((s) => s.phone_e164);
+    const outreachTargets = sitters
+      .slice(0, 8)
+      .map((s) => {
+        if (s.channel_pref === "sms" && s.phone_e164) {
+          return { id: s.id, channel: "sms" as const, to: s.phone_e164 };
+        }
+        if (s.channel_pref === "email" && s.email) {
+          return { id: s.id, channel: "email" as const, to: s.email };
+        }
+        return null;
+      })
+      .filter(Boolean) as { id: string; channel: "sms" | "email"; to: string }[];
+
     for (const s of outreachTargets) {
       await client.query(
         `
           INSERT INTO task_outreach (task_id, contact_id, channel, sent_at, status)
-          VALUES ($1,$2,'sms',NULL,'queued')
+          VALUES ($1,$2,$3,NULL,'queued')
           ON CONFLICT (task_id, contact_id, channel) DO NOTHING
         `,
-        [taskId, s.id]
+        [taskId, s.id, s.channel]
       );
     }
 
@@ -774,10 +826,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
       taskId,
       requestedStart: parsed.start.toJSDate(),
       requestedEnd: parsed.end.toJSDate(),
-      contacts: outreachTargets.map((c) => ({
-        id: c.id,
-        phoneE164: c.phone_e164 as string
-      })),
+      contacts: outreachTargets,
       ackToParent: true
     };
   });
@@ -837,20 +886,36 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
       return;
     }
 
+    const startText = DateTime.fromJSDate(slotStart, {
+      zone: outcome.family.timezone
+    }).toFormat("ccc L/d h:mma");
+    const endText = DateTime.fromJSDate(slotEnd, { zone: outcome.family.timezone }).toFormat(
+      "h:mma"
+    );
+
     for (const c of outcome.contacts) {
-      const msg = `Hi! Are you available to babysit from ${DateTime.fromJSDate(
-        slotStart,
-        { zone: outcome.family.timezone }
-      ).toFormat("ccc L/d h:mma")} to ${DateTime.fromJSDate(slotEnd, {
-        zone: outcome.family.timezone
-      })
-        .toFormat("h:mma")}? Reply YES or NO.`;
+      const msg = `Hi! Are you available to babysit from ${startText} to ${endText}? Reply YES or NO.`;
+
+      if (c.channel === "email") {
+        await sendAndLogEmail({
+          services,
+          familyId: outcome.family.id,
+          taskId,
+          to: c.to,
+          subject: "Availability check",
+          text: `${msg}\n\nReply with YES or NO.\n\n(Reply STOP to opt out)`,
+          replyTo: buildReplyToForFamily(outcome.family.id),
+          occurredAt: args.occurredAt
+        });
+        continue;
+      }
+
       await sendAndLogSms({
         services,
         familyId: outcome.family.id,
         taskId,
         from: outcome.family.assistant_phone_e164,
-        to: c.phoneE164,
+        to: c.to,
         body: msg,
         occurredAt: args.occurredAt
       });
@@ -951,26 +1016,53 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
       occurredAt: args.occurredAt
     });
 
-    if (outcome.selectedContact.phoneE164) {
-      await sendAndLogSms({
-        services,
-        familyId: family.id,
-        taskId,
-        from: family.assistant_phone_e164,
-        to: outcome.selectedContact.phoneE164,
-        body: "Confirmed, thank you! You're booked.",
-        occurredAt: args.occurredAt
-      });
+    const selectedTo = outcome.selectedContact.to;
+    if (selectedTo) {
+      if (outcome.selectedContact.channel === "email") {
+        await sendAndLogEmail({
+          services,
+          familyId: family.id,
+          taskId,
+          to: selectedTo,
+          subject: "Confirmed",
+          text: "Confirmed, thank you! You're booked.",
+          replyTo: buildReplyToForFamily(family.id),
+          occurredAt: args.occurredAt
+        });
+      } else {
+        await sendAndLogSms({
+          services,
+          familyId: family.id,
+          taskId,
+          from: family.assistant_phone_e164,
+          to: selectedTo,
+          body: "Confirmed, thank you! You're booked.",
+          occurredAt: args.occurredAt
+        });
+      }
     }
 
     for (const c of outcome.rejectedContacts) {
-      if (!c.phoneE164) continue;
+      if (!c.to) continue;
+      if (c.channel === "email") {
+        await sendAndLogEmail({
+          services,
+          familyId: family.id,
+          taskId,
+          to: c.to,
+          subject: "We’re covered",
+          text: "Thanks! We’re covered this time.",
+          replyTo: buildReplyToForFamily(family.id),
+          occurredAt: args.occurredAt
+        });
+        continue;
+      }
       await sendAndLogSms({
         services,
         familyId: family.id,
         taskId,
         from: family.assistant_phone_e164,
-        to: c.phoneE164,
+        to: c.to,
         body: "Thanks! We’re covered this time.",
         occurredAt: args.occurredAt
       });
