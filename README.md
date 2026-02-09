@@ -61,3 +61,20 @@ Required environment variables:
 - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`
 - `RESEND_API_KEY`, `EMAIL_FROM`
 
+## Twilio Webhook
+
+Configure your Twilio phone number (Messaging) to send inbound SMS webhooks to:
+
+- `POST https://<your-domain>/webhooks/twilio/sms`
+
+This service replies by sending outbound SMS via the Twilio REST API (it does not rely on TwiML responses).
+
+## Pilot Admin API
+
+The pilot uses a single shared `ADMIN_TOKEN` to create families, authorized parent phones, and contacts.
+
+Endpoints:
+
+- `POST /admin/families`
+- `POST /admin/families/:familyId/authorized-phones`
+- `POST /admin/families/:familyId/contacts`
