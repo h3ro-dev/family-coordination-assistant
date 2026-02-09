@@ -56,7 +56,11 @@ Core functionality (Phase 1):
 - Tests:
   - Unit tests for parsing (time windows, yes/no).
   - Integration test proving end-to-end SMS sitter flow.
+  - Integration test proving Twilio SMS route wiring (form webhook -> orchestration).
   - Integration tests proving inbound email proxy flow and email STOP/START.
+  - Integration tests proving voice result ingestion (webhook + admin simulation).
+  - Integration tests for worker jobs (compile options, next-day retry, retention cleanup).
+  - Integration test for safety rules (max 5 active tasks; single awaiting-parent context).
   - Admin UI smoke test (create family via form).
 
 ## Status: What Is Not Completed (Still Needed)

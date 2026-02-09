@@ -41,6 +41,7 @@ Required:
 - `EMAIL_FROM`
 - `EMAIL_REPLY_TO`
 - `INBOUND_EMAIL_TOKEN`
+- `INBOUND_VOICE_TOKEN` (required if using the voice result webhook)
 
 Notes:
 
@@ -102,3 +103,48 @@ You can still do email replies without owning a domain:
 
 See `docs/email-proxy-gmail.md` for concrete options.
 
+## Hybrid Healthcare Flow (Phase 1): Voice Result Ingestion
+
+Important: Phase 1 does **not** place phone calls yet. It supports the second half of the loop:
+
+1. A clinic/therapy office is contacted by phone (manually or by a future “voice bridge”).
+2. The result is posted to the API as structured offered time slots.
+3. The parent receives an SMS with “Options found… Reply 1-N”.
+
+### Inbound Voice Result Webhook
+
+Endpoint:
+
+- `POST https://<your-railway-domain>/webhooks/voice/result`
+- Header: `x-inbound-token: <INBOUND_VOICE_TOKEN>`
+
+Minimal payload example:
+
+```json
+{
+  "id": "provider-message-id",
+  "provider": "twilio",
+  "familyId": "<uuid>",
+  "taskId": "<uuid>",
+  "contactId": "<uuid>",
+  "transcript": "Receptionist offered Tue 3:30, Thu 4:15",
+  "offeredSlots": [
+    { "start": "2026-02-12T22:30:00.000Z", "end": "2026-02-12T23:15:00.000Z" }
+  ]
+}
+```
+
+### Smoke Test Without Any Voice Provider Keys (Admin UI)
+
+You can prove the “voice result -> parent choice” loop works today:
+
+1. In Admin UI, create a family and authorize the parent phone.
+2. Add a clinic/therapy contact (category `clinic` or `therapy`).
+3. On the family page, use “Create Clinic/Therapy Task (Voice)”.
+4. Open the task and use “Simulate Voice Result” to enter:
+   - optional transcript
+   - 1-3 offered time slots
+5. Confirm the parent phone receives “Options found… Reply 1-N”.
+
+This is the core boundary: the future voice system only needs to reliably call and produce the
+structured `offeredSlots[]` payload.
