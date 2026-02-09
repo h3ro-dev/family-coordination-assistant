@@ -13,6 +13,7 @@ async function truncateAll() {
   await pool.query(`
     TRUNCATE
       message_events,
+      voice_jobs,
       task_options,
       task_contact_responses,
       task_outreach,
@@ -123,4 +124,3 @@ describe("Inbound email STOP/START", () => {
     await app.close();
   });
 });
-

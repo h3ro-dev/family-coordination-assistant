@@ -27,7 +27,7 @@
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <span class="pill">Channels: SMS + Email</span>
-            <span class="pill">Voice: results</span>
+            <span class="pill">Voice: calls</span>
             <span class="pill">Workflow: durable</span>
             <span class="pill">Pilot: admin token</span>
           </div>
@@ -72,7 +72,7 @@
           <p>
             The most important thing to understand about this MVP is what it does <em>today</em>
             and what it intentionally does <em>not</em> do yet. This keeps the pilot simple and
-            prevents us from accidentally claiming “voice calling” exists when it doesn’t.
+            prevents us from accidentally claiming “a full realtime voice agent” exists when it doesn’t.
           </p>
 
           <div class="grid2">
@@ -83,15 +83,15 @@
                 <li>Email outreach + inbound email replies (proxy-friendly)</li>
                 <li>Durable workflow engine (tasks, outreach, options, confirmation)</li>
                 <li>Safety rules: max 5 active tasks; max 1 awaiting-parent at a time</li>
-                <li>Voice: <strong>result ingestion</strong> (<span class="k">POST /webhooks/voice/result</span>)</li>
-                <li>Admin UI: create families, contacts, tasks, simulate voice results</li>
+                <li>Voice: <strong>Twilio Voice scripted calling</strong> (availability + booking)</li>
+                <li>Voice: optional structured ingestion (<span class="k">POST /webhooks/voice/result</span>)</li>
+                <li>Admin UI: create families/contacts/tasks, simulate voice results, start calls</li>
               </ul>
             </div>
             <div class="card">
               <h3>Not Built Yet (By Design)</h3>
               <ul>
-                <li>Placing real phone calls to clinics (Twilio Voice)</li>
-                <li>A voice agent that runs the conversation (Grok/OpenAI/etc.)</li>
+                <li>A streaming/realtime voice agent (Twilio Media Streams + OpenAI/Grok/etc.)</li>
                 <li>Calendar booking integrations (Google/iOS)</li>
                 <li>End-user login, dashboards, marketplace/discovery, payments/insurance</li>
                 <li>Formal HIPAA compliance program (BAAs, audits, policies)</li>
@@ -100,9 +100,9 @@
           </div>
 
           <div class="callout warn" style="margin-top: 12px;">
-            Phase 1 voice work starts at a very specific boundary: <strong>“a phone call happened
-            somewhere, and here are the offered time slots.”</strong> The future voice system’s job
-            is to produce that structured result and POST it to the assistant.
+            The Phase 1 voice system is intentionally deterministic (scripted + rule-based parsing).
+            A future “voice bridge” can replace the call logic entirely as long as it produces a structured result
+            and posts it to <strong><span class="k">POST /webhooks/voice/result</span></strong>.
           </div>
         </section>
 
@@ -141,20 +141,22 @@ flowchart LR
             <pre class="mermaid">
 flowchart TB
   subgraph Providers
-    Twilio["Twilio<br/>SMS"]
+    TwilioSMS["Twilio<br/>SMS"]
+    TwilioVoice["Twilio<br/>Voice (calls + speech)"]
     Resend["Resend<br/>Outbound Email"]
     Proxy["Email Proxy<br/>(Gmail+Zapier/Make)"]
-    VoiceBridge["Voice Bridge<br/>(Twilio Voice + Agent)"]
+    VoiceBridge["Optional Voice Bridge<br/>(LLM agent)"]
   end
 
   subgraph OurSystem["Family Coordination Assistant"]
     API["API (Fastify)<br/>webhooks + orchestration<br/>admin UI"]
     Worker["Worker (pg-boss)<br/>delayed jobs + cleanup"]
-    DB["Postgres<br/>tasks + outreach + transcripts"]
+    DB["Postgres<br/>tasks + outreach + voice_jobs + logs"]
   end
 
-  Twilio -->|inbound webhook| API
-  API -->|outbound SMS| Twilio
+  TwilioSMS -->|inbound webhook| API
+  API -->|outbound SMS| TwilioSMS
+  TwilioVoice -->|/webhooks/twilio/voice/*| API
 
   API -->|outbound email| Resend
   Proxy -->|POST /webhooks/email/inbound| API
@@ -170,9 +172,10 @@ flowchart TB
             <div class="card">
               <h3>API</h3>
               <ul>
-                <li>Receives inbound webhooks (SMS + email)</li>
+                <li>Receives inbound webhooks (SMS + email + voice)</li>
                 <li>Updates the workflow state in Postgres</li>
                 <li>Sends outbound SMS/email</li>
+                <li>Returns TwiML for Twilio Voice calls</li>
                 <li>Provides pilot admin UI</li>
               </ul>
             </div>
@@ -180,6 +183,7 @@ flowchart TB
               <h3>Worker</h3>
               <ul>
                 <li>Runs delayed jobs (compile options, next-day retry)</li>
+                <li>Dials voice jobs (availability calls + booking calls)</li>
                 <li>Runs retention cleanup (30-day transcript deletion)</li>
                 <li>Keeps the “waiting” work off the API</li>
               </ul>
@@ -200,9 +204,9 @@ flowchart TB
             <pre class="mermaid">
 flowchart TB
   subgraph Core["Coordination Core (this repo)"]
-    Inbound["Inbound Webhooks<br/>SMS / Email / Voice-Result"]
+    Inbound["Inbound Webhooks<br/>SMS / Email / Twilio Voice / Voice-Result"]
     Orchestrator["Orchestrator<br/>state machine + safety rules"]
-    Outbound["Outbound Messaging<br/>SMS + Email"]
+    Outbound["Outbound Messaging<br/>SMS + Email + Voice"]
     Jobs["Background Jobs<br/>retry + compile + retention"]
     Store["Postgres<br/>durable lists (tasks, contacts, logs)"]
     Inbound --> Orchestrator
@@ -211,9 +215,9 @@ flowchart TB
     Jobs --> Store
   end
 
-  subgraph Voice["Voice Bridge (future service)"]
+  subgraph Voice["Voice Bridge (Phase 1 in-core; separable later)"]
     Dial["Telephony (Twilio Voice)<br/>places phone calls"]
-    Agent["Voice Agent (Grok/OpenAI/etc.)<br/>talks + asks for availability"]
+    Agent["Scripted Call Flow (Phase 1)<br/>or LLM agent (future)"]
     Extract["Slot Extractor<br/>turns conversation into offeredSlots[]"]
     Dial --> Agent --> Extract
     Extract -->|"POST /webhooks/voice/result"| Inbound
@@ -236,7 +240,7 @@ flowchart TB
               </ul>
             </div>
             <div class="card">
-              <h3>Why Make Voice a Separate “Bridge”</h3>
+              <h3>Why Voice Can Be a Separate “Bridge”</h3>
               <ul>
                 <li>Phone calls are long-running and failure-prone (hold music, transfers).</li>
                 <li>Audio + transcripts have higher privacy risk than SMS scheduling texts.</li>
@@ -250,6 +254,11 @@ flowchart TB
             As the product scales, the “coordination core” should stay boring and reliable. Most
             innovation should happen at the edges: new intents, better parsing, new adapters, and
             a voice bridge that produces cleaner structured results.
+          </div>
+
+          <div class="callout" style="margin-top: 12px;">
+            Phase 1 uses a deterministic voice flow (<span class="k">&lt;Gather input="speech"&gt;</span> + rule-based parsing)
+            for reliability. The upgrade path is a streaming voice agent (Media Streams + realtime model).
           </div>
 
           <p style="margin-top: 12px;">
@@ -390,11 +399,21 @@ x-inbound-token: &lt;INBOUND_EMAIL_TOKEN&gt;</code></pre>
           </div>
 
           <div class="card" style="margin-top: 14px;">
-            <h3>Inbound Voice Result (Phase 1)</h3>
+            <h3>Voice Calling (Twilio Voice)</h3>
             <p>
-              Phase 1 does not place phone calls yet. Instead, a future “voice bridge” (Twilio
-              Voice + an agent) will call a clinic and POST back a structured result (offered time
-              slots + optional transcript).
+              Phase 1 includes a deterministic voice flow: the worker places an outbound call via
+              Twilio Voice, and Twilio hits our API for TwiML plus speech transcripts.
+            </p>
+            <pre><code>POST /webhooks/twilio/voice/answer
+POST /webhooks/twilio/voice/gather
+POST /webhooks/twilio/voice/status</code></pre>
+            <p>
+              The system converts the speech transcript into offered appointment slots (rule-based)
+              and then prompts the parent by SMS.
+            </p>
+            <p>
+              Optional: if you later build a separate “voice bridge” (streaming agent), it can POST
+              structured results to:
             </p>
             <pre><code>POST /webhooks/voice/result
 x-inbound-token: &lt;INBOUND_VOICE_TOKEN&gt;</code></pre>
@@ -481,6 +500,7 @@ x-inbound-token: &lt;INBOUND_VOICE_TOKEN&gt;</code></pre>
       twilioSms.ts             POST /webhooks/twilio/sms
       resendInbound.ts         POST /webhooks/resend/inbound + /webhooks/email/inbound
       voiceResult.ts           POST /webhooks/voice/result (structured voice results)
+      twilioVoice.ts           POST /webhooks/twilio/voice/* (TwiML + speech)
       admin.ts                 JSON admin API (pilot)
       adminUi.ts               HTML admin UI (pilot)
 
@@ -492,6 +512,7 @@ x-inbound-token: &lt;INBOUND_VOICE_TOKEN&gt;</code></pre>
 
   workers/
     sitterJobs.ts              compile options + next-day retry outreach
+    voiceJobs.ts               dial voice_jobs (availability + booking)
     retentionCleanup.ts        deletes message_events older than 30 days
 
   db/
@@ -501,9 +522,10 @@ x-inbound-token: &lt;INBOUND_VOICE_TOKEN&gt;</code></pre>
       001_init.sql             schema (families, contacts, tasks, etc.)
       002_indexes.sql          indexes + dedupe constraints
       003_voice.sql            voice: opt-out + indexes
+      004_voice_jobs.sql        voice: durable outbound call jobs
 
   domain/
-    parsing/                   rule-based parsers (time window, yes/no, contact lists)</code></pre>
+    parsing/                   rule-based parsers (time window, yes/no, offered slots, contact lists)</code></pre>
 
           <div class="callout" style="margin-top: 12px;">
             If you only read two files to understand the behavior, start with:
@@ -532,6 +554,8 @@ x-inbound-token: &lt;INBOUND_VOICE_TOKEN&gt;</code></pre>
 ADMIN_TOKEN
 TWILIO_ACCOUNT_SID
 TWILIO_AUTH_TOKEN
+PUBLIC_BASE_URL
+TWILIO_VOICE_WEBHOOK_TOKEN
 RESEND_API_KEY
 EMAIL_FROM
 EMAIL_REPLY_TO
@@ -570,12 +594,13 @@ INBOUND_VOICE_TOKEN</code></pre>
               <h3>Done (Phase 1 MVP)</h3>
               <ul>
                 <li>Sitter coordination loop (SMS parent, SMS/email contacts)</li>
-                <li>Voice result ingestion webhook (structured offered slots) + admin simulation</li>
+                <li>Voice calling loop (Twilio Voice scripted availability + booking)</li>
+                <li>Optional voice result ingestion webhook (structured offered slots) + admin simulation</li>
                 <li>Progressive onboarding (missing time window, missing contacts)</li>
                 <li>Durable workflow state in Postgres</li>
                 <li>Background retries + retention cleanup</li>
                 <li>Pilot admin UI + admin token auth</li>
-                <li>Tests: parsing, SMS routes, email routes, voice result ingestion, worker jobs</li>
+                <li>Tests: parsing, SMS routes, email routes, Twilio Voice routes, worker jobs</li>
               </ul>
             </div>
             <div class="card">
@@ -583,9 +608,9 @@ INBOUND_VOICE_TOKEN</code></pre>
               <ul>
                 <li>Railway deployment + env wiring</li>
                 <li>Twilio number + webhook configuration</li>
-                <li>Optional: build a voice bridge (Twilio Voice) to call clinics and POST voice results</li>
                 <li>Resend domain/sender setup (optional) + email proxy wiring</li>
                 <li>Pilot runbook execution with real phones and contacts</li>
+                <li>Optional: upgrade to a streaming voice agent (Media Streams + realtime model)</li>
               </ul>
             </div>
           </div>

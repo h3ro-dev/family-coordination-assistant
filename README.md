@@ -31,14 +31,26 @@ Core functionality (Phase 1):
     - `POST /webhooks/email/inbound` (provider-agnostic, recommended for proxies)
   - Email replies YES/NO are processed into the same task workflow as SMS replies.
   - Email STOP/START opt-out is supported (mirrors SMS opt-out).
-- Voice (Phase 1: result ingestion only):
-  - Provider-agnostic inbound voice result webhook: `POST /webhooks/voice/result`
-    - Requires header: `x-inbound-token: <INBOUND_VOICE_TOKEN>`
-    - Accepts a structured result (offered time slots + optional transcript) and converts it into `task_options`.
-    - If safe, prompts the parent by SMS with "Options found… Reply 1-N".
+- Voice (Twilio Voice, Phase 1 scripted agent):
+  - Outbound call jobs stored in `voice_jobs` and dialed by the worker (`JOB_DIAL_VOICE_JOB`).
+  - Twilio Voice webhooks (TwiML + speech transcription):
+    - `POST /webhooks/twilio/voice/answer` (returns TwiML)
+    - `POST /webhooks/twilio/voice/gather` (speech -> rule-based slot extraction / yes-no)
+    - `POST /webhooks/twilio/voice/status` (best-effort call status + retries)
+  - Availability calls:
+    - Ask for the next 2-3 appointment times.
+    - Extract offered slots (rule-based parsing) and convert them into `task_options`.
+    - If safe, prompt the parent by SMS with "Options found… Reply 1-N".
+  - Booking calls:
+    - After the parent chooses a slot, the system calls back to confirm that slot.
+    - On YES: marks the task `confirmed` and texts the parent.
+    - On NO: releases other options back to `pending` and re-prompts the parent.
+  - Provider-agnostic inbound voice result (still supported, future-proofing):
+    - `POST /webhooks/voice/result` (requires `x-inbound-token: <INBOUND_VOICE_TOKEN>`)
   - Admin UI helpers:
     - Create `clinic` / `therapy` tasks (voice channel)
     - Simulate voice results (no provider keys required)
+    - Start an availability call (creates a `voice_jobs` row and enqueues dialing)
 - Progressive onboarding:
   - If parent requests "find a sitter" without a time window, the system asks one follow-up question ("What day and time?").
   - If no sitters exist yet, the system asks the parent to reply with "Name + number" and continues.
@@ -85,9 +97,10 @@ To harden for production (recommended next steps, not required for the pilot):
 - Replace "single admin token" with real auth (roles, audit trail).
 - Explicit "no PHI" policy enforcement and/or HIPAA-grade controls if pursuing healthcare contracts.
 - Additional intents beyond `sitter` (activities, clinic scheduling flows).
-- Outbound voice calling (Twilio Voice) + a real voice bridge/agent:
-  - Phase 1 currently starts at "voice result received" (structured offered slots).
-  - A future voice bridge will be responsible for making the call, handling the conversation, and producing the structured result payload.
+- Streaming, LLM-driven voice agent (future):
+  - Twilio Media Streams + a realtime model (OpenAI/Grok/etc.) for more flexible conversations.
+  - This MVP intentionally starts with a deterministic scripted flow (`<Gather input="speech">`)
+    for reliability and debuggability.
 
 ## Design (How It Works, In Plain Language)
 
@@ -255,7 +268,9 @@ Required environment variables:
 - `EMAIL_FROM`
 - `EMAIL_REPLY_TO` (used to construct Reply-To as `local+<familyId>@domain`)
 - `INBOUND_EMAIL_TOKEN` (shared secret required by inbound email webhook)
-- `INBOUND_VOICE_TOKEN` (shared secret required by inbound voice result webhook)
+- `INBOUND_VOICE_TOKEN` (shared secret required by inbound voice result webhook, if you use it)
+- `PUBLIC_BASE_URL` (required for Twilio Voice so Twilio can reach `.../webhooks/twilio/voice/*`)
+- `TWILIO_VOICE_WEBHOOK_TOKEN` (shared secret appended to Twilio Voice webhook URLs)
 
 ## Admin UI (Pilot)
 

@@ -9,6 +9,7 @@ import {
   JOB_RETRY_SITTER_OUTREACH
 } from "../../jobs/boss";
 import { handleInboundVoiceResult } from "../../orchestrator/handleInboundVoiceResult";
+import { enqueueVoiceJobNow } from "../../workers/voiceJobs";
 
 function esc(s: string): string {
   return s
@@ -468,7 +469,7 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
 
       const initiatorPhoneE164 = normalizePhoneE164(initiatorPhoneRaw, "US");
 
-      const taskId = await withTransaction(async (client) => {
+      const created = await withTransaction(async (client) => {
         const authRes = await client.query<{ id: string }>(
           `
             SELECT id
@@ -517,17 +518,30 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
           [id, clinicContactId]
         );
 
-        return id;
+        const voiceJobRes = await client.query<{ id: string }>(
+          `
+            INSERT INTO voice_jobs (family_id, task_id, contact_id, kind, status, provider)
+            VALUES ($1,$2,$3,'availability','queued','twilio')
+            RETURNING id
+          `,
+          [familyId, id, clinicContactId]
+        );
+
+        return { taskId: id, voiceJobId: voiceJobRes.rows[0]?.id ?? null };
       });
 
-      if (!taskId) {
+      if (!created) {
         reply.code(400);
         return reply
           .type("text/html")
           .send(page("Error", "<p>Unable to create task (check phone + contact).</p>"));
       }
 
-      reply.code(302).header("Location", `/admin-ui/tasks/${taskId}`).send();
+      if (created.voiceJobId) {
+        await enqueueVoiceJobNow(services, created.voiceJobId);
+      }
+
+      reply.code(302).header("Location", `/admin-ui/tasks/${created.taskId}`).send();
     });
 
     adminUi.get("/admin-ui/tasks/:taskId", async (req, reply) => {
@@ -666,6 +680,7 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
 
       const meta = safeJson(data.task.metadata);
       const clinicContactId = meta.clinicContactId as string | undefined;
+      const isVoiceTask = data.task.intent_type === "clinic" || data.task.intent_type === "therapy";
 
       const body = `
         <div class="card">
@@ -730,6 +745,20 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
 	          }
 	        </div>
 
+          ${
+            isVoiceTask && clinicContactId
+              ? `<div class="card">
+                  <h2>Voice Calls</h2>
+                  <form method="POST" action="/admin-ui/tasks/${esc(data.task.id)}/start-availability-call" style="display:inline-block; margin-right: 8px;">
+                    <button type="submit">Start Availability Call Now</button>
+                  </form>
+                  <div class="muted" style="margin-top: 6px; font-size: 12px;">
+                    Requires worker + Twilio Voice in production (or FakeVoiceDialer in dev/test).
+                  </div>
+                </div>`
+              : ""
+          }
+
 	        <div class="row">
 	          <div class="col card">
 	            <h2>Outreach</h2>
@@ -768,6 +797,56 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
       `;
 
       reply.type("text/html").send(page(`Task ${data.task.id.slice(0, 8)}`, body));
+    });
+
+    adminUi.post("/admin-ui/tasks/:taskId/start-availability-call", async (req, reply) => {
+      const taskId = (req.params as { taskId: string }).taskId;
+
+      const created = await withTransaction(async (client) => {
+        const taskRes = await client.query<{
+          id: string;
+          family_id: string;
+          intent_type: string;
+          metadata: unknown;
+        }>(
+          `SELECT id, family_id, intent_type, metadata FROM tasks WHERE id = $1 LIMIT 1`,
+          [taskId]
+        );
+        const task = taskRes.rows[0];
+        if (!task) return null;
+        if (task.intent_type !== "clinic" && task.intent_type !== "therapy") return null;
+
+        const meta = safeJson(task.metadata);
+        const clinicContactId = meta.clinicContactId as string | undefined;
+        if (!clinicContactId) return null;
+
+        const voiceJobRes = await client.query<{ id: string }>(
+          `
+            INSERT INTO voice_jobs (family_id, task_id, contact_id, kind, status, provider)
+            VALUES ($1,$2,$3,'availability','queued','twilio')
+            RETURNING id
+          `,
+          [task.family_id, task.id, clinicContactId]
+        );
+
+        // Ensure outreach row exists for visibility.
+        await client.query(
+          `
+            INSERT INTO task_outreach (task_id, contact_id, channel, sent_at, status)
+            VALUES ($1,$2,'voice',NULL,'queued')
+            ON CONFLICT (task_id, contact_id, channel) DO NOTHING
+          `,
+          [task.id, clinicContactId]
+        );
+
+        return { voiceJobId: voiceJobRes.rows[0]?.id ?? null };
+      });
+
+      if (created?.voiceJobId) {
+        await enqueueVoiceJobNow(services, created.voiceJobId);
+      }
+
+      reply.code(302).header("Location", `/admin-ui/tasks/${taskId}`).send();
     });
 
     adminUi.post("/admin-ui/tasks/:taskId/simulate-voice-result", async (req, reply) => {

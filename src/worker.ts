@@ -2,6 +2,7 @@ import { env } from "./config";
 import {
   createBoss,
   JOB_COMPILE_SITTER_OPTIONS,
+  JOB_DIAL_VOICE_JOB,
   JOB_RETENTION_CLEANUP,
   JOB_RETRY_SITTER_OUTREACH
 } from "./jobs/boss";
@@ -11,6 +12,9 @@ import { ResendEmailAdapter } from "./adapters/email/ResendEmailAdapter";
 import { compileSitterOptions, retrySitterOutreach } from "./workers/sitterJobs";
 import { FakeSmsAdapter } from "./adapters/sms/FakeSmsAdapter";
 import { FakeEmailAdapter } from "./adapters/email/FakeEmailAdapter";
+import { TwilioVoiceDialer } from "./adapters/voice/TwilioVoiceDialer";
+import { FakeVoiceDialer } from "./adapters/voice/FakeVoiceDialer";
+import { dialVoiceJob } from "./workers/voiceJobs";
 
 function requireString(val: string | undefined, name: string): string {
   if (!val) throw new Error(`Missing env var: ${name}`);
@@ -45,6 +49,17 @@ async function main() {
             console.warn("[worker] RESEND_* not set. Using FakeEmailAdapter.");
             return new FakeEmailAdapter();
           })(),
+    voiceDialer:
+      env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN
+        ? new TwilioVoiceDialer({
+            accountSid: requireString(env.TWILIO_ACCOUNT_SID, "TWILIO_ACCOUNT_SID"),
+            authToken: requireString(env.TWILIO_AUTH_TOKEN, "TWILIO_AUTH_TOKEN")
+          })
+        : (() => {
+            if (isProd) throw new Error("Missing TWILIO_* env vars in production");
+            console.warn("[worker] TWILIO_* not set. Using FakeVoiceDialer.");
+            return new FakeVoiceDialer();
+          })(),
     boss
   };
 
@@ -68,6 +83,15 @@ async function main() {
 
   boss.work(JOB_RETENTION_CLEANUP, async () => {
     await runRetentionCleanup();
+    return null;
+  });
+
+  boss.work(JOB_DIAL_VOICE_JOB, async (jobs) => {
+    for (const job of jobs) {
+      const voiceJobId = (job.data as { voiceJobId?: string }).voiceJobId;
+      if (!voiceJobId) continue;
+      await dialVoiceJob(services, voiceJobId);
+    }
     return null;
   });
 

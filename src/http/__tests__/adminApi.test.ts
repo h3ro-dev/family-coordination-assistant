@@ -18,6 +18,7 @@ async function truncateAll() {
   await pool.query(`
     TRUNCATE
       message_events,
+      voice_jobs,
       task_options,
       task_contact_responses,
       task_outreach,
@@ -119,4 +120,3 @@ describe("Admin JSON API (integration)", () => {
     await app.close();
   });
 });
-

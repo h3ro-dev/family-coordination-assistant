@@ -5,6 +5,7 @@ import { AppServices } from "../buildServer";
 import { withTransaction } from "../../db/pool";
 import { requireAdmin } from "../auth/adminAuth";
 import { normalizePhoneE164 } from "../../domain/normalize/normalizePhoneE164";
+import { enqueueVoiceJobNow } from "../../workers/voiceJobs";
 
 export function registerAdminRoutes(app: FastifyInstance, _services: AppServices) {
   app.register(async (admin) => {
@@ -169,12 +170,27 @@ export function registerAdminRoutes(app: FastifyInstance, _services: AppServices
           [task.id, input.clinicContactId]
         );
 
-        return task;
+        const voiceJobRes = await client.query<{ id: string }>(
+          `
+            INSERT INTO voice_jobs (family_id, task_id, contact_id, kind, status, provider)
+            VALUES ($1,$2,$3,'availability','queued','twilio')
+            RETURNING id
+          `,
+          [familyId, task.id, input.clinicContactId]
+        );
+
+        return { ...task, voiceJobId: voiceJobRes.rows[0]?.id };
       });
 
       if (!row) {
         reply.code(400);
         return { ok: false, error: "invalid_family_or_phone_or_contact" };
+      }
+
+      // Best-effort: enqueue outbound voice availability call now.
+      // The worker is responsible for actually dialing.
+      if (row.voiceJobId) {
+        await enqueueVoiceJobNow(_services, row.voiceJobId);
       }
 
       return { ok: true, task: row };

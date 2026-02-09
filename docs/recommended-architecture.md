@@ -28,15 +28,17 @@ The technical product is:
 - Safety rules:
   - max 5 active tasks per family
   - max 1 task awaiting a short parent reply at a time
-- Voice: **result ingestion only**:
-  - The core system can accept a structured "voice result" payload and turn it into options for
-    the parent.
-  - It does not place phone calls yet.
+- Voice (Phase 1 scripted calling + durable jobs):
+  - Outbound voice call jobs stored in `voice_jobs` and dialed by the worker.
+  - Twilio Voice webhooks return TwiML + parse speech replies into:
+    - offered time slots (availability calls)
+    - yes/no confirmation (booking calls)
+  - The core still supports an explicit, provider-agnostic contract:
+    - `POST /webhooks/voice/result` (allows swapping in a separate voice bridge service later)
 
 ### Not built yet (by design)
 
-- Placing phone calls to clinics (Twilio Voice).
-- A voice agent that handles the conversation (Grok/OpenAI/etc.).
+- A streaming/realtime voice agent (Twilio Media Streams + OpenAI/Grok/etc.).
 - Calendar booking integrations.
 - Real end-user accounts, dashboards, marketplace, payments.
 - HIPAA compliance program (BAAs, audits, policies).
@@ -73,7 +75,7 @@ Responsibilities:
 
 ### 2) Voice Bridge (future service)
 
-The voice bridge is a separate service that:
+The voice bridge is the "voice layer" that:
 
 1. Places an outbound phone call (Twilio Voice).
 2. Runs a conversation (voice agent).
@@ -83,7 +85,14 @@ The voice bridge is a separate service that:
 4. Posts the result to the coordination core:
    - `POST /webhooks/voice/result`
 
-Why separate it:
+Phase 1 note:
+
+- The repo currently implements a deterministic voice bridge in-core using
+  Twilio `<Gather input="speech">` + rule-based extraction.
+- If/when you adopt a streaming LLM agent, you can move that agent into a separate service,
+  and keep the core stable by continuing to POST structured results.
+
+Why separate it later (if needed):
 
 - Phone calls are long-running, messy, and failure-prone (holds, transfers, voicemail).
 - Voice introduces higher privacy risk (audio/transcripts).
@@ -101,6 +110,7 @@ The database is just a set of durable lists:
 - `task_contact_responses`: replies (YES/NO/etc.)
 - `task_options`: the short list shown to the parent
 - `message_events`: the transcript/log for debugging (retained 30 days)
+- `voice_jobs`: durable outbound call jobs (availability + booking)
 
 Durable storage matters because:
 
@@ -184,12 +194,11 @@ If healthcare contracts become real, the likely steps include:
 
 ## Next Recommended Build (If You Want Voice Calling)
 
-Build a small voice bridge that:
+If voice becomes a core differentiator, the next step is a streaming agent:
 
-1. Pulls a queued "clinic task" from the core (or is triggered manually).
-2. Places a call via Twilio Voice.
-3. Uses a voice agent to ask: "What appointments are available next week after 3pm?"
-4. Extracts offered slots and POSTs them to `POST /webhooks/voice/result`.
-
-The coordination core is already prepared for step (4).
-
+1. Twilio Media Streams (audio) -> realtime model (OpenAI/Grok/etc.).
+2. Strong guardrails + deterministic tools (no hallucinated bookings).
+3. Same output contract:
+   - offer slots
+   - confirm a booking
+   - POST structured results back to the core

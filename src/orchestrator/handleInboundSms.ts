@@ -5,7 +5,7 @@ import { env } from "../config";
 import { isSitterIntent, parseSitterRequest } from "../domain/parsing/parseSitterRequest";
 import { parseContactList } from "../domain/parsing/parseContactList";
 import { parseYesNo } from "../domain/parsing/parseYesNo";
-import { JOB_COMPILE_SITTER_OPTIONS, JOB_RETRY_SITTER_OUTREACH } from "../jobs/boss";
+import { JOB_COMPILE_SITTER_OPTIONS, JOB_DIAL_VOICE_JOB, JOB_RETRY_SITTER_OUTREACH } from "../jobs/boss";
 import { sendAndLogEmail, sendAndLogSms } from "./messaging";
 import { parseTimeWindow } from "../domain/parsing/parseTimeWindow";
 
@@ -45,6 +45,7 @@ type ContactRow = {
   channel_pref: string;
   sms_opted_out: boolean;
   email_opted_out: boolean;
+  voice_opted_out: boolean;
 };
 
 function isStopMessage(text: string): boolean {
@@ -143,7 +144,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
       // Contact path (e.g., sitter replies).
       const contactRes = await client.query<ContactRow>(
         `
-          SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
+          SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out, voice_opted_out
           FROM contacts
           WHERE family_id = $1 AND phone_e164 = $2
           LIMIT 1
@@ -424,7 +425,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
 
         const sittersRes = await client.query<ContactRow>(
           `
-            SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
+            SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out, voice_opted_out
             FROM contacts
             WHERE family_id = $1 AND category = 'sitter'
               AND (
@@ -596,6 +597,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
           phone_e164: string | null;
           email: string | null;
           channel_pref: string;
+          voice_opted_out: boolean;
           slot_start: Date;
           slot_end: Date;
           rank: number;
@@ -608,6 +610,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
               c.phone_e164,
               c.email,
               c.channel_pref,
+              c.voice_opted_out,
               o.slot_start,
               o.slot_end,
               o.rank
@@ -642,10 +645,75 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
 
         const selected = options[choice - 1];
 
-        await client.query(
-          "UPDATE task_options SET status = 'selected' WHERE id = $1",
-          [selected.option_id]
-        );
+        // Clinic/therapy: selecting a slot triggers an automated booking call (voice),
+        // and only becomes "confirmed" once the clinic confirms by phone.
+        if (awaitingTask.intent_type === "clinic" || awaitingTask.intent_type === "therapy") {
+          if (!selected.phone_e164 || selected.voice_opted_out) {
+            await client.query(
+              `
+                UPDATE tasks
+                SET status = 'collecting',
+                    awaiting_parent = false,
+                    awaiting_parent_reason = NULL,
+                    updated_at = now()
+                WHERE id = $1
+              `,
+              [awaitingTask.id]
+            );
+
+            return {
+              type: "send_sms" as const,
+              family,
+              to: args.from,
+              from: family.assistant_phone_e164,
+              body: "I can’t place the booking call (missing clinic phone or voice opted out). Ask the admin to update the clinic contact."
+            };
+          }
+
+          await client.query("UPDATE task_options SET status = 'selected' WHERE id = $1", [
+            selected.option_id
+          ]);
+          await client.query(
+            "UPDATE task_options SET status = 'rejected' WHERE task_id = $1 AND id <> $2 AND status = 'pending'",
+            [awaitingTask.id, selected.option_id]
+          );
+
+          await client.query(
+            `
+              UPDATE tasks
+              SET status = 'booking',
+                  awaiting_parent = false,
+                  awaiting_parent_reason = NULL,
+                  updated_at = now()
+              WHERE id = $1
+            `,
+            [awaitingTask.id]
+          );
+
+          const voiceJobRes = await client.query<{ id: string }>(
+            `
+              INSERT INTO voice_jobs (family_id, task_id, contact_id, option_id, kind, status, provider)
+              VALUES ($1,$2,$3,$4,'booking','queued','twilio')
+              RETURNING id
+            `,
+            [family.id, awaitingTask.id, selected.contact_id, selected.option_id]
+          );
+
+          return {
+            type: "start_voice_booking" as const,
+            family,
+            taskId: awaitingTask.id,
+            voiceJobId: voiceJobRes.rows[0]?.id ?? null,
+            toParent: args.from,
+            contactName: selected.name,
+            slotStart: selected.slot_start,
+            slotEnd: selected.slot_end
+          };
+        }
+
+        await client.query("UPDATE task_options SET status = 'selected' WHERE id = $1", [
+          selected.option_id
+        ]);
         await client.query(
           "UPDATE task_options SET status = 'rejected' WHERE task_id = $1 AND id <> $2 AND status = 'pending'",
           [awaitingTask.id, selected.option_id]
@@ -746,7 +814,7 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
 
     const sittersRes = await client.query<ContactRow>(
       `
-        SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out
+        SELECT id, name, phone_e164, email, channel_pref, sms_opted_out, email_opted_out, voice_opted_out
         FROM contacts
         WHERE family_id = $1 AND category = 'sitter'
           AND (
@@ -1000,6 +1068,40 @@ export async function handleInboundSms(args: HandleInboundSmsArgs): Promise<void
       body: optionsText,
       occurredAt: args.occurredAt
     });
+    return;
+  }
+
+  if (outcome.type === "start_voice_booking") {
+    const { family, taskId } = outcome;
+
+    const startText = DateTime.fromJSDate(outcome.slotStart, { zone: family.timezone }).toFormat(
+      "ccc L/d h:mma"
+    );
+
+    await sendAndLogSms({
+      services,
+      familyId: family.id,
+      taskId,
+      from: family.assistant_phone_e164,
+      to: outcome.toParent,
+      body: `Got it. Calling ${outcome.contactName} to book ${startText} now.`,
+      occurredAt: args.occurredAt
+    });
+
+    if (!services.boss || !outcome.voiceJobId) {
+      await sendAndLogSms({
+        services,
+        familyId: family.id,
+        taskId,
+        from: family.assistant_phone_e164,
+        to: outcome.toParent,
+        body: "I’m not configured to place calls yet (missing worker/job queue).",
+        occurredAt: args.occurredAt
+      });
+      return;
+    }
+
+    await services.boss.send(JOB_DIAL_VOICE_JOB, { voiceJobId: outcome.voiceJobId }, { startAfter: new Date() });
     return;
   }
 

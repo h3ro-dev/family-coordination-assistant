@@ -14,6 +14,7 @@ async function truncateAll() {
   await pool.query(`
     TRUNCATE
       message_events,
+      voice_jobs,
       task_options,
       task_contact_responses,
       task_outreach,
@@ -149,4 +150,3 @@ describe("Safety rules (integration)", () => {
     expect(parentMsgs.some((b) => b.includes("Asking your sitters now"))).toBe(true);
   });
 });
-

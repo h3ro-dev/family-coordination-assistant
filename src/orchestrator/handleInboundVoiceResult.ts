@@ -43,6 +43,7 @@ type ContactRow = {
 
 type TaskRow = {
   id: string;
+  intent_type: string;
   status: string;
   awaiting_parent: boolean;
   metadata: unknown;
@@ -54,7 +55,11 @@ function safeJson(obj: unknown): Record<string, unknown> {
   return {};
 }
 
-async function buildOptionsText(taskId: string, timezone: string): Promise<string | null> {
+async function buildOptionsText(
+  taskId: string,
+  timezone: string,
+  intentType: string
+): Promise<string | null> {
   return await withTransaction(async (client) => {
     const optionsRes = await client.query<{
       name: string;
@@ -77,7 +82,11 @@ async function buildOptionsText(taskId: string, timezone: string): Promise<strin
     if (rows.length === 0) return null;
 
     const lines = rows.map((r, i) => {
-      const start = DateTime.fromJSDate(r.slot_start, { zone: timezone }).toFormat("ccc h:mma");
+      const isClinic = intentType === "clinic" || intentType === "therapy";
+      const start = DateTime.fromJSDate(r.slot_start, { zone: timezone }).toFormat(
+        isClinic ? "ccc L/d h:mma" : "ccc h:mma"
+      );
+      if (isClinic) return `${i + 1}) ${r.name} (${start})`;
       const end = DateTime.fromJSDate(r.slot_end, { zone: timezone }).toFormat("h:mma");
       return `${i + 1}) ${r.name} (${start}-${end})`;
     });
@@ -146,7 +155,7 @@ export async function handleInboundVoiceResult(
 
     const taskRes = await client.query<TaskRow>(
       `
-        SELECT id, status, awaiting_parent, metadata
+        SELECT id, intent_type, status, awaiting_parent, metadata
         FROM tasks
         WHERE id = $1 AND family_id = $2
         FOR UPDATE
@@ -218,6 +227,7 @@ export async function handleInboundVoiceResult(
       type: "prompt_parent" as const,
       family,
       taskId: task.id,
+      intentType: task.intent_type,
       initiatorPhone
     };
   });
@@ -227,7 +237,7 @@ export async function handleInboundVoiceResult(
   }
 
   if (outcome.type === "prompt_parent") {
-    const optionsText = await buildOptionsText(outcome.taskId, outcome.family.timezone);
+    const optionsText = await buildOptionsText(outcome.taskId, outcome.family.timezone, outcome.intentType);
     if (optionsText) {
       await sendAndLogSms({
         services,

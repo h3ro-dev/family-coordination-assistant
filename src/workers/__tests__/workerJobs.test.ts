@@ -15,6 +15,7 @@ async function truncateAll() {
   await pool.query(`
     TRUNCATE
       message_events,
+      voice_jobs,
       task_options,
       task_contact_responses,
       task_outreach,
@@ -285,6 +286,36 @@ describe("Worker jobs (integration)", () => {
       [familyId, PARENT, ASSISTANT]
     );
 
+    const contact = await pool.query<{ id: string }>(
+      `
+        INSERT INTO contacts (family_id, name, category, phone_e164, channel_pref)
+        VALUES ($1,'IHC Clinic','clinic',$2,'sms')
+        RETURNING id
+      `,
+      [familyId, SITTER]
+    );
+    const contactId = contact.rows[0].id;
+
+    const task = await pool.query<{ id: string }>(
+      `
+        INSERT INTO tasks (family_id, intent_type, status, awaiting_parent, metadata)
+        VALUES ($1,'clinic','collecting',false,'{}'::jsonb)
+        RETURNING id
+      `,
+      [familyId]
+    );
+    const taskId = task.rows[0].id;
+
+    await pool.query(
+      `
+        INSERT INTO voice_jobs (family_id, task_id, contact_id, kind, status, provider, last_transcript, created_at, updated_at)
+        VALUES
+          ($1,$2,$3,'availability','completed','fake','old transcript', now() - interval '31 days', now() - interval '31 days'),
+          ($1,$2,$3,'availability','completed','fake','new transcript', now(), now())
+      `,
+      [familyId, taskId, contactId]
+    );
+
     await runRetentionCleanup();
 
     const count = await pool.query<{ c: string }>("SELECT COUNT(*)::text as c FROM message_events");
@@ -292,5 +323,12 @@ describe("Worker jobs (integration)", () => {
 
     const bodies = await pool.query<{ body: string }>("SELECT body FROM message_events");
     expect(bodies.rows[0].body).toBe("new");
+
+    const voiceCount = await pool.query<{ c: string }>("SELECT COUNT(*)::text as c FROM voice_jobs");
+    expect(Number(voiceCount.rows[0].c)).toBe(1);
+    const voiceBodies = await pool.query<{ last_transcript: string | null }>(
+      "SELECT last_transcript FROM voice_jobs"
+    );
+    expect(voiceBodies.rows[0].last_transcript).toBe("new transcript");
   });
 });

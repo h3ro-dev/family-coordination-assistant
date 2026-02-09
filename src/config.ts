@@ -9,9 +9,16 @@ const EnvSchema = z.object({
   // Pilot: single shared admin token for a tiny admin API surface.
   ADMIN_TOKEN: z.string().min(1).optional(),
 
+  // Needed for outbound Twilio Voice calls so Twilio can reach our webhook endpoints.
+  // Example: https://your-app.up.railway.app
+  PUBLIC_BASE_URL: z.string().min(1).optional(),
+
   // Optional because tests/local dev can run with fake adapters.
   TWILIO_ACCOUNT_SID: z.string().min(1).optional(),
   TWILIO_AUTH_TOKEN: z.string().min(1).optional(),
+  // Shared secret appended to Twilio Voice webhook URLs as a simple MVP auth gate.
+  // (Production hardening should verify X-Twilio-Signature instead.)
+  TWILIO_VOICE_WEBHOOK_TOKEN: z.string().min(1).optional(),
 
   RESEND_API_KEY: z.string().min(1).optional(),
   EMAIL_FROM: z.string().min(1).optional(),

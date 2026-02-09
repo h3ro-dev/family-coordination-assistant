@@ -15,6 +15,7 @@ async function truncateAll() {
   await pool.query(`
     TRUNCATE
       message_events,
+      voice_jobs,
       task_options,
       task_contact_responses,
       task_outreach,
@@ -133,4 +134,3 @@ describe("Sitter SMS flow (integration)", () => {
     expect(toSitters.some((m) => m.body.includes("We’re covered"))).toBe(true);
   });
 });
-

@@ -7,6 +7,15 @@ export async function runRetentionCleanup(): Promise<void> {
     await client.query(
       "DELETE FROM message_events WHERE occurred_at < (now() - interval '30 days')"
     );
+
+    // Voice jobs can contain call transcripts in `last_transcript` / `result_json`.
+    // Keep only 30 days for terminal jobs to reduce privacy risk.
+    await client.query(
+      `
+        DELETE FROM voice_jobs
+        WHERE updated_at < (now() - interval '30 days')
+          AND status IN ('completed','failed','cancelled')
+      `
+    );
   });
 }
-

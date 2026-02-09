@@ -13,6 +13,7 @@ async function truncateAll() {
   await pool.query(`
     TRUNCATE
       message_events,
+      voice_jobs,
       task_options,
       task_contact_responses,
       task_outreach,
@@ -109,4 +110,3 @@ describe("Progressive onboarding (integration)", () => {
     expect(tasks.rows[0].awaiting_parent_reason).toBeNull();
   });
 });
-

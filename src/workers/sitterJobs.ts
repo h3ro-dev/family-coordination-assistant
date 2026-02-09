@@ -10,6 +10,7 @@ type FamilyTaskRow = {
   family_id: string;
   assistant_phone_e164: string;
   timezone: string;
+  intent_type: string;
   status: string;
   awaiting_parent: boolean;
   requested_start: Date | null;
@@ -43,6 +44,7 @@ export async function compileSitterOptions(
           t.family_id,
           f.assistant_phone_e164,
           f.timezone,
+          t.intent_type,
           t.status,
           t.awaiting_parent,
           t.requested_start,
@@ -129,8 +131,13 @@ export async function compileSitterOptions(
 
   const lines = outcome.options.map((o, i) => {
     const start = DateTime.fromJSDate(o.slot_start, { zone: outcome.row.timezone }).toFormat(
-      "ccc h:mma"
+      outcome.row.intent_type === "clinic" || outcome.row.intent_type === "therapy"
+        ? "ccc L/d h:mma"
+        : "ccc h:mma"
     );
+    if (outcome.row.intent_type === "clinic" || outcome.row.intent_type === "therapy") {
+      return `${i + 1}) ${o.name} (${start})`;
+    }
     const end = DateTime.fromJSDate(o.slot_end, { zone: outcome.row.timezone }).toFormat("h:mma");
     return `${i + 1}) ${o.name} (${start}-${end})`;
   });
