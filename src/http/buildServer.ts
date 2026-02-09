@@ -6,6 +6,7 @@ import { EmailAdapter } from "../adapters/email/EmailAdapter";
 import { registerHealthRoutes } from "./routes/health";
 import { registerTwilioRoutes } from "./routes/twilioSms";
 import { registerAdminRoutes } from "./routes/admin";
+import { registerAdminUiRoutes } from "./routes/adminUi";
 
 export type AppServices = {
   sms: SmsAdapter;
@@ -20,6 +21,7 @@ export function buildServer(services: AppServices): FastifyInstance {
   registerHealthRoutes(app);
   registerTwilioRoutes(app, services);
   registerAdminRoutes(app, services);
+  registerAdminUiRoutes(app, services);
 
   return app;
 }

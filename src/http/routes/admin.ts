@@ -3,17 +3,8 @@ import { z } from "zod";
 import { env } from "../../config";
 import { AppServices } from "../buildServer";
 import { withTransaction } from "../../db/pool";
-
-function requireAdmin(app: FastifyInstance) {
-  app.addHook("preHandler", async (req, reply) => {
-    const header = req.headers["authorization"];
-    const token = header?.startsWith("Bearer ") ? header.slice("Bearer ".length) : "";
-    if (!token || token !== env.ADMIN_TOKEN) {
-      reply.code(401);
-      return reply.send({ ok: false, error: "unauthorized" });
-    }
-  });
-}
+import { requireAdmin } from "../auth/adminAuth";
+import { normalizePhoneE164 } from "../../domain/normalize/normalizePhoneE164";
 
 export function registerAdminRoutes(app: FastifyInstance, _services: AppServices) {
   app.register(async (admin) => {
@@ -39,7 +30,11 @@ export function registerAdminRoutes(app: FastifyInstance, _services: AppServices
           VALUES ($1, $2, $3)
           RETURNING id, assistant_phone_e164, display_name, timezone
         `,
-          [input.assistantPhoneE164, input.displayName, input.timezone]
+          [
+            normalizePhoneE164(input.assistantPhoneE164, "US"),
+            input.displayName,
+            input.timezone
+          ]
         );
         return res.rows[0];
       });
@@ -63,7 +58,12 @@ export function registerAdminRoutes(app: FastifyInstance, _services: AppServices
           VALUES ($1, $2, $3, COALESCE($4, 'caregiver'))
           RETURNING id, family_id, phone_e164, label, role
         `,
-          [familyId, input.phoneE164, input.label ?? null, input.role ?? null]
+          [
+            familyId,
+            normalizePhoneE164(input.phoneE164, "US"),
+            input.label ?? null,
+            input.role ?? null
+          ]
         );
         return res.rows[0];
       });
@@ -93,7 +93,7 @@ export function registerAdminRoutes(app: FastifyInstance, _services: AppServices
             familyId,
             input.name,
             input.category,
-            input.phoneE164 ?? null,
+            input.phoneE164 ? normalizePhoneE164(input.phoneE164, "US") : null,
             input.email ?? null,
             input.channelPref
           ]
@@ -105,4 +105,3 @@ export function registerAdminRoutes(app: FastifyInstance, _services: AppServices
     });
   });
 }
-
