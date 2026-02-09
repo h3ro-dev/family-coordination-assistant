@@ -1,5 +1,9 @@
 # Family Coordination Assistant (Phase 1 MVP)
 
+System guide (GitHub Pages):
+
+- https://h3ro-dev.github.io/family-coordination-assistant/
+
 This is a "coordination orchestrator" for a family (built SMS-first):
 
 1. A parent texts one assistant phone number.
@@ -241,4 +245,3 @@ Docs:
 ## Pilot Runbook
 
 - `docs/pilot-runbook.md`
-
