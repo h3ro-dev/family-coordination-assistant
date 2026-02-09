@@ -40,6 +40,7 @@
           <a href="#data-model">Data Model</a>
           <a href="#channels">Channels + Webhooks</a>
           <a href="#safety">Safety + Reliability</a>
+          <a href="#code-map">Code Map</a>
           <a href="#ops">Pilot Ops</a>
           <a href="#status">Done vs Next</a>
         </nav>
@@ -317,6 +318,53 @@ x-inbound-token: &lt;INBOUND_EMAIL_TOKEN&gt;</code></pre>
           </div>
         </section>
 
+        <section class="card" id="code-map">
+          <h2>Code Map (Where Things Live)</h2>
+          <p>
+            This repo is intentionally small: one API process, one worker process, and one database.
+            The most important logic is the orchestration layer that turns inbound messages into
+            task state transitions.
+          </p>
+
+          <pre><code>src/
+  index.ts                     API entrypoint (starts Fastify + pg-boss)
+  worker.ts                    Worker entrypoint (job runners + schedules)
+
+  http/
+    buildServer.ts             Fastify wiring (routes + form parsing)
+    routes/
+      health.ts                GET /health
+      twilioSms.ts             POST /webhooks/twilio/sms
+      resendInbound.ts         POST /webhooks/resend/inbound + /webhooks/email/inbound
+      admin.ts                 JSON admin API (pilot)
+      adminUi.ts               HTML admin UI (pilot)
+
+  orchestrator/
+    handleInboundSms.ts        Main SMS workflow (parent + contact paths)
+    handleInboundEmail.ts      Email reply workflow (YES/NO + STOP/START)
+    messaging.ts               Send-and-log wrappers (writes message_events)
+
+  workers/
+    sitterJobs.ts              compile options + next-day retry outreach
+    retentionCleanup.ts        deletes message_events older than 30 days
+
+  db/
+    pool.ts                    Postgres pool + transaction helper
+    migrate.ts                 CLI to apply migrations
+    migrations/
+      001_init.sql             schema (families, contacts, tasks, etc.)
+      002_indexes.sql          indexes + dedupe constraints
+
+  domain/
+    parsing/                   rule-based parsers (time window, yes/no, contact lists)</code></pre>
+
+          <div class="callout" style="margin-top: 12px;">
+            If you only read two files to understand the behavior, start with:
+            <span class="k">src/orchestrator/handleInboundSms.ts</span> and
+            <span class="k">src/workers/sitterJobs.ts</span>.
+          </div>
+        </section>
+
         <section class="card" id="ops">
           <h2>Pilot Ops (What You Do To Run This)</h2>
           <p>
@@ -418,4 +466,3 @@ INBOUND_EMAIL_TOKEN</code></pre>
     </script>
   </body>
 </html>
-
