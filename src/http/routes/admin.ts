@@ -103,5 +103,81 @@ export function registerAdminRoutes(app: FastifyInstance, _services: AppServices
 
       return { ok: true, contact: row };
     });
+
+    admin.post("/admin/families/:familyId/tasks", async (req, reply) => {
+      const schema = z.object({
+        intentType: z.enum(["clinic", "therapy"]).default("clinic"),
+        initiatorPhoneE164: z.string().min(1),
+        clinicContactId: z.string().uuid(),
+        requestText: z.string().min(1)
+      });
+      const input = schema.parse(req.body ?? {});
+      const familyId = (req.params as { familyId: string }).familyId;
+
+      const initiatorPhoneE164 = normalizePhoneE164(input.initiatorPhoneE164, "US");
+
+      const row = await withTransaction(async (client) => {
+        const authRes = await client.query<{ id: string }>(
+          `
+            SELECT id
+            FROM family_authorized_phones
+            WHERE family_id = $1 AND phone_e164 = $2
+            LIMIT 1
+          `,
+          [familyId, initiatorPhoneE164]
+        );
+        if (authRes.rowCount !== 1) return null;
+
+        const contactRes = await client.query<{ id: string }>(
+          `
+            SELECT id
+            FROM contacts
+            WHERE id = $1 AND family_id = $2
+            LIMIT 1
+          `,
+          [input.clinicContactId, familyId]
+        );
+        if (contactRes.rowCount !== 1) return null;
+
+        const metadata = {
+          initiatorPhoneE164,
+          requestText: input.requestText,
+          clinicContactId: input.clinicContactId
+        };
+
+        const taskRes = await client.query<{
+          id: string;
+          family_id: string;
+          intent_type: string;
+          status: string;
+        }>(
+          `
+            INSERT INTO tasks (family_id, intent_type, status, awaiting_parent, metadata)
+            VALUES ($1,$2,'collecting',false,$3::jsonb)
+            RETURNING id, family_id, intent_type, status
+          `,
+          [familyId, input.intentType, JSON.stringify(metadata)]
+        );
+        const task = taskRes.rows[0];
+
+        await client.query(
+          `
+            INSERT INTO task_outreach (task_id, contact_id, channel, sent_at, status)
+            VALUES ($1,$2,'voice',NULL,'queued')
+            ON CONFLICT (task_id, contact_id, channel) DO NOTHING
+          `,
+          [task.id, input.clinicContactId]
+        );
+
+        return task;
+      });
+
+      if (!row) {
+        reply.code(400);
+        return { ok: false, error: "invalid_family_or_phone_or_contact" };
+      }
+
+      return { ok: true, task: row };
+    });
   });
 }

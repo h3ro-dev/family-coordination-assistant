@@ -28,6 +28,14 @@ Core functionality (Phase 1):
     - `POST /webhooks/email/inbound` (provider-agnostic, recommended for proxies)
   - Email replies YES/NO are processed into the same task workflow as SMS replies.
   - Email STOP/START opt-out is supported (mirrors SMS opt-out).
+- Voice (Phase 1: result ingestion only):
+  - Provider-agnostic inbound voice result webhook: `POST /webhooks/voice/result`
+    - Requires header: `x-inbound-token: <INBOUND_VOICE_TOKEN>`
+    - Accepts a structured result (offered time slots + optional transcript) and converts it into `task_options`.
+    - If safe, prompts the parent by SMS with "Options found… Reply 1-N".
+  - Admin UI helpers:
+    - Create `clinic` / `therapy` tasks (voice channel)
+    - Simulate voice results (no provider keys required)
 - Progressive onboarding:
   - If parent requests "find a sitter" without a time window, the system asks one follow-up question ("What day and time?").
   - If no sitters exist yet, the system asks the parent to reply with "Name + number" and continues.
@@ -67,6 +75,9 @@ To harden for production (recommended next steps, not required for the pilot):
 - Replace "single admin token" with real auth (roles, audit trail).
 - Explicit "no PHI" policy enforcement and/or HIPAA-grade controls if pursuing healthcare contracts.
 - Additional intents beyond `sitter` (activities, clinic scheduling flows).
+- Outbound voice calling (Twilio Voice) + a real voice bridge/agent:
+  - Phase 1 currently starts at "voice result received" (structured offered slots).
+  - A future voice bridge will be responsible for making the call, handling the conversation, and producing the structured result payload.
 
 ## Design (How It Works, In Plain Language)
 
@@ -150,6 +161,22 @@ Inbound:
       "text": "YES"
     }
     ```
+- Provider-agnostic inbound voice result (Phase 1): `POST /webhooks/voice/result`
+  - Requires header: `x-inbound-token: <INBOUND_VOICE_TOKEN>`
+  - Payload example:
+    ```json
+    {
+      "id": "provider-message-id",
+      "provider": "twilio",
+      "familyId": "<uuid>",
+      "taskId": "<uuid>",
+      "contactId": "<uuid>",
+      "transcript": "Receptionist offered: Tue 3:30, Thu 4:15",
+      "offeredSlots": [
+        { "start": "2026-02-12T22:30:00.000Z", "end": "2026-02-12T23:15:00.000Z" }
+      ]
+    }
+    ```
 
 Admin UI:
 
@@ -218,6 +245,7 @@ Required environment variables:
 - `EMAIL_FROM`
 - `EMAIL_REPLY_TO` (used to construct Reply-To as `local+<familyId>@domain`)
 - `INBOUND_EMAIL_TOKEN` (shared secret required by inbound email webhook)
+- `INBOUND_VOICE_TOKEN` (shared secret required by inbound voice result webhook)
 
 ## Admin UI (Pilot)
 

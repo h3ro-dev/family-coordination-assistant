@@ -18,6 +18,8 @@ const EnvSchema = z.object({
   EMAIL_REPLY_TO: z.string().min(1).optional(),
   INBOUND_EMAIL_TOKEN: z.string().min(1).optional(),
 
+  INBOUND_VOICE_TOKEN: z.string().min(1).optional(),
+
   DEFAULT_TIMEZONE: z.string().min(1).default("UTC")
 });
 

@@ -8,6 +8,7 @@ import {
   JOB_COMPILE_SITTER_OPTIONS,
   JOB_RETRY_SITTER_OUTREACH
 } from "../../jobs/boss";
+import { handleInboundVoiceResult } from "../../orchestrator/handleInboundVoiceResult";
 
 function esc(s: string): string {
   return s
@@ -57,6 +58,12 @@ function formRow(label: string, inputHtml: string, hint?: string): string {
     ${inputHtml}
     ${hint ? `<div class="muted" style="font-size: 12px; margin-top: 4px;">${esc(hint)}</div>` : ""}
   </div>`;
+}
+
+function safeJson(obj: unknown): Record<string, unknown> {
+  if (!obj) return {};
+  if (typeof obj === "object") return obj as Record<string, unknown>;
+  return {};
 }
 
 export function registerAdminUiRoutes(app: FastifyInstance, services: AppServices) {
@@ -271,6 +278,20 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
         )
         .join("");
 
+      const initiatorPhoneOptions = data.phones
+        .map((p) => {
+          const label = p.label ? ` (${p.label})` : "";
+          return `<option value="${esc(p.phone_e164)}">${esc(p.phone_e164)}${esc(label)}</option>`;
+        })
+        .join("");
+
+      const clinicContacts = data.contacts.filter(
+        (c) => c.category === "clinic" || c.category === "therapy"
+      );
+      const clinicContactOptions = clinicContacts
+        .map((c) => `<option value="${esc(c.id)}">${esc(c.name)} (${esc(c.category)})</option>`)
+        .join("");
+
       const body = `
         <div class="card">
           <div><strong>${esc(data.family.display_name)}</strong></div>
@@ -309,13 +330,14 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
               ${formRow("Name", `<input name="name" placeholder="Sarah" required />`)}
               ${formRow(
                 "Category",
-                `<select name="category">
-                  <option value="sitter" selected>sitter</option>
-                  <option value="clinic">clinic</option>
-                  <option value="coach">coach</option>
-                  <option value="other">other</option>
-                </select>`
-              )}
+	                `<select name="category">
+	                  <option value="sitter" selected>sitter</option>
+	                  <option value="clinic">clinic</option>
+	                  <option value="therapy">therapy</option>
+	                  <option value="coach">coach</option>
+	                  <option value="other">other</option>
+	                </select>`
+	              )}
               ${formRow(
                 "Channel preference",
                 `<select name="channelPref">
@@ -336,6 +358,36 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
             <thead><tr><th>Task</th><th>Intent</th><th>Status</th><th>Created</th></tr></thead>
             <tbody>${taskRows || `<tr><td colspan="4" class="muted">None yet.</td></tr>`}</tbody>
           </table>
+        </div>
+
+        <div class="card">
+          <h2>Create Clinic/Therapy Task (Voice)</h2>
+          ${
+            !initiatorPhoneOptions || !clinicContactOptions
+              ? `<p class="muted">Add an authorized parent phone and a clinic/therapy contact first.</p>`
+              : `<form method="POST" action="/admin-ui/families/${esc(data.family.id)}/tasks">
+                  ${formRow(
+                    "Intent",
+                    `<select name="intentType">
+                      <option value="clinic" selected>clinic</option>
+                      <option value="therapy">therapy</option>
+                    </select>`
+                  )}
+                  ${formRow(
+                    "Initiator (parent phone)",
+                    `<select name="initiatorPhone">${initiatorPhoneOptions}</select>`
+                  )}
+                  ${formRow(
+                    "Clinic/Therapy contact",
+                    `<select name="clinicContactId">${clinicContactOptions}</select>`
+                  )}
+                  ${formRow(
+                    "Request text",
+                    `<input name="requestText" placeholder="Therapy after school next week" required />`
+                  )}
+                  <button type="submit">Create Task</button>
+                </form>`
+          }
         </div>
 
         <div><a href="/admin-ui">Back</a></div>
@@ -396,6 +448,86 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
       });
 
       reply.code(302).header("Location", `/admin-ui/families/${familyId}`).send();
+    });
+
+    adminUi.post("/admin-ui/families/:familyId/tasks", async (req, reply) => {
+      const familyId = (req.params as { familyId: string }).familyId;
+      const body = (req.body ?? {}) as Record<string, unknown>;
+
+      const intentType = String(body.intentType ?? "clinic").trim() || "clinic";
+      const initiatorPhoneRaw = String(body.initiatorPhone ?? "").trim();
+      const clinicContactId = String(body.clinicContactId ?? "").trim();
+      const requestText = String(body.requestText ?? "").trim();
+
+      if (!initiatorPhoneRaw || !clinicContactId || !requestText) {
+        reply.code(400);
+        return reply
+          .type("text/html")
+          .send(page("Error", "<p>Missing required fields.</p>"));
+      }
+
+      const initiatorPhoneE164 = normalizePhoneE164(initiatorPhoneRaw, "US");
+
+      const taskId = await withTransaction(async (client) => {
+        const authRes = await client.query<{ id: string }>(
+          `
+            SELECT id
+            FROM family_authorized_phones
+            WHERE family_id = $1 AND phone_e164 = $2
+            LIMIT 1
+          `,
+          [familyId, initiatorPhoneE164]
+        );
+        if (authRes.rowCount !== 1) return null;
+
+        const contactRes = await client.query<{ id: string }>(
+          `
+            SELECT id
+            FROM contacts
+            WHERE id = $1 AND family_id = $2
+            LIMIT 1
+          `,
+          [clinicContactId, familyId]
+        );
+        if (contactRes.rowCount !== 1) return null;
+
+        const metadata = {
+          initiatorPhoneE164,
+          requestText,
+          clinicContactId
+        };
+
+        const taskRes = await client.query<{ id: string }>(
+          `
+            INSERT INTO tasks (family_id, intent_type, status, awaiting_parent, metadata)
+            VALUES ($1,$2,'collecting',false,$3::jsonb)
+            RETURNING id
+          `,
+          [familyId, intentType, JSON.stringify(metadata)]
+        );
+        const id = taskRes.rows[0]?.id;
+        if (!id) return null;
+
+        await client.query(
+          `
+            INSERT INTO task_outreach (task_id, contact_id, channel, sent_at, status)
+            VALUES ($1,$2,'voice',NULL,'queued')
+            ON CONFLICT (task_id, contact_id, channel) DO NOTHING
+          `,
+          [id, clinicContactId]
+        );
+
+        return id;
+      });
+
+      if (!taskId) {
+        reply.code(400);
+        return reply
+          .type("text/html")
+          .send(page("Error", "<p>Unable to create task (check phone + contact).</p>"));
+      }
+
+      reply.code(302).header("Location", `/admin-ui/tasks/${taskId}`).send();
     });
 
     adminUi.get("/admin-ui/tasks/:taskId", async (req, reply) => {
@@ -532,6 +664,9 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
         )
         .join("");
 
+      const meta = safeJson(data.task.metadata);
+      const clinicContactId = meta.clinicContactId as string | undefined;
+
       const body = `
         <div class="card">
           <div><strong>Task</strong> ${esc(data.task.id)}</div>
@@ -549,16 +684,57 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
           <form method="POST" action="/admin-ui/tasks/${esc(data.task.id)}/compile-now" style="display:inline-block; margin-right: 8px;">
             <button type="submit">Compile Options Now</button>
           </form>
-          <form method="POST" action="/admin-ui/tasks/${esc(data.task.id)}/retry-now" style="display:inline-block;">
-            <button type="submit">Retry Outreach Now</button>
-          </form>
-        </div>
+	          <form method="POST" action="/admin-ui/tasks/${esc(data.task.id)}/retry-now" style="display:inline-block;">
+	            <button type="submit">Retry Outreach Now</button>
+	          </form>
+	        </div>
 
-        <div class="row">
-          <div class="col card">
-            <h2>Outreach</h2>
-            <table>
-              <thead><tr><th>Contact</th><th>Channel</th><th>Status</th><th>Sent</th></tr></thead>
+	        <div class="card">
+	          <h2>Simulate Voice Result</h2>
+	          ${
+	            clinicContactId
+	              ? `<form method="POST" action="/admin-ui/tasks/${esc(data.task.id)}/simulate-voice-result">
+	                  <input type="hidden" name="contactId" value="${esc(clinicContactId)}" />
+	                  ${formRow(
+	                    "Transcript (optional)",
+	                    `<textarea name="transcript" rows="4" style="padding:8px; width:100%; box-sizing:border-box;" placeholder="Receptionist offered: Tue 3:30, Thu 4:15"></textarea>`
+	                  )}
+	                  ${formRow(
+	                    "Slot 1 start (ISO)",
+	                    `<input name="slot1Start" placeholder="2026-02-12T22:30:00.000Z" />`
+	                  )}
+	                  ${formRow(
+	                    "Slot 1 end (ISO)",
+	                    `<input name="slot1End" placeholder="2026-02-12T23:15:00.000Z" />`
+	                  )}
+	                  ${formRow(
+	                    "Slot 2 start (ISO)",
+	                    `<input name="slot2Start" placeholder="2026-02-14T23:15:00.000Z" />`
+	                  )}
+	                  ${formRow(
+	                    "Slot 2 end (ISO)",
+	                    `<input name="slot2End" placeholder="2026-02-14T23:45:00.000Z" />`
+	                  )}
+	                  ${formRow(
+	                    "Slot 3 start (ISO)",
+	                    `<input name="slot3Start" placeholder="2026-02-15T22:00:00.000Z" />`
+	                  )}
+	                  ${formRow(
+	                    "Slot 3 end (ISO)",
+	                    `<input name="slot3End" placeholder="2026-02-15T22:45:00.000Z" />`
+	                  )}
+	                  ${formRow("Note (optional)", `<input name="note" placeholder="Any extra context" />`)}
+	                  <button type="submit">Send Voice Result</button>
+	                </form>`
+	              : `<p class="muted">No clinicContactId found on this task. Create a clinic/therapy task from the family page.</p>`
+	          }
+	        </div>
+
+	        <div class="row">
+	          <div class="col card">
+	            <h2>Outreach</h2>
+	            <table>
+	              <thead><tr><th>Contact</th><th>Channel</th><th>Status</th><th>Sent</th></tr></thead>
               <tbody>${outreachRows || `<tr><td colspan="4" class="muted">None.</td></tr>`}</tbody>
             </table>
           </div>
@@ -592,6 +768,84 @@ export function registerAdminUiRoutes(app: FastifyInstance, services: AppService
       `;
 
       reply.type("text/html").send(page(`Task ${data.task.id.slice(0, 8)}`, body));
+    });
+
+    adminUi.post("/admin-ui/tasks/:taskId/simulate-voice-result", async (req, reply) => {
+      const taskId = (req.params as { taskId: string }).taskId;
+      const body = (req.body ?? {}) as Record<string, unknown>;
+
+      const contactId = String(body.contactId ?? "").trim();
+      const transcript = String(body.transcript ?? "").trim() || null;
+      const note = String(body.note ?? "").trim() || null;
+
+      function parseDate(raw: string): Date | null {
+        const d = new Date(raw);
+        if (Number.isNaN(d.getTime())) return null;
+        return d;
+      }
+
+      const slots: { start: Date; end: Date }[] = [];
+      function addSlot(startRaw: string, endRaw: string) {
+        const s = startRaw.trim();
+        const e = endRaw.trim();
+        if (!s && !e) return;
+        const start = parseDate(s);
+        const end = parseDate(e);
+        if (!start || !end) return;
+        if (end.getTime() <= start.getTime()) return;
+        slots.push({ start, end });
+      }
+
+      addSlot(String(body.slot1Start ?? ""), String(body.slot1End ?? ""));
+      addSlot(String(body.slot2Start ?? ""), String(body.slot2End ?? ""));
+      addSlot(String(body.slot3Start ?? ""), String(body.slot3End ?? ""));
+
+      if (!contactId) {
+        reply.code(400);
+        return reply.type("text/html").send(page("Error", "<p>Missing contactId.</p>"));
+      }
+
+      if (slots.length === 0) {
+        reply.code(400);
+        return reply
+          .type("text/html")
+          .send(page("Error", "<p>Add at least one valid slot (ISO start + end).</p>"));
+      }
+
+      const familyId = await withTransaction(async (client) => {
+        const res = await client.query<{ family_id: string }>(
+          "SELECT family_id FROM tasks WHERE id = $1 LIMIT 1",
+          [taskId]
+        );
+        return res.rows[0]?.family_id ?? null;
+      });
+
+      if (!familyId) {
+        reply.code(404);
+        return reply.type("text/html").send(page("Not found", "<p>Task not found.</p>"));
+      }
+
+      try {
+        await handleInboundVoiceResult({
+          services,
+          provider: "fake",
+          providerMessageId: `admin-ui-${taskId}-${Date.now()}`,
+          familyId,
+          taskId,
+          contactId,
+          transcript,
+          note,
+          offeredSlots: slots,
+          occurredAt: new Date()
+        });
+      } catch (err) {
+        reply.code(500);
+        return reply
+          .type("text/html")
+          .send(page("Error", `<p>Failed to ingest voice result.</p><pre>${esc(String(err))}</pre>`));
+      }
+
+      reply.code(302).header("Location", `/admin-ui/tasks/${taskId}`).send();
     });
 
     adminUi.post("/admin-ui/tasks/:taskId/cancel", async (req, reply) => {

@@ -27,6 +27,7 @@
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <span class="pill">Channels: SMS + Email</span>
+            <span class="pill">Voice: results</span>
             <span class="pill">Workflow: durable</span>
             <span class="pill">Pilot: admin token</span>
           </div>
@@ -102,6 +103,7 @@ flowchart TB
     Twilio["Twilio<br/>SMS"]
     Resend["Resend<br/>Outbound Email"]
     Proxy["Email Proxy<br/>(Gmail+Zapier/Make)"]
+    VoiceBridge["Voice Bridge<br/>(Twilio Voice + Agent)"]
   end
 
   subgraph OurSystem["Family Coordination Assistant"]
@@ -115,6 +117,7 @@ flowchart TB
 
   API -->|outbound email| Resend
   Proxy -->|POST /webhooks/email/inbound| API
+  VoiceBridge -->|POST /webhooks/voice/result| API
 
   API <--> DB
   Worker <--> DB
@@ -273,6 +276,29 @@ x-inbound-token: &lt;INBOUND_EMAIL_TOKEN&gt;</code></pre>
           </div>
 
           <div class="card" style="margin-top: 14px;">
+            <h3>Inbound Voice Result (Phase 1)</h3>
+            <p>
+              Phase 1 does not place phone calls yet. Instead, a future “voice bridge” (Twilio
+              Voice + an agent) will call a clinic and POST back a structured result (offered time
+              slots + optional transcript).
+            </p>
+            <pre><code>POST /webhooks/voice/result
+x-inbound-token: &lt;INBOUND_VOICE_TOKEN&gt;</code></pre>
+            <p>Minimal payload:</p>
+            <pre><code>{
+  "id": "provider-message-id",
+  "provider": "twilio",
+  "familyId": "&lt;uuid&gt;",
+  "taskId": "&lt;uuid&gt;",
+  "contactId": "&lt;uuid&gt;",
+  "transcript": "Receptionist offered: Tue 3:30, Thu 4:15",
+  "offeredSlots": [
+    { "start": "2026-02-12T22:30:00.000Z", "end": "2026-02-12T23:15:00.000Z" }
+  ]
+}</code></pre>
+          </div>
+
+          <div class="card" style="margin-top: 14px;">
             <h3>Minimal Inbound Email Payload</h3>
             <pre><code>{
   "id": "provider-message-id",
@@ -336,12 +362,14 @@ x-inbound-token: &lt;INBOUND_EMAIL_TOKEN&gt;</code></pre>
       health.ts                GET /health
       twilioSms.ts             POST /webhooks/twilio/sms
       resendInbound.ts         POST /webhooks/resend/inbound + /webhooks/email/inbound
+      voiceResult.ts           POST /webhooks/voice/result (structured voice results)
       admin.ts                 JSON admin API (pilot)
       adminUi.ts               HTML admin UI (pilot)
 
   orchestrator/
     handleInboundSms.ts        Main SMS workflow (parent + contact paths)
     handleInboundEmail.ts      Email reply workflow (YES/NO + STOP/START)
+    handleInboundVoiceResult.ts Voice result ingestion (offered slots + prompt parent)
     messaging.ts               Send-and-log wrappers (writes message_events)
 
   workers/
@@ -354,6 +382,7 @@ x-inbound-token: &lt;INBOUND_EMAIL_TOKEN&gt;</code></pre>
     migrations/
       001_init.sql             schema (families, contacts, tasks, etc.)
       002_indexes.sql          indexes + dedupe constraints
+      003_voice.sql            voice: opt-out + indexes
 
   domain/
     parsing/                   rule-based parsers (time window, yes/no, contact lists)</code></pre>
@@ -388,7 +417,8 @@ TWILIO_AUTH_TOKEN
 RESEND_API_KEY
 EMAIL_FROM
 EMAIL_REPLY_TO
-INBOUND_EMAIL_TOKEN</code></pre>
+INBOUND_EMAIL_TOKEN
+INBOUND_VOICE_TOKEN</code></pre>
             </div>
             <div class="card">
               <h3>Operate (Admin UI)</h3>
@@ -422,6 +452,7 @@ INBOUND_EMAIL_TOKEN</code></pre>
               <h3>Done (Phase 1 MVP)</h3>
               <ul>
                 <li>Sitter coordination loop (SMS parent, SMS/email contacts)</li>
+                <li>Voice result ingestion webhook (structured offered slots) + admin simulation</li>
                 <li>Progressive onboarding (missing time window, missing contacts)</li>
                 <li>Durable workflow state in Postgres</li>
                 <li>Background retries + retention cleanup</li>
@@ -434,6 +465,7 @@ INBOUND_EMAIL_TOKEN</code></pre>
               <ul>
                 <li>Railway deployment + env wiring</li>
                 <li>Twilio number + webhook configuration</li>
+                <li>Optional: build a voice bridge (Twilio Voice) to call clinics and POST voice results</li>
                 <li>Resend domain/sender setup (optional) + email proxy wiring</li>
                 <li>Pilot runbook execution with real phones and contacts</li>
               </ul>
