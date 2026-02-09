@@ -144,6 +144,75 @@ describe("Worker jobs (integration)", () => {
     expect(updated.rows[0].awaiting_parent).toBe(false);
   });
 
+  test("compileSitterOptions does not prompt if another task is awaiting-parent", async () => {
+    const pool = getPool();
+    const fam = await pool.query<{ id: string }>(
+      `
+        INSERT INTO families (assistant_phone_e164, display_name, timezone)
+        VALUES ($1, 'Test Family', 'America/Denver')
+        RETURNING id
+      `,
+      [ASSISTANT]
+    );
+    const familyId = fam.rows[0].id;
+
+    const contact = await pool.query<{ id: string }>(
+      `
+        INSERT INTO contacts (family_id, name, category, phone_e164, channel_pref)
+        VALUES ($1,'Sarah','sitter',$2,'sms')
+        RETURNING id
+      `,
+      [familyId, SITTER]
+    );
+    const contactId = contact.rows[0].id;
+
+    // Another task is already awaiting the parent.
+    await pool.query(
+      `
+        INSERT INTO tasks (family_id, intent_type, status, awaiting_parent, awaiting_parent_reason, metadata)
+        VALUES ($1,'sitter','options_ready',true,'choose_option',$2::jsonb)
+      `,
+      [familyId, JSON.stringify({ initiatorPhoneE164: PARENT })]
+    );
+
+    const metadata = { initiatorPhoneE164: PARENT };
+    const task = await pool.query<{ id: string }>(
+      `
+        INSERT INTO tasks (family_id, intent_type, status, requested_start, requested_end, awaiting_parent, metadata)
+        VALUES ($1,'sitter','collecting',$2,$3,false,$4::jsonb)
+        RETURNING id
+      `,
+      [
+        familyId,
+        new Date("2026-02-13T01:00:00.000Z"),
+        new Date("2026-02-13T05:00:00.000Z"),
+        JSON.stringify(metadata)
+      ]
+    );
+    const taskId = task.rows[0].id;
+
+    await pool.query(
+      `
+        INSERT INTO task_options (task_id, contact_id, slot_start, slot_end, status, rank)
+        VALUES ($1,$2,$3,$4,'pending',1)
+      `,
+      [taskId, contactId, new Date("2026-02-13T01:00:00.000Z"), new Date("2026-02-13T05:00:00.000Z")]
+    );
+
+    await compileSitterOptions({ sms, email }, taskId);
+
+    // No prompt while another task is awaiting-parent.
+    const toParent = sms.sent.filter((m) => m.to === PARENT);
+    expect(toParent.length).toBe(0);
+
+    const updated = await pool.query<{ status: string; awaiting_parent: boolean }>(
+      "SELECT status, awaiting_parent FROM tasks WHERE id = $1",
+      [taskId]
+    );
+    expect(updated.rows[0].status).toBe("collecting");
+    expect(updated.rows[0].awaiting_parent).toBe(false);
+  });
+
   test("retrySitterOutreach sends follow-up to non-responders", async () => {
     const pool = getPool();
     const fam = await pool.query<{ id: string }>(
@@ -225,4 +294,3 @@ describe("Worker jobs (integration)", () => {
     expect(bodies.rows[0].body).toBe("new");
   });
 });
-
