@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Family Coordination Assistant | System Guide</title>
+    <meta
+      name="description"
+      content="System guide for the Family Coordination Assistant Phase 1 MVP: SMS/email coordination orchestrator for families."
+    />
+    <link rel="stylesheet" href="./assets/site.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrap">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="title">Family Coordination Assistant</div>
+          <div class="subtitle">
+            Phase 1 MVP system walkthrough: what it does, how it works, and what we still need to
+            ship a pilot.
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="pill">Channels: SMS + Email</span>
+            <span class="pill">Workflow: durable</span>
+            <span class="pill">Pilot: admin token</span>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a href="#overview">Overview</a>
+          <a href="#core-loop">Core Loop</a>
+          <a href="#components">Components</a>
+          <a href="#workflow">Workflow Engine</a>
+          <a href="#data-model">Data Model</a>
+          <a href="#channels">Channels + Webhooks</a>
+          <a href="#safety">Safety + Reliability</a>
+          <a href="#ops">Pilot Ops</a>
+          <a href="#status">Done vs Next</a>
+        </nav>
+
+        <div class="footer">
+          Repo: <a href="https://github.com/h3ro-dev/family-coordination-assistant">GitHub</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="hero" id="overview">
+          <h1>System Guide</h1>
+          <p>
+            The product experience is simple: “my assistant talks to my people so I don’t have to.”
+            The technical reality is a reliable orchestration engine that can send messages, wait,
+            retry tomorrow, and never lose track of what’s going on.
+          </p>
+          <p>
+            In Phase 1, we prove one loop works end-to-end (sitter scheduling) and build the system
+            so it can expand to activities and healthcare later.
+          </p>
+        </section>
+
+        <section class="card" id="core-loop">
+          <h2>The Core Loop</h2>
+          <p>
+            Every successful coordination assistant does the same repeating pattern. The system
+            exists to remove friction: waiting, following up, summarizing options, and confirming.
+          </p>
+
+          <div class="diagram">
+            <pre class="mermaid">
+flowchart LR
+  A["1. Parent Request<br/>Inbound SMS"] --> B["2. System Outreach<br/>SMS or Email"]
+  B --> C["3. Aggregate Options<br/>YES/NO -> options list"]
+  C --> D["4. Parent Choice<br/>Reply 1/2/3"]
+  D --> E["5. Confirmation<br/>Notify winner + close"]
+            </pre>
+          </div>
+
+          <div class="callout">
+            The most important engineering choice is <strong>durability</strong>: if your server
+            restarts, if Twilio retries, if someone replies tomorrow, the workflow still completes.
+          </div>
+        </section>
+
+        <section class="card" id="components">
+          <h2>What Runs Where</h2>
+          <p>
+            Think of this as three moving parts. The API handles incoming messages and sends
+            outgoing messages. The worker handles delayed jobs. Postgres is the durable memory so
+            the system doesn’t lose state.
+          </p>
+
+          <div class="diagram">
+            <pre class="mermaid">
+flowchart TB
+  subgraph Providers
+    Twilio["Twilio<br/>SMS"]
+    Resend["Resend<br/>Outbound Email"]
+    Proxy["Email Proxy<br/>(Gmail+Zapier/Make)"]
+  end
+
+  subgraph OurSystem["Family Coordination Assistant"]
+    API["API (Fastify)<br/>webhooks + orchestration<br/>admin UI"]
+    Worker["Worker (pg-boss)<br/>delayed jobs + cleanup"]
+    DB["Postgres<br/>tasks + outreach + transcripts"]
+  end
+
+  Twilio -->|inbound webhook| API
+  API -->|outbound SMS| Twilio
+
+  API -->|outbound email| Resend
+  Proxy -->|POST /webhooks/email/inbound| API
+
+  API <--> DB
+  Worker <--> DB
+  API -->|enqueue jobs| Worker
+            </pre>
+          </div>
+
+          <div class="grid2" style="margin-top: 14px;">
+            <div class="card">
+              <h3>API</h3>
+              <ul>
+                <li>Receives inbound webhooks (SMS + email)</li>
+                <li>Updates the workflow state in Postgres</li>
+                <li>Sends outbound SMS/email</li>
+                <li>Provides pilot admin UI</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Worker</h3>
+              <ul>
+                <li>Runs delayed jobs (compile options, next-day retry)</li>
+                <li>Runs retention cleanup (30-day transcript deletion)</li>
+                <li>Keeps the “waiting” work off the API</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="workflow">
+          <h2>The Workflow Engine (State Machine)</h2>
+          <p>
+            A “task” is one coordination job: “Find a sitter Fri 6–10.” The system moves a task
+            through a small set of states so it stays reliable and doesn’t get confused.
+          </p>
+
+          <div class="diagram">
+            <pre class="mermaid">
+stateDiagram-v2
+  [*] --> intent_created
+
+  intent_created --> collecting: outreach queued/sent
+  intent_created --> awaiting_parent: missing info (time window / contacts)
+
+  collecting --> options_ready: enough YES replies
+  collecting --> collecting: keep waiting
+  collecting --> cancelled: parent/admin cancels
+
+  options_ready --> confirmed: parent chooses 1/2/3
+  options_ready --> cancelled: parent/admin cancels
+
+  awaiting_parent --> intent_created: parent provides missing info
+  awaiting_parent --> cancelled: cancel
+
+  confirmed --> [*]
+  cancelled --> [*]
+            </pre>
+          </div>
+
+          <p>
+            The key safety rule is: only one task can be <span class="k">awaiting_parent</span> at
+            a time. That prevents mixing answers across multiple open requests in the same SMS
+            thread.
+          </p>
+        </section>
+
+        <section class="card" id="data-model">
+          <h2>Data Model (Durable Memory)</h2>
+          <p>
+            You can think of Postgres as a set of durable lists that keep the system honest. These
+            tables make the workflow restart-safe and debuggable.
+          </p>
+
+          <div class="diagram">
+            <pre class="mermaid">
+erDiagram
+  families ||--o{ family_authorized_phones : has
+  families ||--o{ contacts : has
+  families ||--o{ tasks : owns
+
+  tasks ||--o{ task_outreach : sends
+  tasks ||--o{ task_contact_responses : receives
+  tasks ||--o{ task_options : aggregates
+  tasks ||--o{ message_events : logs
+
+  contacts ||--o{ task_outreach : targeted
+  contacts ||--o{ task_contact_responses : replies
+  contacts ||--o{ task_options : offered
+
+  families {
+    uuid id
+    text assistant_phone_e164
+    text display_name
+    text timezone
+  }
+
+  contacts {
+    uuid id
+    text name
+    text category
+    text phone_e164
+    text email
+    text channel_pref
+    bool sms_opted_out
+    bool email_opted_out
+  }
+
+  tasks {
+    uuid id
+    text intent_type
+    text status
+    bool awaiting_parent
+    text awaiting_parent_reason
+    timestamptz requested_start
+    timestamptz requested_end
+    jsonb metadata
+  }
+            </pre>
+          </div>
+
+          <div class="callout warn" style="margin-top: 12px;">
+            Message transcripts are stored in <span class="k">message_events</span> for support and
+            debugging, but a daily job deletes anything older than 30 days (privacy).
+          </div>
+        </section>
+
+        <section class="card" id="channels">
+          <h2>Channels + Webhooks</h2>
+          <p>
+            The system supports two inbound channels today. Parents always talk to the assistant via
+            SMS. Contacts can be reached by SMS or email, based on their
+            <span class="k">channel_pref</span>.
+          </p>
+
+          <div class="grid2">
+            <div class="card">
+              <h3>Inbound SMS (Twilio)</h3>
+              <p>Twilio posts inbound messages to our API:</p>
+              <pre><code>POST /webhooks/twilio/sms</code></pre>
+              <p>
+                The API then sends outbound SMS through Twilio’s REST API. Inbound webhook retries
+                are deduped using <span class="k">(provider, provider_message_id)</span>.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Inbound Email (Proxy-friendly)</h3>
+              <p>
+                If you do not have a domain yet, you can still pilot email replies using a proxy
+                mailbox (Gmail). Outbound email sets <span class="k">Reply-To</span> to a
+                plus-address that encodes the family id:
+              </p>
+              <pre><code>assistant+&lt;familyId&gt;@gmail.com</code></pre>
+              <p>The proxy forwards replies to:</p>
+              <pre><code>POST /webhooks/email/inbound
+x-inbound-token: &lt;INBOUND_EMAIL_TOKEN&gt;</code></pre>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 14px;">
+            <h3>Minimal Inbound Email Payload</h3>
+            <pre><code>{
+  "id": "provider-message-id",
+  "from": "Person &lt;person@example.com&gt;",
+  "to": "assistant+&lt;familyId&gt;@gmail.com",
+  "text": "YES"
+}</code></pre>
+            <p>
+              The API extracts <span class="k">&lt;familyId&gt;</span> from the recipient address and
+              uses it to route the message to the correct family.
+            </p>
+          </div>
+        </section>
+
+        <section class="card" id="safety">
+          <h2>Safety + Reliability Rules</h2>
+          <ul>
+            <li>
+              <strong>Max 5 active tasks per family</strong>: prevents overwhelm and complexity.
+            </li>
+            <li>
+              <strong>Max 1 awaiting-parent task</strong>: prevents mixing answers between tasks.
+            </li>
+            <li>
+              <strong>Per-family sequential processing</strong>: family row is locked while a message
+              is processed.
+            </li>
+            <li>
+              <strong>Webhook dedupe</strong>: if Twilio/Resend retries, we do not double-process.
+            </li>
+            <li>
+              <strong>Next-day retry</strong>: for non-responders, we attempt again tomorrow.
+            </li>
+            <li>
+              <strong>30-day retention</strong>: message logs are deleted after 30 days.
+            </li>
+          </ul>
+
+          <div class="callout danger">
+            Healthcare note: Phase 1 is built to be “HIPAA-ready” in structure (durable logs,
+            retention, access controls), but it is not “HIPAA-compliant” by default. Treat this as a
+            scheduling coordinator and keep PHI out of messages until contracts and controls exist.
+          </div>
+        </section>
+
+        <section class="card" id="ops">
+          <h2>Pilot Ops (What You Do To Run This)</h2>
+          <p>
+            The system is designed so a pilot can run with minimal UI and no end-user login.
+            Everything is controlled by one admin token.
+          </p>
+
+          <div class="grid2">
+            <div class="card">
+              <h3>Deploy (Railway)</h3>
+              <ul>
+                <li>API service: <span class="k">pnpm start</span></li>
+                <li>Worker service: <span class="k">pnpm start:worker</span></li>
+                <li>Postgres plugin</li>
+              </ul>
+              <p>Required env vars include:</p>
+              <pre><code>DATABASE_URL
+ADMIN_TOKEN
+TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN
+RESEND_API_KEY
+EMAIL_FROM
+EMAIL_REPLY_TO
+INBOUND_EMAIL_TOKEN</code></pre>
+            </div>
+            <div class="card">
+              <h3>Operate (Admin UI)</h3>
+              <p>Open:</p>
+              <pre><code>/admin-ui</code></pre>
+              <p>Auth:</p>
+              <ul>
+                <li>Basic auth user <span class="k">admin</span></li>
+                <li>Password = <span class="k">ADMIN_TOKEN</span></li>
+              </ul>
+              <p>Use it to:</p>
+              <ul>
+                <li>Create a family and set timezone</li>
+                <li>Authorize parent phone(s)</li>
+                <li>Add contacts (SMS or email)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 12px;">
+            If you want an inbox-based proxy without a custom domain, use Gmail plus-addressing and
+            Zapier/Make to forward replies to <span class="k">/webhooks/email/inbound</span>. See
+            <span class="k">docs/email-proxy-gmail.md</span> in the repo.
+          </div>
+        </section>
+
+        <section class="card" id="status">
+          <h2>Done vs Next</h2>
+          <div class="grid2">
+            <div class="card">
+              <h3>Done (Phase 1 MVP)</h3>
+              <ul>
+                <li>Sitter coordination loop (SMS parent, SMS/email contacts)</li>
+                <li>Progressive onboarding (missing time window, missing contacts)</li>
+                <li>Durable workflow state in Postgres</li>
+                <li>Background retries + retention cleanup</li>
+                <li>Pilot admin UI + admin token auth</li>
+                <li>Tests: parsing, SMS integration, email integration</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Next (Pilot Completion)</h3>
+              <ul>
+                <li>Railway deployment + env wiring</li>
+                <li>Twilio number + webhook configuration</li>
+                <li>Resend domain/sender setup (optional) + email proxy wiring</li>
+                <li>Pilot runbook execution with real phones and contacts</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="footer">
+          Published from the repo’s <span class="k">/docs</span> folder using GitHub Pages.
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "dark",
+        themeVariables: {
+          fontFamily: "IBM Plex Sans, ui-sans-serif, system-ui, sans-serif",
+          background: "transparent",
+          primaryColor: "rgba(233, 236, 245, 0.06)",
+          primaryBorderColor: "rgba(233, 236, 245, 0.14)",
+          primaryTextColor: "#e9ecf5",
+          lineColor: "rgba(233, 236, 245, 0.18)",
+          secondaryColor: "rgba(120, 220, 232, 0.12)",
+          tertiaryColor: "rgba(167, 139, 250, 0.10)"
+        }
+      });
+    </script>
+  </body>
+</html>
+
