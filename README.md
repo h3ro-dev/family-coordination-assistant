@@ -3,6 +3,8 @@
 System guide (GitHub Pages):
 
 - https://h3ro-dev.github.io/family-coordination-assistant/
+- Recommended architecture/design doc:
+  - `docs/recommended-architecture.md`
 
 This is a "coordination orchestrator" for a family (built SMS-first):
 
