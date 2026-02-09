@@ -1,9 +1,11 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, test } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import PgBoss from "pg-boss";
 import { FakeSmsAdapter } from "../../adapters/sms/FakeSmsAdapter";
 import { FakeEmailAdapter } from "../../adapters/email/FakeEmailAdapter";
 import { runMigrations } from "../../db/runMigrations";
 import { getPool } from "../../db/pool";
 import { buildServer } from "../buildServer";
+import { JOB_COMPILE_SITTER_OPTIONS } from "../../jobs/boss";
 
 const ASSISTANT = "+18015550000";
 const PARENT = "+18015550111";
@@ -179,6 +181,122 @@ describe("Voice result ingestion (integration)", () => {
     await app.close();
   });
 
+  test("POST /webhooks/voice/result rejects invalid slots", async () => {
+    const app = buildServer({ sms, email });
+
+    const res = await app.inject({
+      method: "POST",
+      url: "/webhooks/voice/result",
+      headers: {
+        "content-type": "application/json",
+        "x-inbound-token": process.env.INBOUND_VOICE_TOKEN!
+      },
+      payload: {
+        id: "v-bad",
+        provider: "fake",
+        familyId,
+        taskId,
+        contactId,
+        offeredSlots: [{ start: "2026-02-12T23:15:00.000Z", end: "2026-02-12T22:30:00.000Z" }]
+      }
+    });
+
+    expect(res.statusCode).toBe(400);
+    const body = JSON.parse(res.body) as { ok: false; error: string };
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("invalid_payload");
+
+    await app.close();
+  });
+
+  test("does not ingest options when contact is voice opted out", async () => {
+    const pool = getPool();
+    await pool.query("UPDATE contacts SET voice_opted_out = true WHERE id = $1", [contactId]);
+
+    const app = buildServer({ sms, email });
+    const res = await app.inject({
+      method: "POST",
+      url: "/webhooks/voice/result",
+      headers: {
+        "content-type": "application/json",
+        "x-inbound-token": process.env.INBOUND_VOICE_TOKEN!
+      },
+      payload: {
+        id: "v-optout",
+        provider: "fake",
+        familyId,
+        taskId,
+        contactId,
+        offeredSlots: [{ start: "2026-02-12T22:30:00.000Z", end: "2026-02-12T23:15:00.000Z" }]
+      }
+    });
+
+    expect(res.statusCode).toBe(200);
+    const body = JSON.parse(res.body) as { ok: true; prompted: boolean };
+    expect(body.ok).toBe(true);
+    expect(body.prompted).toBe(false);
+
+    const opt = await pool.query<{ c: string }>(
+      "SELECT COUNT(*)::text as c FROM task_options WHERE task_id = $1",
+      [taskId]
+    );
+    expect(Number(opt.rows[0].c)).toBe(0);
+    expect(sms.sent.length).toBe(0);
+
+    await app.close();
+  });
+
+  test("when another task is awaiting parent, it schedules a later prompt attempt (if boss exists)", async () => {
+    const pool = getPool();
+
+    // Create another task that is awaiting a parent reply.
+    await pool.query(
+      `
+        INSERT INTO tasks (family_id, intent_type, status, awaiting_parent, awaiting_parent_reason, metadata)
+        VALUES ($1,'sitter','options_ready',true,'choose_option',$2::jsonb)
+      `,
+      [familyId, JSON.stringify({ initiatorPhoneE164: PARENT })]
+    );
+
+    const boss = { send: vi.fn(async () => {}) };
+
+    const app = buildServer({ sms, email, boss: boss as unknown as PgBoss });
+    const res = await app.inject({
+      method: "POST",
+      url: "/webhooks/voice/result",
+      headers: {
+        "content-type": "application/json",
+        "x-inbound-token": process.env.INBOUND_VOICE_TOKEN!
+      },
+      payload: {
+        id: "v-blocked",
+        provider: "fake",
+        familyId,
+        taskId,
+        contactId,
+        offeredSlots: [{ start: "2026-02-12T22:30:00.000Z", end: "2026-02-12T23:15:00.000Z" }]
+      }
+    });
+
+    expect(res.statusCode).toBe(200);
+    const body = JSON.parse(res.body) as { ok: true; prompted: boolean; scheduledPrompt: boolean };
+    expect(body.ok).toBe(true);
+    expect(body.prompted).toBe(false);
+    expect(body.scheduledPrompt).toBe(true);
+
+    expect(boss.send).toHaveBeenCalledTimes(1);
+    const [jobName, jobData, jobOpts] = boss.send.mock.calls[0] as unknown as [
+      string,
+      { taskId: string },
+      { startAfter?: Date }
+    ];
+    expect(jobName).toBe(JOB_COMPILE_SITTER_OPTIONS);
+    expect(jobData).toEqual({ taskId });
+    expect(jobOpts?.startAfter instanceof Date).toBe(true);
+
+    await app.close();
+  });
+
   test("POST /webhooks/voice/result dedupes repeated webhook id", async () => {
     const app = buildServer({ sms, email });
 
@@ -262,4 +380,3 @@ describe("Voice result ingestion (integration)", () => {
     await app.close();
   });
 });
-

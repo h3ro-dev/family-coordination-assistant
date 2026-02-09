@@ -92,6 +92,38 @@ describe("Twilio SMS webhook route (integration)", () => {
     await app.close();
   });
 
+  test("dedupes Twilio retries with same MessageSid", async () => {
+    const app = buildServer({ sms, email });
+
+    const payload =
+      "MessageSid=dedupe-1" +
+      `&From=${encodeURIComponent(PARENT)}` +
+      `&To=${encodeURIComponent(ASSISTANT)}` +
+      `&Body=${encodeURIComponent("Find a sitter Friday 6-10")}`;
+
+    const first = await app.inject({
+      method: "POST",
+      url: "/webhooks/twilio/sms",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      payload
+    });
+    expect(first.statusCode).toBe(200);
+    expect(sms.sent.length).toBe(2);
+
+    const second = await app.inject({
+      method: "POST",
+      url: "/webhooks/twilio/sms",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      payload
+    });
+    expect(second.statusCode).toBe(200);
+
+    // No additional outbound messages for a retried webhook.
+    expect(sms.sent.length).toBe(2);
+
+    await app.close();
+  });
+
   test("rejects missing From/To", async () => {
     const app = buildServer({ sms, email });
     const res = await app.inject({
