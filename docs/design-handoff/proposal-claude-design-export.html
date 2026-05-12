@@ -222,6 +222,8 @@ strong{font-weight:600;color:var(--ink)}
 .compare{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink);margin-top:16px}
 .opt{padding:32px 28px;border-bottom:2px solid var(--ink);background:var(--white);position:relative}
 .opt + .opt{border-left:1px solid var(--rule)}
+.opt.featured{background:var(--cream)}
+.opt.featured::before{content:"Recommended path";position:absolute;top:-1px;left:50%;transform:translate(-50%,-50%);background:var(--ochre);color:var(--cream);font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:6px 14px;white-space:nowrap}
 .opt .id{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
 .opt h3{font-style:italic;font-size:26px;font-weight:500;margin-bottom:6px;letter-spacing:-0.01em}
 .opt .tag{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ochre);margin-bottom:18px;display:block}
@@ -300,6 +302,7 @@ strong{font-weight:600;color:var(--ink)}
   .hero-body{grid-template-columns:1fr;gap:40px}
   .hero .ribbon{grid-template-columns:1fr;gap:24px}
   .split-3,.prices,.compare{grid-template-columns:1fr 1fr}
+  .opt.featured::before{transform:translate(-50%,-50%)}
   .kpi-row{grid-template-columns:1fr 1fr}
   .kpi-row .kpi{padding-left:0!important;border-left:0!important}
   .kpi-row .kpi:nth-child(2){padding-left:24px!important;border-left:1px solid var(--rule)!important}
@@ -935,7 +938,7 @@ strong{font-weight:600;color:var(--ink)}
               <li>Best when Tamara wants maximum ownership and vendor economics.</li>
             </ul>
           </div>
-          <div class="opt">
+          <div class="opt featured">
             <div class="id">Option B</div>
             <h3>Strategic Build Partner</h3>
             <span class="tag">Blended cash + equity</span>
@@ -1102,7 +1105,7 @@ strong{font-weight:600;color:var(--ink)}
             <div class="headline-num">$40K–$70K<small>Sprint, 6–8 weeks</small></div>
             <p style="font-size:14.5px;color:var(--ink-2);margin-top:14px">6–8 week AI-native Build + Test Sprint. 0% equity. Later phases are separate SOWs after pilot evidence. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></p>
           </div>
-          <div class="opt">
+          <div class="opt featured">
             <div class="id">Option B</div>
             <h3>Strategic Build Partner</h3>
             <span class="tag">4%–8% earned equity</span>
