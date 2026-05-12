@@ -6,9 +6,9 @@ const tamaraRoot = process.env.TAMARA_PROJECT_ROOT || path.resolve(repoRoot, "..
 const docsDir = path.join(repoRoot, "docs");
 const researchDir = path.join(docsDir, "research");
 
-const traceId = "trc_20260512_015401Z_oz02ayg0";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/7";
-const issueLabel = "Issue #7";
+const traceId = "trc_20260512_021241Z_joz7okgt";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/9";
+const issueLabel = "Issue #9";
 
 const sourceDocs = [
   {
@@ -288,6 +288,19 @@ const sourceDocs = [
       "Reframed the first engagement as an AI-native Build + Test Sprint with build/test/decision gates and lower first-sprint pricing, while reserving larger budgets for later roadmap phases."
   },
   {
+    file: "21-proposal-source-and-calculation-methodology.md",
+    title: "Proposal Source And Calculation Methodology",
+    type: "Citation and methodology pass",
+    model: "Codex GPT-5 with current source checks and local proposal synthesis",
+    sensitivity: "Public-safe source and calculation summary",
+    questions: [
+      "Which source supports each material proposal number and strategic claim?",
+      "How were the partner pricing, COGS, pilot, sponsored cohort, and confidence calculations derived?"
+    ],
+    summary:
+      "Adds a source register and calculation methodology for proposal pricing, equity, COGS, pilot thresholds, sponsored cohorts, roadmap scope, vendor assumptions, and legal/product risk gates."
+  },
+  {
     file: "TRACKER.md",
     title: "Research Tracker",
     type: "Audit trail",
@@ -534,6 +547,14 @@ const promptRuns = [
     status: "Completed in local workspace; tracked in GitHub issue #7",
     question:
       "Remove language that presents Option B as chosen in advance while keeping Option B as a fully described partnership option."
+  },
+  {
+    group: "Citation and calculation methodology revision",
+    prompt: "Add proposal-wide source and calculation support",
+    model: "Codex GPT-5 with current source checks and local proposal edit",
+    status: "Completed in local workspace; tracked in GitHub issue #9",
+    question:
+      "For every price, cited number, and material strategic determination, show the supporting source, source class, and calculation logic used to derive the proposal range."
   }
 ];
 
