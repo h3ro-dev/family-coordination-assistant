@@ -8,9 +8,9 @@ const researchDir = path.join(docsDir, "research");
 const designHandoffDir = path.join(docsDir, "design-handoff");
 const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260512_131522Z_clvdy1fx";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/11";
-const issueLabel = "Issue #11";
+const traceId = "trc_20260512_172531Z_9ncwrru9";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/13";
+const issueLabel = "Issue #13";
 
 const sourceDocs = [
   {
@@ -565,6 +565,14 @@ const promptRuns = [
     status: "Completed and exported into docs/design-handoff; integrated through GitHub Pages generator",
     question:
       "Reimagine the proposal's visual design without changing claims, numbers, citations, roadmap meaning, pricing, equity ranges, or legal/compliance statements, then export and integrate it into GitHub Pages."
+  },
+  {
+    group: "Internal partner pricing and readability revision",
+    prompt: "Proposal readability edit plus partner economics correction",
+    model: "Codex GPT-5 with proposal-readability-editor skill; Otter connector unavailable, chat feedback used as source",
+    status: "Completed in local workspace; tracked in GitHub issue #13",
+    question:
+      "Revise the proposal after internal partner feedback: make it easier to read, raise Option A cash-services build pricing, keep Option B cash pricing but raise equity to 10%-15%, and revise Option C to an at-cost build path with 35%-40% company ownership, COGS-first revenue recovery, and a later revenue split."
   }
 ];
 
