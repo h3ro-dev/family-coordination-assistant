@@ -6,8 +6,9 @@ const tamaraRoot = process.env.TAMARA_PROJECT_ROOT || path.resolve(repoRoot, "..
 const docsDir = path.join(repoRoot, "docs");
 const researchDir = path.join(docsDir, "research");
 
-const traceId = "trc_20260512_001059Z_qqpof33m";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/1";
+const traceId = "trc_20260512_011043Z_vu25596g";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/3";
+const issueLabel = "Issue #3";
 
 const sourceDocs = [
   {
@@ -259,6 +260,20 @@ const sourceDocs = [
       "Replaced the previous partnership stance with three market-grounded paths and recommended Option B: Strategic Build Partner."
   },
   {
+    file: "19-current-market-validation-and-option-scope.md",
+    title: "Current Market Validation And Option Scope",
+    type: "Market validation and proposal revision",
+    model: "Codex GPT-5 with May 2026 web/source checks",
+    sensitivity: "Proposal source - review before external sharing",
+    questions: [
+      "Are the A/B/C partnership option costs and equity ranges aligned with current market expectations?",
+      "What is included and excluded in each option?",
+      "What additional research questions would further refine the proposal?"
+    ],
+    summary:
+      "Repriced and separated the partner options using current software build, SaaS MVP, fractional CTO, advisor-equity, technical partner, venture-studio, and voice-AI market signals."
+  },
+  {
     file: "TRACKER.md",
     title: "Research Tracker",
     type: "Audit trail",
@@ -481,6 +496,14 @@ const promptRuns = [
     status: "Completed in local workspace",
     question:
       "Integrate the research into a founder-facing proposal, confidence methodology, partnership options, and public-safe GitHub Pages appendix."
+  },
+  {
+    group: "Current market validation revision",
+    prompt: "A/B/C partnership option validation and proposal update",
+    model: "Codex GPT-5 with current web/source checks",
+    status: "Completed in local workspace; tracked in GitHub issue #3",
+    question:
+      "Validate whether the A/B/C cost/equity ranges are accurate, separate the included systems by option, add source material, and identify additional research questions."
   }
 ];
 
@@ -529,7 +552,7 @@ function renderShell({ title, description, nav = "", body, depth = "." }) {
           <div class="subtitle">Public-safe proposal and research pages for the February family coordination assistant repo.</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <span class="pill">Trace: ${traceId}</span>
-            <span class="pill">Issue #1</span>
+            <span class="pill">${issueLabel}</span>
             <span class="pill">Public-safe</span>
           </div>
         </div>
