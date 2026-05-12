@@ -560,6 +560,75 @@
 
     .next-step p { color: rgba(255, 255, 255, 0.8); }
 
+    .cite {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 22px;
+      margin-left: 4px;
+      padding: 0 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(24, 26, 32, 0.18);
+      background: #f4f0e6;
+      color: #252832;
+      font-size: 10px;
+      font-weight: 900;
+      text-decoration: none;
+      vertical-align: middle;
+      letter-spacing: 0.02em;
+    }
+
+    .dark .cite {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .source-line {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .source-line strong { color: var(--ink); }
+
+    .dark .source-line, .dark .source-line strong { color: rgba(255, 255, 255, 0.72); }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .source-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .source-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .source-card a { color: #1f6f9e; font-weight: 800; }
+
+    .formula {
+      display: block;
+      margin-top: 6px;
+      color: #4e5667;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
     .footer {
       position: absolute;
       left: 56px;
@@ -625,13 +694,13 @@
     <div class="grid-2">
       <div>
         <div class="badge">Prepared for Dr. Tamara Moores Todd</div>
-        <p style="margin-top:22px;">This proposal translates the Friday discussion, partner brief, current product evidence, and deeper research into a practical 30-60 day path: make the product chargeable, clean up ownership, prove paid demand, and earn the right to a deeper partnership.</p>
+        <p style="margin-top:22px;">This proposal translates the Friday discussion, partner brief, current product evidence, and deeper research into a practical 30-60 day path: make the product chargeable, clean up ownership, prove paid demand, and earn the right to a deeper partnership. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-r1">R1</a></p>
       </div>
       <div class="meta-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top:0;">
-        <div class="metric"><span class="num">4m</span><span class="label">First booking confirmed</span></div>
-        <div class="metric"><span class="num">15</span><span class="label">Beta testers opted in</span></div>
-        <div class="metric"><span class="num">90%</span><span class="label">Surveyed parents confirmed pain</span></div>
-        <div class="metric"><span class="num">120K</span><span class="label">Physician-mom network claim</span></div>
+        <div class="metric"><span class="num">4m</span><span class="label">First booking confirmed <a class="cite" href="#src-p1">P1</a></span></div>
+        <div class="metric"><span class="num">15</span><span class="label">Beta testers opted in <a class="cite" href="#src-p1">P1</a></span></div>
+        <div class="metric"><span class="num">90%</span><span class="label">Surveyed parents confirmed pain <a class="cite" href="#src-p1">P1</a></span></div>
+        <div class="metric"><span class="num">120K</span><span class="label">Physician-mom network claim <a class="cite" href="#src-p1">P1</a></span></div>
       </div>
     </div>
     <div class="footer"><span>Utlyze / SolutionStream</span><span>One request. Your people. Zero friction.</span></div>
@@ -639,23 +708,23 @@
 
   <section class="page white">
     <div class="topline"><span>Executive Summary</span><span>01</span></div>
-    <h2>Decision frame: choose the 6-8 week AI-native Build + Test Sprint structure that matches the intended partnership.</h2>
-    <p class="section-note">The strongest version of Looheru is not another family calendar, parent reminder app, childcare marketplace, or generic AI assistant. The strongest version is an execution layer for overloaded family operators: one request from the parent, outreach to the right real-world people, options returned, decision confirmed, and the loop closed.</p>
+    <h2>Decision frame: choose the 6-8 week AI-native Build + Test Sprint structure that matches the intended partnership. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></h2>
+    <p class="section-note">The strongest version of Looheru is not another family calendar, parent reminder app, childcare marketplace, or generic AI assistant. The strongest version is an execution layer for overloaded family operators: one request from the parent, outreach to the right real-world people, options returned, decision confirmed, and the loop closed. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-b1">B1</a></p>
     <div class="grid-3">
       <div class="card">
         <h3>Build</h3>
-        <p>Harden the current MVP into a chargeable pilot product with autonomous onboarding, payments, security, calendar sync, observability, and task-level instrumentation.</p>
+        <p>Harden the current MVP into a chargeable pilot product with autonomous onboarding, payments, security, calendar sync, observability, and task-level instrumentation. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-v3">V3</a></p>
       </div>
       <div class="card">
         <h3>Own</h3>
-        <p>Clean up entity, IP, domain, repo, phone, hosting, email, data, contributor, and credential ownership before anyone accepts production responsibility.</p>
+        <p>Clean up entity, IP, domain, repo, phone, hosting, email, data, contributor, and credential ownership before anyone accepts production responsibility. <a class="cite" href="#src-o1">O1</a></p>
       </div>
       <div class="card">
         <h3>Grow</h3>
-        <p>Use the first paid cohort to prove repeat use, willingness to pay, COGS, autonomous containment, and voice-lane safety before expanding into sponsors or deeper studio economics.</p>
+        <p>Use the first paid cohort to prove repeat use, willingness to pay, COGS, autonomous containment, and voice-lane safety before expanding into sponsors or deeper studio economics. <a class="cite" href="#src-g1">G1</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l1">L1</a></p>
       </div>
     </div>
-    <div class="pull">Option B remains the blended strategic build partner structure: $25K-$45K sprint cash, $8K-$16K/month if continued, and 4%-8% earned equity or warrants.</div>
+    <div class="pull">Option B remains the blended strategic build partner structure: $25K-$45K sprint cash, $8K-$16K/month if continued, and 4%-8% earned equity or warrants. <a class="cite" href="#src-s1">S1</a><a class="cite" href="#src-f1">F1</a><a class="cite" href="#src-e1">E1</a></div>
     <table class="promise-table">
       <thead>
         <tr><th>What we promised</th><th>What this proposal provides</th></tr>
@@ -675,47 +744,47 @@
   <section class="page">
     <div class="topline"><span>Confidence Level</span><span>02</span></div>
     <h2>We are confident enough to compare the paths, and clear about what still needs proof.</h2>
-    <p class="section-note">The confidence levels are evidence-weighted strategy scores, not statistical probabilities. They combine direct Looheru evidence, repo inspection, market benchmarks, current voice-agent technology, and legal/vendor source checks. Scores are lower where the next proof requires paid-user behavior, real operating data, or legal interpretation.</p>
+    <p class="section-note">The confidence levels are evidence-weighted strategy scores, not statistical probabilities. They combine direct Looheru evidence, repo inspection, market benchmarks, current voice-agent technology, and legal/vendor source checks. Scores are lower where the next proof requires paid-user behavior, real operating data, or legal interpretation. <a class="cite" href="#src-calc">CALC</a></p>
     <div class="confidence-grid">
       <div class="confidence-card">
         <strong><span>Core positioning</span><span>88%</span></strong>
         <div class="bar green"><span style="width:88%"></span></div>
-        <p>Research, meeting notes, and partner brief all point to execution-first coordination rather than organization.</p>
+        <p>Research, meeting notes, and partner brief all point to execution-first coordination rather than organization. <a class="cite" href="#src-p1">P1</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>First wedge</span><span>84%</span></strong>
         <div class="bar green"><span style="width:84%"></span></div>
-        <p>Babysitter and saved-contact SMS coordination has proof, low COGS, and clear emotional value.</p>
+        <p>Babysitter and saved-contact SMS coordination has proof, low COGS, and clear emotional value. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-v1">V1</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>Pricing direction</span><span>76%</span></strong>
         <div class="bar gold"><span style="width:76%"></span></div>
-        <p>$29, $59, and $119 packages fit market anchors and unit economics, but paid conversion still needs proof.</p>
+        <p>$29, $59, and $119 packages fit market anchors and unit economics, but paid conversion still needs proof. <a class="cite" href="#src-b1">B1</a><a class="cite" href="#src-cogs">COGS</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>COGS model</span><span>78%</span></strong>
         <div class="bar gold"><span style="width:78%"></span></div>
-        <p>SMS/email costs are low. Failed automation, browser work, provider voice, and support tickets drive margin risk.</p>
+        <p>SMS/email costs are low. Failed automation, browser work, provider voice, and support tickets drive margin risk. <a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-v4">V4</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>Autonomous onboarding</span><span>86%</span></strong>
         <div class="bar green"><span style="width:86%"></span></div>
-        <p>Recent realtime voice and agent releases make self-serve setup credible, with parent handoff only when the system blocks a task.</p>
+        <p>Recent realtime voice and agent releases make self-serve setup credible, with parent handoff only when the system blocks a task. <a class="cite" href="#src-v2">V2</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>Partnership sequencing</span><span>86%</span></strong>
         <div class="bar green"><span style="width:86%"></span></div>
-        <p>Three fair paths are now clear, but exact economics depend on final scope, cash budget, operating responsibility, access, and vesting terms.</p>
+        <p>Three fair paths are now clear, but exact economics depend on final scope, cash budget, operating responsibility, access, and vesting terms. <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-o1">O1</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>GTM / paid pilot path</span><span>85%</span></strong>
         <div class="bar green"><span style="width:85%"></span></div>
-        <p>June pilot can now be run as a concrete paid test with offer cards, thresholds, sponsor proof targets, and operating cadence.</p>
+        <p>June pilot can now be run as a concrete paid test with offer cards, thresholds, sponsor proof targets, and operating cadence. <a class="cite" href="#src-g1">G1</a></p>
       </div>
       <div class="confidence-card">
         <strong><span>Voice / healthcare path</span><span>74%</span></strong>
         <div class="bar gold"><span style="width:74%"></span></div>
-        <p>Parent-facing voice and scripted low-risk outbound voice can move earlier under product gates; healthcare/provider voice needs counsel validation before scale.</p>
+        <p>Parent-facing voice and scripted low-risk outbound voice can move earlier under product gates; healthcare/provider voice needs counsel validation before scale. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-l1">L1</a></p>
       </div>
     </div>
     <table class="promise-table" style="margin-top:24px;">
@@ -725,9 +794,9 @@
       <tbody>
         <tr><td>Direct evidence</td><td>Prototype, partner brief, beta testers, survey signal, founder distribution, and Friday transcript.</td></tr>
         <tr><td>Repo evidence</td><td>Working SMS/email coordination, Twilio Voice jobs, voice-result ingestion, and adapter-based architecture.</td></tr>
-        <tr><td>Market evidence</td><td>Competitor white space, pricing anchors, Clutch/SSNTPL build-cost ranges, fractional CTO retainers, advisor equity, technical cofounder norms, and venture-studio economics.</td></tr>
-        <tr><td>Technical evidence</td><td>May 2026 OpenAI, xAI, and Google voice-agent capabilities mapped against the existing architecture.</td></tr>
-        <tr><td>Risk evidence</td><td>FCC, FTC, HHS, Twilio, and California source checks translated into product gates.</td></tr>
+        <tr><td>Market evidence</td><td>Competitor white space, pricing anchors, Clutch/SSNTPL build-cost ranges, fractional CTO retainers, advisor equity, technical cofounder norms, and venture-studio economics. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-e1">E1</a></td></tr>
+        <tr><td>Technical evidence</td><td>May 2026 OpenAI, xAI, and Google voice-agent capabilities mapped against the existing architecture. <a class="cite" href="#src-v2">V2</a></td></tr>
+        <tr><td>Risk evidence</td><td>FCC, FTC, HHS, Twilio, and California source checks translated into product gates. <a class="cite" href="#src-l1">L1</a><a class="cite" href="#src-l2">L2</a></td></tr>
       </tbody>
     </table>
     <div class="footer"><span>Confidence is evidence-weighted</span><span>May 2026</span></div>
@@ -738,7 +807,7 @@
     <h2>Win the execution layer. Do not compete as another organizer.</h2>
     <div class="grid-2">
       <div>
-        <p class="section-note">Family apps, calendars, reminder tools, marketplaces, and general AI assistants all reduce some friction. Looheru's opportunity is the work they leave behind: contacting real people, gathering options, handling ambiguity, and confirming the outcome.</p>
+        <p class="section-note">Family apps, calendars, reminder tools, marketplaces, and general AI assistants all reduce some friction. Looheru's opportunity is the work they leave behind: contacting real people, gathering options, handling ambiguity, and confirming the outcome. <a class="cite" href="#src-comp">COMP</a><a class="cite" href="#src-b1">B1</a></p>
         <div class="pill-row">
           <span class="pill">Not a calendar</span>
           <span class="pill">Not a marketplace</span>
@@ -771,7 +840,7 @@
     <div class="grid-2">
       <div class="card">
         <h3>First commercial promise</h3>
-        <p>Text Looheru what you need. Looheru contacts your trusted people, gathers availability, returns options, and confirms the booking.</p>
+        <p>Text Looheru what you need. Looheru contacts your trusted people, gathers availability, returns options, and confirms the booking. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-r1">R1</a></p>
         <div class="pull">One request. Your people. Zero friction.</div>
       </div>
       <div class="card">
@@ -779,9 +848,9 @@
         <ul class="clean">
           <li>Concrete and easy to explain.</li>
           <li>Already has a working proof point.</li>
-          <li>Low COGS when kept to SMS/email.</li>
+          <li>Low COGS when kept to SMS/email. <a class="cite" href="#src-v1">V1</a></li>
           <li>Emotionally resonant for the target user.</li>
-          <li>Avoids the highest-risk healthcare voice issues at launch.</li>
+          <li>Avoids the highest-risk healthcare voice issues at launch. <a class="cite" href="#src-l1">L1</a></li>
         </ul>
       </div>
     </div>
@@ -798,7 +867,7 @@
   <section class="page white">
     <div class="topline"><span>Pricing</span><span>05</span></div>
     <h2>Price the paid pilot for completed coordination, not passive organization.</h2>
-    <p class="section-note">The June pilot should be paid, tightly scoped, and easy to understand. These can become recurring packages after proof, but the first job is to test payment, activation, repeat usage, COGS, and relief.</p>
+    <p class="section-note">The June pilot should be paid, tightly scoped, and easy to understand. These can become recurring packages after proof, but the first job is to test payment, activation, repeat usage, COGS, and relief. <a class="cite" href="#src-b1">B1</a><a class="cite" href="#src-g1">G1</a><a class="cite" href="#src-cogs">COGS</a></p>
     <div class="grid-3" style="margin-top:34px;">
       <div class="price-card">
         <h3>Essential</h3>
@@ -813,6 +882,7 @@
           <li>Autonomous guided setup.</li>
           <li>No autonomous healthcare calls.</li>
         </ul>
+        <div class="source-line"><strong>Basis:</strong> 4 tasks x low-SMS COGS leaves margin at $29 after Stripe; entry anchor tests paid demand without unlimited work. <a class="cite" href="#src-v3">V3</a><a class="cite" href="#src-cogs">COGS</a></div>
       </div>
       <div class="price-card featured">
         <div class="badge" style="margin-bottom:10px;">Likely hero plan</div>
@@ -826,6 +896,7 @@
           <li>Autonomous contact/calendar setup.</li>
           <li>Broader saved-contact lists.</li>
         </ul>
+        <div class="source-line"><strong>Basis:</strong> 10-credit midpoint uses workflow/outcome pricing while protecting against complex tasks with 2+ credit rules. <a class="cite" href="#src-b1">B1</a><a class="cite" href="#src-cogs">COGS</a></div>
       </div>
       <div class="price-card">
         <h3>Signature</h3>
@@ -838,6 +909,7 @@
           <li>Limited parent-facing voice intake beta.</li>
           <li>Provider calls excluded from pilot.</li>
         </ul>
+        <div class="source-line"><strong>Basis:</strong> Premium tier prices priority, richer setup data, and voice-intake beta separately from provider-call risk. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-l1">L1</a></div>
       </div>
     </div>
     <div class="footer"><span>Paid pilot offer cards</span><span>Convert to recurring after proof</span></div>
@@ -846,35 +918,35 @@
   <section class="page">
     <div class="topline"><span>Paid Pilot Plan</span><span>06</span></div>
     <h2>Run June as a paid design-partner pilot, not a free beta.</h2>
-    <p class="section-note">The pilot should enroll 18-24 high-burden households from Tamara's warm network. The first task loop is intentionally narrow: existing trusted sitters or caregivers, SMS/email outreach, options returned, parent chooses, Looheru confirms.</p>
+    <p class="section-note">The pilot should enroll 18-24 high-burden households from Tamara's warm network. The first task loop is intentionally narrow: existing trusted sitters or caregivers, SMS/email outreach, options returned, parent chooses, Looheru confirms. <a class="cite" href="#src-g1">G1</a><a class="cite" href="#src-p1">P1</a></p>
     <div class="grid-4">
-      <div class="card"><h4>Invite</h4><h3>30-40</h3><p>Founder-led 1:1 outreach to highest-fit contacts.</p></div>
-      <div class="card"><h4>Enroll</h4><h3>18-24</h3><p>Paid households, not generic free beta users.</p></div>
-      <div class="card"><h4>Activate</h4><h3>70%+</h3><p>Complete setup and submit a first request.</p></div>
-      <div class="card"><h4>Repeat</h4><h3>50%+</h3><p>Use Looheru more than once within 30 days.</p></div>
+      <div class="card"><h4>Invite</h4><h3>30-40</h3><p>Founder-led 1:1 outreach to highest-fit contacts. <a class="cite" href="#src-pilot">PILOT</a></p></div>
+      <div class="card"><h4>Enroll</h4><h3>18-24</h3><p>Paid households, not generic free beta users. <a class="cite" href="#src-pilot">PILOT</a></p></div>
+      <div class="card"><h4>Activate</h4><h3>70%+</h3><p>Complete setup and submit a first request. <a class="cite" href="#src-pilot">PILOT</a></p></div>
+      <div class="card"><h4>Repeat</h4><h3>50%+</h3><p>Use Looheru more than once within 30 days. <a class="cite" href="#src-pilot">PILOT</a></p></div>
     </div>
     <table class="promise-table" style="margin-top:28px;">
       <tr><th>Decision Gate</th><th>What We Need To Learn</th><th>Strong Signal</th></tr>
-      <tr><td>Payment</td><td>Will the right families pay before broad automation exists?</td><td>18-24 paid pilot households.</td></tr>
-      <tr><td>Activation</td><td>Can onboarding stay autonomous and lightweight?</td><td>70%+ finish setup; 60%+ complete a task in week one.</td></tr>
+      <tr><td>Payment</td><td>Will the right families pay before broad automation exists?</td><td>18-24 paid pilot households. <a class="cite" href="#src-pilot">PILOT</a></td></tr>
+      <tr><td>Activation</td><td>Can onboarding stay autonomous and lightweight?</td><td>70%+ finish setup; 60%+ complete a task in week one. <a class="cite" href="#src-pilot">PILOT</a></td></tr>
       <tr><td>Operations</td><td>Can containment and COGS stay inside plan economics?</td><td>Most tasks remain in the saved-contact SMS/email lane.</td></tr>
       <tr><td>Expansion</td><td>Can the proof support a sponsor conversation?</td><td>Repeat use, low containment, relief/NPS, referral intent, and clear work-disruption story.</td></tr>
     </table>
-    <div class="pull">Pilot promise: if Looheru does not complete at least one in-scope task for a paid pilot household, extend the pilot or refund that household.</div>
+    <div class="pull">Pilot promise: if Looheru does not complete at least one in-scope task for a paid pilot household, extend the pilot or refund that household. <a class="cite" href="#src-b1">B1</a></div>
     <div class="footer"><span>June 2026 operating plan</span><span>Paid proof before sponsored cohorts</span></div>
   </section>
 
   <section class="page white">
     <div class="topline"><span>Sponsored Cohort Ladder</span><span>07</span></div>
     <h2>Use B2C proof to sell narrow sponsored relief programs.</h2>
-    <p class="section-note">The sponsored path should not be positioned as broad employer software or full care concierge. It should be sold as proof-backed relief for overloaded parent populations, with cohort pricing tied to activation, completed tasks, repeat usage, and reported relief.</p>
+    <p class="section-note">The sponsored path should not be positioned as broad employer software or full care concierge. It should be sold as proof-backed relief for overloaded parent populations, with cohort pricing tied to activation, completed tasks, repeat usage, and reported relief. <a class="cite" href="#src-g2">G2</a><a class="cite" href="#src-b1">B1</a></p>
     <table class="promise-table">
       <tr><th>Buyer</th><th>Recommended Cohort Shape</th><th>Planning Range</th><th>Proof They Need</th></tr>
-      <tr><td>Physician association</td><td>25-50 members, founder-led recruitment, autonomous onboarding, saved-contact coordination only.</td><td>$10K-$25K</td><td>Paid conversion, repeat use, member relief.</td></tr>
-      <tr><td>Health-system workforce group</td><td>50-100 employees, controlled support model, workforce relief reporting.</td><td>$20K-$50K</td><td>Activation, reduced work disruption, low support burden.</td></tr>
-      <tr><td>Employer benefit buyer</td><td>Broader employee benefit pilot after stronger B2C proof.</td><td>$30K-$75K</td><td>Retention, productivity, family-care burden data.</td></tr>
-      <tr><td>Women's leadership community</td><td>Member-funded or sponsor-funded cohort for high-performing parents.</td><td>$10K-$30K</td><td>Founder story, referral intent, visible member value.</td></tr>
-      <tr><td>Concierge community</td><td>Smaller high-touch cohort with upgrade path to Signature.</td><td>$15K-$30K</td><td>Premium willingness to pay and high NPS.</td></tr>
+      <tr><td>Physician association</td><td>25-50 members, founder-led recruitment, autonomous onboarding, saved-contact coordination only.</td><td>$10K-$25K <a class="cite" href="#src-sponsor">SP</a></td><td>Paid conversion, repeat use, member relief.</td></tr>
+      <tr><td>Health-system workforce group</td><td>50-100 employees, controlled support model, workforce relief reporting.</td><td>$20K-$50K <a class="cite" href="#src-sponsor">SP</a></td><td>Activation, reduced work disruption, low support burden.</td></tr>
+      <tr><td>Employer benefit buyer</td><td>Broader employee benefit pilot after stronger B2C proof.</td><td>$30K-$75K <a class="cite" href="#src-sponsor">SP</a></td><td>Retention, productivity, family-care burden data.</td></tr>
+      <tr><td>Women's leadership community</td><td>Member-funded or sponsor-funded cohort for high-performing parents.</td><td>$10K-$30K <a class="cite" href="#src-sponsor">SP</a></td><td>Founder story, referral intent, visible member value.</td></tr>
+      <tr><td>Concierge community</td><td>Smaller high-touch cohort with upgrade path to Signature.</td><td>$15K-$30K <a class="cite" href="#src-sponsor">SP</a></td><td>Premium willingness to pay and high NPS.</td></tr>
     </table>
     <div class="grid-3" style="margin-top:28px;">
       <div class="card"><h3>What Sponsors Buy</h3><p>Relief from recurring coordination burden for a trusted, high-need parent population.</p></div>
@@ -887,38 +959,39 @@
   <section class="page">
     <div class="topline"><span>COGS And Margin</span><span>08</span></div>
     <h2>Telecom and email are not the margin risk. Exceptions and provider voice are.</h2>
-    <p class="section-note">The product can have strong software economics if the first wedge stays tight. It becomes margin-poor if it silently becomes a concierge service or relies on people to rescue routine tasks.</p>
+    <p class="section-note">The product can have strong software economics if the first wedge stays tight. It becomes margin-poor if it silently becomes a concierge service or relies on people to rescue routine tasks. <a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-e2">E2</a><a class="cite" href="#src-cogs">COGS</a></p>
     <div class="card">
       <div class="visual-title">Estimated completed-task COGS</div>
       <div class="cogs-row">
         <strong>Babysitter by SMS only</strong>
         <div class="bar green"><span style="width:5%"></span></div>
-        <span class="cost">$0.75</span>
+        <span class="cost">$0.75 <a class="cite" href="#src-cogs">COGS</a></span>
       </div>
       <div class="cogs-row">
         <strong>Babysitter by SMS + email</strong>
         <div class="bar green"><span style="width:5%"></span></div>
-        <span class="cost">$0.70</span>
+        <span class="cost">$0.70 <a class="cite" href="#src-cogs">COGS</a></span>
       </div>
       <div class="cogs-row">
         <strong>Camp / activity coordination</strong>
         <div class="bar gold"><span style="width:41%"></span></div>
-        <span class="cost">$6.00</span>
+        <span class="cost">$6.00 <a class="cite" href="#src-cogs">COGS</a></span>
       </div>
       <div class="cogs-row">
         <strong>Healthcare/provider voice</strong>
         <div class="bar gold"><span style="width:44%"></span></div>
-        <span class="cost">$6.50</span>
+        <span class="cost">$6.50 <a class="cite" href="#src-cogs">COGS</a></span>
       </div>
       <div class="cogs-row">
         <strong>Manual concierge labor avoided</strong>
         <div class="bar coral"><span style="width:100%"></span></div>
-        <span class="cost">$14.70</span>
+        <span class="cost">$14.70 <a class="cite" href="#src-e2">E2</a></span>
       </div>
+      <div class="source-line"><strong>Calculation note:</strong> these are loaded completed-task planning estimates, not raw vendor pass-through. They combine Twilio/Resend/OpenAI/Stripe rates, likely message/call volume, payment allocation, retries, and a complexity buffer. Exact formulas are on Source & Calculation Notes. <a class="cite" href="#src-cogs">COGS</a></div>
     </div>
     <div class="grid-3" style="margin-top:24px;">
       <div class="card"><h3>Track per task</h3><p>Workflow, contacts, channel mix, SMS segments, emails, AI/model calls, containment, parent handoff, completion state, and cost.</p></div>
-      <div class="card"><h3>Protect margin</h3><p>Simple coordination can fit in $29. Complex browser/provider work needs credits, higher tiers, or explicit add-ons.</p></div>
+      <div class="card"><h3>Protect margin</h3><p>Simple coordination can fit in $29. Complex browser/provider work needs credits, higher tiers, or explicit add-ons. <a class="cite" href="#src-cogs">COGS</a></p></div>
       <div class="card"><h3>Avoid unlimited</h3><p>Concierge and provider voice should never be unlimited inside a low-price plan.</p></div>
     </div>
     <div class="footer"><span>Unit economics</span><span>Task mix determines margin</span></div>
@@ -927,35 +1000,35 @@
   <section class="page white">
     <div class="topline"><span>AI-Native Sprint</span><span>09</span></div>
     <h2>The first engagement should be priced against a phase roadmap, not a vague project bucket.</h2>
-    <p class="section-note">The 6-8 week sprint is an AI-native hardening and evidence sprint from the existing repo. It is designed to prove the first paid coordination loop, not build the entire future platform.</p>
+    <p class="section-note">The 6-8 week sprint is an AI-native hardening and evidence sprint from the existing repo. It is designed to prove the first paid coordination loop, not build the entire future platform. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-m1">M1</a></p>
     <table class="promise-table">
       <thead>
         <tr><th>Phase</th><th>Build</th><th>Test</th><th>Decision Produced</th></tr>
       </thead>
       <tbody>
-        <tr><td>0. Audit + Roadmap Lock<br><span class="k">Days 1-3</span></td><td>Repo/deployment/account map, ownership checklist, risk list, must/should/later backlog, voice/data gate table.</td><td>Production URL, SMS/email loop, Twilio baseline, job queue/database readiness, credential handoff.</td><td>Confirm AI-native price is valid and lock scope.</td></tr>
-        <tr><td>1. Core Coordination<br><span class="k">Weeks 1-2</span></td><td>Saved-contact task states, Twilio signature checks, rate limits, COGS ledger, admin task visibility.</td><td>Babysitter/caregiver loop, failed/no/ambiguous replies, opt-out, duplicate replies, SMS/email cost capture.</td><td>Is the first loop reliable enough for paid pilot?</td></tr>
-        <tr><td>2. Onboarding + Payment<br><span class="k">Weeks 3-4</span></td><td>Autonomous household setup, trusted-contact entry, consent, Stripe/payment path, plan caps, first-task flow.</td><td>5-8 friendly users complete setup without staff, payment friction, first-task quality, blocked-task logic.</td><td>Can onboarding stay autonomous without a human setup lane?</td></tr>
-        <tr><td>3. Pilot + Metrics<br><span class="k">Weeks 5-6</span></td><td>Pilot dashboard, invite/offer cards, post-task feedback, refund/extension rule, sponsor-proof evidence template.</td><td>18-24 family activation, paid commitment, task completion, repeat use, cost per completed task, relief signal.</td><td>Scale, pause, narrow, or pivot the first task loop.</td></tr>
-        <tr><td>4. Voice Decision<br><span class="k">Weeks 7-8</span></td><td>Parent-facing voice intake prototype/script, low-risk outbound voice policy, provider recommendation, Phase 2 budget.</td><td>Low-risk parent voice intake, optional scripted nonclinical call tests, structured-result retention.</td><td>Move voice into Phase 2, keep it parent-facing only, or wait.</td></tr>
+        <tr><td>0. Audit + Roadmap Lock<br><span class="k">Days 1-3</span></td><td>Repo/deployment/account map, ownership checklist, risk list, must/should/later backlog, voice/data gate table.</td><td>Production URL, SMS/email loop, Twilio baseline, job queue/database readiness, credential handoff.</td><td>Confirm AI-native price is valid and lock scope. <a class="cite" href="#src-r1">R1</a></td></tr>
+        <tr><td>1. Core Coordination<br><span class="k">Weeks 1-2</span></td><td>Saved-contact task states, Twilio signature checks, rate limits, COGS ledger, admin task visibility.</td><td>Babysitter/caregiver loop, failed/no/ambiguous replies, opt-out, duplicate replies, SMS/email cost capture.</td><td>Is the first loop reliable enough for paid pilot? <a class="cite" href="#src-v1">V1</a></td></tr>
+        <tr><td>2. Onboarding + Payment<br><span class="k">Weeks 3-4</span></td><td>Autonomous household setup, trusted-contact entry, consent, Stripe/payment path, plan caps, first-task flow.</td><td>5-8 friendly users complete setup without staff, payment friction, first-task quality, blocked-task logic.</td><td>Can onboarding stay autonomous without a human setup lane? <a class="cite" href="#src-v3">V3</a></td></tr>
+        <tr><td>3. Pilot + Metrics<br><span class="k">Weeks 5-6</span></td><td>Pilot dashboard, invite/offer cards, post-task feedback, refund/extension rule, sponsor-proof evidence template.</td><td>18-24 family activation, paid commitment, task completion, repeat use, cost per completed task, relief signal.</td><td>Scale, pause, narrow, or pivot the first task loop. <a class="cite" href="#src-pilot">PILOT</a></td></tr>
+        <tr><td>4. Voice Decision<br><span class="k">Weeks 7-8</span></td><td>Parent-facing voice intake prototype/script, low-risk outbound voice policy, provider recommendation, Phase 2 budget.</td><td>Low-risk parent voice intake, optional scripted nonclinical call tests, structured-result retention.</td><td>Move voice into Phase 2, keep it parent-facing only, or wait. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-l1">L1</a></td></tr>
       </tbody>
     </table>
-    <div class="pull">Not included in the first sprint: native apps, full realtime voice bridge, healthcare/provider scheduling at scale, insurance/prior auth, full HIPAA/SOC 2, deep OAuth, 24/7 support, or fundraising/legal documents.</div>
+    <div class="pull">Not included in the first sprint: native apps, full realtime voice bridge, healthcare/provider scheduling at scale, insurance/prior auth, full HIPAA/SOC 2, deep OAuth, 24/7 support, or fundraising/legal documents. <a class="cite" href="#src-scope">SCOPE</a></div>
     <div class="footer"><span>Roadmap-priced sprint</span><span>Build / Test / Decide</span></div>
   </section>
 
   <section class="page">
     <div class="topline"><span>Ownership Options</span><span>10</span></div>
     <h2>Give three fair paths, separated by roadmap phase, cash, equity, and operating responsibility.</h2>
-    <p class="section-note">The traditional market ranges are useful as replacement-cost anchors, but the first 6-8 weeks should be priced as an AI-native sprint from an existing codebase. Larger budgets belong to later roadmap phases if we expand into full voice, native apps, deep OAuth, provider workflows, enterprise reporting, or formal compliance programs.</p>
+    <p class="section-note">The traditional market ranges are useful as replacement-cost anchors, but the first 6-8 weeks should be priced as an AI-native sprint from an existing codebase. Larger budgets belong to later roadmap phases if we expand into full voice, native apps, deep OAuth, provider workflows, enterprise reporting, or formal compliance programs. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-r1">R1</a></p>
     <div class="ownership-map">
       <div class="owner-card">
         <h3>Option A: Cash Services</h3>
         <ul class="clean">
-          <li>$8K-$15K standalone audit / roadmap lock.</li>
-          <li>$40K-$70K 6-8 week AI-native Build + Test Sprint.</li>
-          <li>$60K-$150K+ per later phase if scope expands.</li>
-          <li>$10K-$22K/month maintenance or delivery retainer.</li>
+          <li>$8K-$15K standalone audit / roadmap lock. <a class="cite" href="#src-m1">M1</a></li>
+          <li>$40K-$70K 6-8 week AI-native Build + Test Sprint. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></li>
+          <li>$60K-$150K+ per later phase if scope expands. <a class="cite" href="#src-s1">S1</a></li>
+          <li>$10K-$22K/month maintenance or delivery retainer. <a class="cite" href="#src-f1">F1</a></li>
           <li>0% equity.</li>
           <li>Best when Tamara wants maximum ownership and vendor economics.</li>
         </ul>
@@ -964,39 +1037,39 @@
         <h3>Option B: Strategic Build Partner</h3>
         <ul class="clean">
           <li>Blended cash/equity path.</li>
-          <li>$25K-$45K 6-8 week AI-native Build + Test Sprint.</li>
-          <li>$8K-$16K/month post-sprint operator/build retainer if continued.</li>
-          <li>4%-8% equity or warrants, signed up front and vested over 24-36 months / milestones.</li>
+          <li>$25K-$45K 6-8 week AI-native Build + Test Sprint. <a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-e1">E1</a></li>
+          <li>$8K-$16K/month post-sprint operator/build retainer if continued. <a class="cite" href="#src-f1">F1</a></li>
+          <li>4%-8% equity or warrants, signed up front and vested over 24-36 months / milestones. <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-o1">O1</a></li>
           <li>Fair if Utlyze / SolutionStream carries product, architecture, AI voice, and operating risk.</li>
         </ul>
       </div>
       <div class="owner-card">
         <h3>Option C: Studio / Cofounder Build</h3>
         <ul class="clean">
-          <li>$0-$20K/month depending on subsidy.</li>
-          <li>12%-25% earned equity from the current product baseline.</li>
+          <li>$0-$20K/month depending on subsidy. <a class="cite" href="#src-f1">F1</a><a class="cite" href="#src-e1">E1</a></li>
+          <li>12%-25% earned equity from the current product baseline. <a class="cite" href="#src-e1">E1</a></li>
           <li>Higher only with material capital, sustained full-stack team, fundraising/hiring support, and executive responsibility.</li>
           <li>Requires stronger governance, reserved matters, vesting, and offboarding terms.</li>
         </ul>
       </div>
     </div>
-    <div class="pull">Pricing logic: AI lowers the first-sprint cash need; equity still matters when Utlyze / SolutionStream takes roadmap, product, architecture, AI voice, and operating risk.</div>
+    <div class="pull">Pricing logic: AI lowers the first-sprint cash need; equity still matters when Utlyze / SolutionStream takes roadmap, product, architecture, AI voice, and operating risk. <a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-e1">E1</a></div>
     <div class="footer"><span>Ownership architecture</span><span>Founder control plus earned partner equity</span></div>
   </section>
 
   <section class="page white">
     <div class="topline"><span>Scope Separation</span><span>11</span></div>
     <h2>The options are different because the roadmap responsibility is different.</h2>
-    <p class="section-note">The first sprint price covers Phase 1 only: hardening, onboarding, payment path, instrumentation, pilot launch, and a voice decision package. Phase 2 and Phase 3 are intentionally priced later after pilot evidence.</p>
+    <p class="section-note">The first sprint price covers Phase 1 only: hardening, onboarding, payment path, instrumentation, pilot launch, and a voice decision package. Phase 2 and Phase 3 are intentionally priced later after pilot evidence. <a class="cite" href="#src-scope">SCOPE</a><a class="cite" href="#src-a1">A1</a></p>
     <table class="promise-table">
       <thead>
         <tr><th>Area</th><th>Option A: Cash Services</th><th>Option B: Strategic Build Partner</th><th>Option C: Studio / Cofounder</th></tr>
       </thead>
       <tbody>
-        <tr><td>First sprint systems</td><td>Production audit, ownership checklist, auth/admin hardening, Twilio signature gates, Stripe/payment path, autonomous onboarding, task ledger, pilot dashboard.</td><td>Everything in A, plus product ownership, technical roadmap, architecture/vendor memos, release cadence, pilot review, and Phase 2 voice roadmap decisioning.</td><td>Everything in B, plus sustained engineering leadership, recurring team capacity, sponsor/cohort support, hiring/vendor roadmap, and approved later-phase voice implementation.</td></tr>
-        <tr><td>Excluded unless scoped</td><td>Realtime voice bridge, native apps, full HIPAA/SOC 2, insurance/prior authorization, provider-side PHI workflows, deep OAuth, 24/7 support, fundraising/legal docs.</td><td>Same exclusions unless a paid voice or scale sprint is authorized.</td><td>May include some excluded work only if governance, budget, team commitment, and risk ownership are explicit.</td></tr>
+        <tr><td>First sprint systems</td><td>Production audit, ownership checklist, auth/admin hardening, Twilio signature gates, Stripe/payment path, autonomous onboarding, task ledger, pilot dashboard. <a class="cite" href="#src-r1">R1</a></td><td>Everything in A, plus product ownership, technical roadmap, architecture/vendor memos, release cadence, pilot review, and Phase 2 voice roadmap decisioning. <a class="cite" href="#src-f1">F1</a></td><td>Everything in B, plus sustained engineering leadership, recurring team capacity, sponsor/cohort support, hiring/vendor roadmap, and approved later-phase voice implementation. <a class="cite" href="#src-e1">E1</a></td></tr>
+        <tr><td>Excluded unless scoped</td><td>Realtime voice bridge, native apps, full HIPAA/SOC 2, insurance/prior authorization, provider-side PHI workflows, deep OAuth, 24/7 support, fundraising/legal docs. <a class="cite" href="#src-scope">SCOPE</a></td><td>Same exclusions unless a paid voice or scale sprint is authorized.</td><td>May include some excluded work only if governance, budget, team commitment, and risk ownership are explicit.</td></tr>
         <tr><td>Utlyze role</td><td>Vendor / delivery partner.</td><td>Strategic build and operating partner.</td><td>Cofounder-level venture-building partner.</td></tr>
-        <tr><td>Fair exchange</td><td>Market cash, no dilution.</td><td>Reduced cash plus earned upside tied to milestones.</td><td>Major equity only if Utlyze carries sustained company-building risk.</td></tr>
+        <tr><td>Fair exchange</td><td>Market cash, no dilution. <a class="cite" href="#src-m1">M1</a></td><td>Reduced cash plus earned upside tied to milestones. <a class="cite" href="#src-e1">E1</a></td><td>Major equity only if Utlyze carries sustained company-building risk. <a class="cite" href="#src-e1">E1</a></td></tr>
         <tr><td>Future phases</td><td>Separate SOW after pilot evidence.</td><td>Retainer or new sprint for parent voice, sponsored cohort readiness, and expanded integrations.</td><td>Company-building plan through pilot, sponsor, voice, financing, and scale.</td></tr>
       </tbody>
     </table>
@@ -1011,46 +1084,46 @@
         <tr><th>Source category</th><th>Current signal</th><th>Proposal implication</th></tr>
       </thead>
       <tbody>
-        <tr><td>AI-assisted cost trend</td><td>GoodFirms reports 90.6% of software companies use AI tools across SDLC; 61% expect AI to reduce budgets by 10-25%.</td><td>Discount the first sprint from traditional agency pricing if the repo is usable and scope stays tight.</td></tr>
-        <tr><td>AI MVP pricing</td><td>TeaCode frames AI-assisted MVPs around $20K-$100K over 2-4 months; prompt-to-app builds can be cheaper but are best for simple validation.</td><td>Looheru should not be priced like raw vibe-code, but a focused 6-8 week sprint can land in the lower middle of AI-assisted MVP economics.</td></tr>
-        <tr><td>Productivity limits</td><td>McKinsey finds AI helps routine coding, documentation, and refactoring; high-complexity tasks still need senior context, QA, architecture, and risk controls.</td><td>AI lowers build labor, not product ownership, vendor decisions, compliance gates, pilot operations, or production risk.</td></tr>
-        <tr><td>Traditional anchor</td><td>Clutch and SSNTPL still place custom software and AI SaaS work in much higher bands when scope expands.</td><td>Use those higher ranges for Phase 2/3 expansion, not the first sprint.</td></tr>
-        <tr><td>Advisor equity</td><td>Carta reports median pre-seed advisor grants around 0.21%, with typical advisor ranges around 0.1%-1%.</td><td>Advisor equity is a floor only; it does not fit a build/operator partner role.</td></tr>
-        <tr><td>Venture studios</td><td>Current studio sources commonly cite 30%-60% when the studio creates, capitalizes, staffs, and operates the company from scratch.</td><td>Option C should be materially higher than Option B, but not full studio economics unless Utlyze acts like a true studio.</td></tr>
+        <tr><td>AI-assisted cost trend</td><td>GoodFirms reports 90.6% of software companies use AI tools across SDLC; 61% expect AI to reduce budgets by 10-25%. <a class="cite" href="#src-a1">A1</a></td><td>Discount the first sprint from traditional agency pricing if the repo is usable and scope stays tight.</td></tr>
+        <tr><td>AI MVP pricing</td><td>TeaCode frames AI-assisted MVPs around $20K-$100K over 2-4 months; prompt-to-app builds can be cheaper but are best for simple validation. <a class="cite" href="#src-a1">A1</a></td><td>Looheru should not be priced like raw vibe-code, but a focused 6-8 week sprint can land in the lower middle of AI-assisted MVP economics.</td></tr>
+        <tr><td>Productivity limits</td><td>McKinsey finds AI helps routine coding, documentation, and refactoring; high-complexity tasks still need senior context, QA, architecture, and risk controls. <a class="cite" href="#src-a1">A1</a></td><td>AI lowers build labor, not product ownership, vendor decisions, compliance gates, pilot operations, or production risk.</td></tr>
+        <tr><td>Traditional anchor</td><td>Clutch and SSNTPL still place custom software and AI SaaS work in much higher bands when scope expands. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-s1">S1</a></td><td>Use those higher ranges for Phase 2/3 expansion, not the first sprint.</td></tr>
+        <tr><td>Advisor equity</td><td>Carta reports median pre-seed advisor grants around 0.21%, with typical advisor ranges around 0.1%-1%. <a class="cite" href="#src-e1">E1</a></td><td>Advisor equity is a floor only; it does not fit a build/operator partner role.</td></tr>
+        <tr><td>Venture studios</td><td>Current studio sources commonly cite 30%-60% when the studio creates, capitalizes, staffs, and operates the company from scratch. <a class="cite" href="#src-e1">E1</a></td><td>Option C should be materially higher than Option B, but not full studio economics unless Utlyze acts like a true studio.</td></tr>
       </tbody>
     </table>
-    <p class="section-note" style="margin-top:22px;">Source links: <a href="https://rss.globenewswire.com/news-release/2026/03/17/3257317/0/en/goodfirms-survey-91-of-software-companies-use-ai-to-cut-development-costs-in-2026.html">GoodFirms 2026 cost survey</a>, <a href="https://www.teacode.io/blog/mvp-development-costs">TeaCode AI MVP guide</a>, <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/unleashing-developer-productivity-with-generative-ai">McKinsey developer productivity</a>, <a href="https://clutch.co/developers/pricing">Clutch software pricing</a>, <a href="https://ssntpl.com/saas-mvp-cost-in-2026/">SSNTPL SaaS MVP guide</a>, <a href="https://carta.com/learn/startups/founding-team/advisor/">Carta advisor benchmarks</a>, and <a href="https://www.fundreef.com/venture-studios-how-they-differ-from-vcs/">Fundreef venture studio guide</a>.</p>
+    <p class="section-note" style="margin-top:22px;">Source links: <a href="https://rss.globenewswire.com/news-release/2026/03/17/3257317/0/en/goodfirms-survey-91-of-software-companies-use-ai-to-cut-development-costs-in-2026.html">GoodFirms 2026 cost survey</a>, <a href="https://www.teacode.io/blog/mvp-development-costs">TeaCode AI MVP guide</a>, <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/unleashing-developer-productivity-with-generative-ai">McKinsey developer productivity</a>, <a href="https://clutch.co/developers/pricing">Clutch software pricing</a>, <a href="https://ssntpl.com/saas-mvp-cost-in-2026/">SSNTPL SaaS MVP guide</a>, <a href="https://carta.com/learn/startups/founding-team/advisor/">Carta advisor benchmarks</a>, and <a href="https://www.fundreef.com/venture-studios-how-they-differ-from-vcs/">Fundreef venture studio guide</a>. Detailed formulas are on Source & Calculation Notes. <a class="cite" href="#src-calc">CALC</a></p>
     <div class="footer"><span>Market validation</span><span>Current-source backed ranges</span></div>
   </section>
 
   <section class="page white">
     <div class="topline"><span>Risk Gates</span><span>13</span></div>
     <h2>Voice AI should move earlier under legal-informed product gates.</h2>
-    <p class="section-note">The May 2026 voice-agent releases and the existing Twilio Voice implementation support a more ambitious roadmap. The legal and operational issues around provider calls remain real, but they should become explicit product gates rather than a reason to freeze the voice path.</p>
+    <p class="section-note">The May 2026 voice-agent releases and the existing Twilio Voice implementation support a more ambitious roadmap. The legal and operational issues around provider calls remain real, but they should become explicit product gates rather than a reason to freeze the voice path. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l1">L1</a></p>
     <div class="gate green">
       <div class="flag">Green</div>
       <div>
         <h3>Safe first workflows</h3>
-        <p>Babysitter coordination, saved-contact caregiver outreach, household services, and nonclinical coordination with SMS/email first.</p>
+        <p>Babysitter coordination, saved-contact caregiver outreach, household services, and nonclinical coordination with SMS/email first. <a class="cite" href="#src-l1">L1</a><a class="cite" href="#src-v1">V1</a></p>
       </div>
     </div>
     <div class="gate yellow">
       <div class="flag">Yellow</div>
       <div>
         <h3>Research-gated / counsel-validated before scale</h3>
-        <p>Provider scheduling, therapy, behavioral health, special-needs services, identity or authority verification, and any interaction likely to surface sensitive details.</p>
+        <p>Provider scheduling, therapy, behavioral health, special-needs services, identity or authority verification, and any interaction likely to surface sensitive details. <a class="cite" href="#src-l2">L2</a><a class="cite" href="#src-l3">L3</a></p>
       </div>
     </div>
     <div class="gate red">
       <div class="flag">Red</div>
       <div>
         <h3>Do not automate in MVP</h3>
-        <p>Clinical triage, diagnosis, treatment, medication, insurance, billing, prior authorization, teen/minor confidential services, provider-side PHI workflows, durable call transcripts, or healthcare voice without documented controls and counsel validation before scale.</p>
+        <p>Clinical triage, diagnosis, treatment, medication, insurance, billing, prior authorization, teen/minor confidential services, provider-side PHI workflows, durable call transcripts, or healthcare voice without documented controls and counsel validation before scale. <a class="cite" href="#src-l2">L2</a><a class="cite" href="#src-l3">L3</a><a class="cite" href="#src-l4">L4</a></p>
       </div>
     </div>
     <div class="card" style="margin-top:24px;">
       <h3>Launch-safe voice rule</h3>
-      <p>If voice is used early, start with parent-facing onboarding and task intake, then scripted low-risk outbound logistics using the current Twilio Voice foundation. For outbound business calls: nonclinical, disclosed, no voicemail drops, no audio recording, no raw transcript retention, structured-output only, line-type verified, business-main-line only, and easy for offices to opt out or ask the parent to call back.</p>
+      <p>If voice is used early, start with parent-facing onboarding and task intake, then scripted low-risk outbound logistics using the current Twilio Voice foundation. For outbound business calls: nonclinical, disclosed, no voicemail drops, no audio recording, no raw transcript retention, structured-output only, line-type verified, business-main-line only, and easy for offices to opt out or ask the parent to call back. <a class="cite" href="#src-l1">L1</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l4">L4</a></p>
     </div>
     <div class="footer"><span>Voice and healthcare risk gates</span><span>Move intake earlier, validate scale gates</span></div>
   </section>
@@ -1058,27 +1131,27 @@
   <section class="page">
     <div class="topline"><span>Investment And Structure</span><span>14</span></div>
     <h2>Choose the first signature based on cash, equity, and operating responsibility.</h2>
-    <p class="section-note">These are planning ranges for the proposal conversation. Final scope and investment should be set after access to the current repo, deployment, accounts, and ownership history. The core decision is how to trade cash for equity while keeping founder control, clean IP, and fair upside alignment.</p>
+    <p class="section-note">These are planning ranges for the proposal conversation. Final scope and investment should be set after access to the current repo, deployment, accounts, and ownership history. The core decision is how to trade cash for equity while keeping founder control, clean IP, and fair upside alignment. <a class="cite" href="#src-calc">CALC</a><a class="cite" href="#src-o1">O1</a></p>
     <div class="grid-3">
       <div class="card">
         <h3>Option A: Cash Services</h3>
         <div class="price" style="font-size:34px;">$40K-$70K</div>
-        <p>6-8 week AI-native Build + Test Sprint. 0% equity. Later phases are separate SOWs after pilot evidence.</p>
+        <p>6-8 week AI-native Build + Test Sprint. 0% equity. Later phases are separate SOWs after pilot evidence. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></p>
       </div>
       <div class="card" style="border:3px solid var(--gold);">
         <h3>Option B: Strategic Build Partner</h3>
         <div class="price" style="font-size:34px;">$25K-$45K</div>
-        <p>Blended structure. Reduced sprint cash, $8K-$16K/month if continued, plus 4%-8% equity or warrants vested over 24-36 months / milestones.</p>
+        <p>Blended structure. Reduced sprint cash, $8K-$16K/month if continued, plus 4%-8% equity or warrants vested over 24-36 months / milestones. <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-f1">F1</a></p>
       </div>
       <div class="card">
         <h3>Option C: Studio / Cofounder Build</h3>
         <div class="price" style="font-size:34px;">12%-25%</div>
-        <p>$0-$20K/month plus earned equity if Utlyze / SolutionStream supplies sustained team, subsidy, product leadership, and operating responsibility.</p>
+        <p>$0-$20K/month plus earned equity if Utlyze / SolutionStream supplies sustained team, subsidy, product leadership, and operating responsibility. <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-f1">F1</a></p>
       </div>
     </div>
     <div class="next-step">
       <h3>Decision for May 21</h3>
-      <p>Choose the partnership path and authorize the Phase 1 roadmap, vesting logic, ownership cleanup, voice gates, and paid pilot criteria.</p>
+      <p>Choose the partnership path and authorize the Phase 1 roadmap, vesting logic, ownership cleanup, voice gates, and paid pilot criteria. <a class="cite" href="#src-o1">O1</a><a class="cite" href="#src-l1">L1</a></p>
     </div>
     <div class="footer"><span>Investment ranges</span><span>Cash/equity trade-off after diligence</span></div>
   </section>
@@ -1101,7 +1174,7 @@
         <h3>Pilot decisions</h3>
         <ul class="clean">
           <li>First paid task loop.</li>
-          <li>18-24 pilot family list.</li>
+          <li>18-24 pilot family list. <a class="cite" href="#src-pilot">PILOT</a></li>
           <li>Tasks in scope and out of scope.</li>
           <li>Containment and parent-handoff rules.</li>
           <li>Success, pivot, and stop thresholds.</li>
@@ -1110,17 +1183,74 @@
     </div>
     <div class="card" style="margin-top:24px;">
       <h3>Partnership decision</h3>
-      <p>Choose Option A, B, or C. Option B is the blended path: $25K-$45K sprint cash, then $8K-$16K/month if continued, plus 4%-8% equity or warrants committed up front and vested through milestones.</p>
+      <p>Choose Option A, B, or C. Option B is the blended path: $25K-$45K sprint cash, then $8K-$16K/month if continued, plus 4%-8% equity or warrants committed up front and vested through milestones. <a class="cite" href="#src-calc">CALC</a><a class="cite" href="#src-e1">E1</a></p>
     </div>
     <div class="card" style="margin-top:18px;">
       <h3>Research questions to refine before signature</h3>
-      <p>What is already production-ready? What is the first 6-8 week scope? What 90-day cash budget is available? What dilution is acceptable before paid pilot proof? Which voice lanes are in phase one? Who owns incidents, refunds, support, vendor accounts, and safety tradeoffs?</p>
+      <p>What is already production-ready? What is the first 6-8 week scope? What 90-day cash budget is available? What dilution is acceptable before paid pilot proof? Which voice lanes are in phase one? Who owns incidents, refunds, support, vendor accounts, and safety tradeoffs? <a class="cite" href="#src-calc">CALC</a></p>
     </div>
     <div class="pull">The near-term goal is not to build everything. The near-term goal is to prove the first repeatable promise.</div>
-    <p class="section-note">No-go lines: no fully vested equity without scope and vesting, no free beta as the main proof, no healthcare/provider voice before documented controls and counsel validation for scale, and no broad family autopilot before the first coordination loop is paid and repeatable.</p>
+    <p class="section-note">No-go lines: no fully vested equity without scope and vesting, no free beta as the main proof, no healthcare/provider voice before documented controls and counsel validation for scale, and no broad family autopilot before the first coordination loop is paid and repeatable. <a class="cite" href="#src-o1">O1</a><a class="cite" href="#src-l2">L2</a></p>
     <h2 style="margin-top:36px;">One request. Your people. Zero friction.</h2>
     <p class="section-note">If we make the MVP chargeable, clean up ownership, prove paid demand, instrument real COGS, make onboarding autonomous, and move voice through explicit product gates, the sprint becomes an evidence machine: it tells us whether to scale, pivot, pause, or deepen the partnership.</p>
     <div class="footer"><span>Close</span><span>Looheru Strategic Partnership Proposal</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>Source Register</span><span>16</span></div>
+    <h2>Every material price, percentage, roadmap, and risk claim is tied to an evidence class.</h2>
+    <p class="section-note">The proposal uses compact citation chips so the deck remains readable. Private evidence is identified as private and is not reproduced in this shareable proposal. Public sources were checked on May 12, 2026 unless otherwise noted.</p>
+    <table class="promise-table">
+      <thead>
+        <tr><th>ID</th><th>Supports</th><th>Source or method</th></tr>
+      </thead>
+      <tbody>
+        <tr id="src-p1"><td>P1</td><td>Founder evidence, 4-minute booking, beta tester count, survey signal, physician-mom network claim, Friday meeting promises.</td><td>Private Looheru email/research packet, Friday transcript, partner brief, and local research source map. Raw private content stays outside the public repo.</td></tr>
+        <tr id="src-r1"><td>R1</td><td>Existing product baseline, current SMS/email/Twilio Voice architecture, repo-derived scope.</td><td>Local and GitHub repo inspection of <a href="https://github.com/h3ro-dev/family-coordination-assistant">h3ro-dev/family-coordination-assistant</a>.</td></tr>
+        <tr id="src-comp"><td>COMP</td><td>Competitor map and white-space claim.</td><td>GPT 5.5 Pro competitive intelligence report plus public competitor/source review summarized in the research appendix.</td></tr>
+        <tr id="src-b1"><td>B1</td><td>Completed-work / outcome-based AI pricing logic.</td><td><a href="https://www.bvp.com/atlas/the-ai-pricing-and-monetization-playbook">Bessemer AI pricing and monetization playbook</a>.</td></tr>
+        <tr id="src-g1"><td>G1</td><td>Paid pilot design, activation threshold, repeat-use proof, sponsor-proof evidence.</td><td>GPT 5.5 Pro GTM/pilot research output plus Product Manager validation logic.</td></tr>
+        <tr id="src-g2"><td>G2</td><td>Sponsored cohort rationale and employer/family-care burden value story.</td><td><a href="https://www.aarp.org/pri/topics/ltss/family-caregiving/valuing-the-invaluable-2026-update/">AARP 2026 caregiving value update</a> and GTM research synthesis.</td></tr>
+        <tr id="src-m1"><td>M1</td><td>Traditional custom software replacement-cost anchor.</td><td><a href="https://clutch.co/developers/pricing">Clutch May 2026 software pricing guide</a>.</td></tr>
+        <tr id="src-s1"><td>S1</td><td>SaaS MVP and later-phase expansion cost ranges.</td><td><a href="https://ssntpl.com/saas-mvp-cost-in-2026/">SSNTPL 2026 SaaS MVP cost guide</a>.</td></tr>
+        <tr id="src-a1"><td>A1</td><td>AI-assisted first-sprint discount and productivity caveats.</td><td><a href="https://rss.globenewswire.com/news-release/2026/03/17/3257317/0/en/goodfirms-survey-91-of-software-companies-use-ai-to-cut-development-costs-in-2026.html">GoodFirms 2026 AI cost survey</a>, <a href="https://www.teacode.io/blog/mvp-development-costs">TeaCode MVP cost guide</a>, and <a href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/unleashing-developer-productivity-with-generative-ai">McKinsey developer productivity research</a>.</td></tr>
+        <tr id="src-f1"><td>F1</td><td>Operator/build retainer and fractional technical leadership anchors.</td><td><a href="https://fractionalpulse.com/insights/fractional-cto-cost/">Fractional Pulse CTO cost guide</a> and <a href="https://www.rewired.co/pricing">Rewired fractional CTO pricing</a>.</td></tr>
+        <tr id="src-e1"><td>E1</td><td>Advisor, build-partner, and venture-studio equity ranges.</td><td><a href="https://carta.com/learn/startups/founding-team/advisor/">Carta advisor benchmark</a>, <a href="https://www.cooply.com/blog/technical-co-founder-equity-split">Cooply technical cofounder equity guide</a>, and <a href="https://www.fundreef.com/venture-studios-how-they-differ-from-vcs/">Fundreef venture studio guide</a>.</td></tr>
+        <tr id="src-e2"><td>E2</td><td>Manual concierge labor avoided and admin-assistant substitution value.</td><td><a href="https://www.bls.gov/iag/tgs/iag561.htm">BLS administrative support wage data</a> plus virtual-assistant market-rate checks.</td></tr>
+        <tr id="src-v1"><td>V1</td><td>SMS, voice, line-type lookup, Twilio webhook controls, and HIPAA-eligible Twilio services.</td><td><a href="https://www.twilio.com/en-us/sms/pricing/us">Twilio SMS pricing</a>, <a href="https://www.twilio.com/en-us/voice/pricing/us">Twilio Voice pricing</a>, <a href="https://www.twilio.com/en-us/user-authentication-identity/pricing/lookup">Twilio Lookup pricing</a>, <a href="https://www.twilio.com/docs/usage/webhooks/webhooks-security">Twilio webhook security</a>, and <a href="https://www.twilio.com/en-us/changelog/programmable-voice--sip--and-sms-are-now-hipaa-eligible">Twilio HIPAA eligibility note</a>.</td></tr>
+        <tr id="src-v2"><td>V2</td><td>Realtime voice roadmap and parent-facing voice intake feasibility.</td><td><a href="https://openai.com/api/pricing/">OpenAI API pricing</a>, <a href="https://platform.openai.com/docs/guides/voice-agents">OpenAI voice agents guide</a>, and voice-agent research synthesis.</td></tr>
+        <tr id="src-v3"><td>V3</td><td>Payment/email/hosting assumptions.</td><td><a href="https://stripe.com/us/pricing">Stripe pricing</a>, <a href="https://resend.com/pricing">Resend pricing</a>, and <a href="https://docs.railway.com/reference/pricing/plans">Railway pricing docs</a>.</td></tr>
+        <tr id="src-l1"><td>L1</td><td>AI voice disclosure / TCPA risk posture.</td><td><a href="https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf">FCC 24-17 declaratory ruling</a>.</td></tr>
+        <tr id="src-l2"><td>L2</td><td>Consumer health data and non-HIPAA health-app breach risk.</td><td><a href="https://www.ftc.gov/news-events/news/press-releases/2024/04/ftc-finalizes-changes-health-breach-notification-rule">FTC Health Breach Notification Rule update</a>.</td></tr>
+        <tr id="src-l3"><td>L3</td><td>Parent/personal-representative logic and minor exceptions.</td><td><a href="https://www.hhs.gov/hipaa/for-professionals/privacy/guidance/personal-representatives/index.html">HHS HIPAA personal representatives guidance</a>.</td></tr>
+        <tr id="src-l4"><td>L4</td><td>California GenAI health-care notification boundary and administrative carveout.</td><td><a href="https://www.mbc.ca.gov/Resources/Medical-Resources/GenAI-Notification.aspx">Medical Board of California AB 3030 GenAI notification guidance</a>.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Source register</span><span>Public links plus private-source boundaries</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Calculation Notes</span><span>17</span></div>
+    <h2>The numbers are planning ranges built from external anchors plus Looheru-specific scope assumptions.</h2>
+    <p class="section-note">These formulas explain how the proposal got from source data to recommendation ranges. They are not final SOW pricing, legal advice, tax advice, or valuation advice.</p>
+    <table class="promise-table">
+      <thead>
+        <tr><th>ID</th><th>Claim type</th><th>Calculation method</th></tr>
+      </thead>
+      <tbody>
+        <tr id="src-calc"><td>CALC</td><td>Partner price paths</td><td>Start with custom-software and SaaS MVP anchors <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-s1">S1</a>, apply a 10-25% AI-assisted discount only to scoped first-sprint engineering <a class="cite" href="#src-a1">A1</a>, then add or subtract cash based on retained operating risk, partner accountability, and equity upside <a class="cite" href="#src-e1">E1</a>.</td></tr>
+        <tr><td>A</td><td>Option A: $40K-$70K sprint, $10K-$22K/month retainer <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-f1">F1</a></td><td>Cash-only path uses the lower-middle of AI-assisted MVP economics, but no equity discount. Retainer maps to fractional CTO/operator ranges when ongoing architecture, release, vendor, incident, and roadmap responsibility remain with Utlyze / SolutionStream. <a class="cite" href="#src-a1">A1</a></td></tr>
+        <tr><td>B</td><td>Option B: $25K-$45K sprint, $8K-$16K/month, 4%-8% equity/warrants <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-f1">F1</a></td><td>Cash is discounted roughly 35-45% from Option A because the partner is compensated through earned equity. Equity is above advisor norms and below studio/cofounder norms because the role is build/operator partner, not passive advisor or full venture studio. <a class="cite" href="#src-e1">E1</a></td></tr>
+        <tr><td>C</td><td>Option C: $0-$20K/month and 12%-25% earned equity <a class="cite" href="#src-e1">E1</a></td><td>Used only if the partner supplies sustained team capacity, subsidy, operating leadership, hiring/fundraising support, and longer-term company-building risk. Range is below full venture-studio 30-60% anchors because Tamara brings the idea, founder-market fit, story, distribution, and existing product baseline. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-e1">E1</a></td></tr>
+        <tr id="src-cogs"><td>COGS</td><td>Completed-task cost estimates</td><td>Loaded COGS = vendor pass-through + payment allocation + AI/model calls + retry/failure buffer + complexity reserve. SMS-only tasks use Twilio message segment rates; voice tasks add voice minutes and Lookup checks; complex tasks carry a larger reserve because browser work, ambiguity, and failed automation dominate telecom cost.</td></tr>
+        <tr><td>PRICE</td><td>$29 / $59 / $119 pilot tiers <a class="cite" href="#src-cogs">COGS</a></td><td>Essential tests paid demand at four simple tasks while preserving gross margin after Stripe and loaded low-SMS COGS. Plus prices the likely hero workflow around 10 credits and moves complex tasks to 2+ credits. Signature prices priority, richer setup, and parent-facing voice intake separately from provider-call risk. <a class="cite" href="#src-b1">B1</a></td></tr>
+        <tr id="src-pilot"><td>PILOT</td><td>30-40 invites, 18-24 enrollments, 70%+ activation, 50%+ repeat <a class="cite" href="#src-g1">G1</a></td><td>Invite/enroll range assumes founder-led warm-network recruitment and a 45-60% conversion target from high-fit contacts. 18-24 households is large enough to reveal onboarding, payment, completion, repeat-use, and COGS issues while small enough for a controlled first paid pilot. Activation and repeat thresholds are decision gates, not statistical proof. <a class="cite" href="#src-p1">P1</a></td></tr>
+        <tr id="src-sponsor"><td>SP</td><td>Sponsored cohort pricing <a class="cite" href="#src-g2">G2</a></td><td>Ranges are planning models: physician association roughly 25-50 members x $400-$500; health-system workforce group roughly 50-100 x $400-$500; employer benefit pilot roughly 100-150 x $300-$500; women's leadership community roughly 25-60 x $400-$500; concierge cohort roughly 10-20 x $750-$1,500. <a class="cite" href="#src-b1">B1</a></td></tr>
+        <tr id="src-scope"><td>SCOPE</td><td>6-8 week roadmap boundaries <a class="cite" href="#src-a1">A1</a></td><td>Included scope is limited to hardening, onboarding, payments, telemetry, COGS ledger, pilot dashboard, and voice decision package. Native apps, realtime voice bridge, full HIPAA/SOC 2, healthcare/provider scale, deep OAuth, enterprise reporting, and 24/7 support are later-phase costs because they create new risk streams and larger SOW economics. <a class="cite" href="#src-s1">S1</a></td></tr>
+        <tr id="src-o1"><td>O1</td><td>Ownership and vesting logic</td><td>Company-owned IP/accounts/data and milestone/time vesting are used to protect both sides: Tamara keeps founder control; Utlyze / SolutionStream earns upside only as scope, delivery, and operating responsibility are actually carried. Final instrument, tax treatment, valuation, and repurchase terms require counsel.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Calculation method</span><span>External anchors plus Looheru-specific assumptions</span></div>
   </section>
 </main>
 </body>
