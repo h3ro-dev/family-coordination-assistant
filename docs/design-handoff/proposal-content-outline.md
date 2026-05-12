@@ -5,7 +5,7 @@ Content must remain unchanged. The design pass may reorganize visual hierarchy, 
 ## Extracted Headings
 
 1. h1 Looheru.AI
-2. h2 Decision frame: choose the 6-8 week AI-native Build + Test Sprint structure that matches the intended partnership. M1A1
+2. h2 Decision frame: choose the 4-6 week AI-native Build + Test Sprint structure that matches the intended partnership.
 3. h3 Build
 4. h3 Own
 5. h3 Grow

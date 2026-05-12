@@ -16,7 +16,7 @@ James provided internal partner review feedback in chat on May 12, 2026. The Ott
 
 ## Proposal implementation
 
-- Option A now uses `$75K–$125K` for the 6–8 week Build + Test Sprint, `$100K–$250K+` for later expansion phases, and `$12K–$25K/month` for ongoing maintenance or delivery retainer.
+- Option A now uses `$75K–$125K` for the first Build + Test Sprint, `$100K–$250K+` for later expansion phases, and `$12K–$25K/month` for ongoing maintenance or delivery retainer. The current proposal now frames that first sprint as 4-6 weeks.
 - Option B keeps `$25K–$45K` sprint cash and `$8K–$16K/month` continuation pricing, but equity/warrants now move to `10%–15%`.
 - Option C is now an at-cost company-building path with `35%–40%` company ownership, COGS-first revenue recovery, and a negotiated revenue split after cost recovery.
 - Dense sections now include clearer plain-English decision framing before the detailed economics.

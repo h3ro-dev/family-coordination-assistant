@@ -99,10 +99,12 @@ strong{font-weight:600;color:var(--ink)}
 .hero-body .lede{color:rgba(246,241,230,.85);font-size:19px}
 .hero-body .lede strong{color:var(--cream)}
 .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid rgba(246,241,230,.18);border-left:1px solid rgba(246,241,230,.18)}
-.hero-stats .stat{padding:24px 22px;border-right:1px solid rgba(246,241,230,.18);border-bottom:1px solid rgba(246,241,230,.18);min-height:148px;display:flex;flex-direction:column;justify-content:space-between}
-.hero-stats .num{font-family:"Source Serif 4",serif;font-size:60px;line-height:0.9;color:var(--cream);font-weight:500;letter-spacing:-0.02em}
+.hero-stats .stat{padding:20px 22px 22px;border-right:1px solid rgba(246,241,230,.18);border-bottom:1px solid rgba(246,241,230,.18);min-height:174px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.hero-stats .num{font-family:"Source Serif 4",serif;font-size:52px;line-height:0.96;color:var(--cream);font-weight:500;letter-spacing:-0.02em}
 .hero-stats .num.accent{color:var(--ochre-soft)}
-.hero-stats .lbl{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(246,241,230,.6);line-height:1.4}
+.hero-stats .kicker{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(246,241,230,.52);margin-bottom:12px}
+.hero-stats .stat-title{font-size:16px;line-height:1.25;color:var(--cream);font-weight:600;margin-top:8px}
+.hero-stats .stat-note{font-size:13px;line-height:1.4;color:rgba(246,241,230,.68);margin:0;max-width:29ch}
 
 /* ───────────────────────── citation chip ────────────────── */
 .cite{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:500;letter-spacing:0.06em;padding:1px 5px;margin:0 1px;border-radius:2px;background:rgba(168,115,42,.12);color:var(--ochre);text-decoration:none;vertical-align:1px;border:1px solid rgba(168,115,42,.22);transition:background .15s}
@@ -405,24 +407,40 @@ strong{font-weight:600;color:var(--ink)}
 
     <div class="hero-body">
       <div>
-        <p class="lede">This proposal translates the Friday discussion, partner brief, current product evidence, and deeper research into a practical 30–60 day path: <strong>make the product chargeable, clean up ownership, prove paid demand, and earn the right to a deeper partnership.</strong> <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-r1">R1</a></p>
+        <p class="lede">This proposal turns the Friday discussion, partner brief, product proof, and research into one first sprint. <strong>The plan is simple: turn on payment, clean up ownership, prove people will pay, and then decide if a deeper partnership is earned.</strong></p>
       </div>
       <div class="hero-stats">
         <div class="stat">
-          <div class="num accent">4m</div>
-          <div class="lbl">First booking confirmed <a class="cite" href="#src-p1">P1</a></div>
+          <div>
+            <div class="kicker">Field test</div>
+            <div class="num accent">~4 min</div>
+            <div class="stat-title">Request to confirmed booking</div>
+          </div>
+          <p class="stat-note">The prototype closed a real coordination loop quickly enough to feel useful.</p>
         </div>
         <div class="stat">
-          <div class="num">15</div>
-          <div class="lbl">Beta testers opted in <a class="cite" href="#src-p1">P1</a></div>
+          <div>
+            <div class="kicker">Early demand</div>
+            <div class="num">15</div>
+            <div class="stat-title">People raised their hands to test</div>
+          </div>
+          <p class="stat-note">Tamara already has warm-network users willing to try the product.</p>
         </div>
         <div class="stat">
-          <div class="num">90<span style="font-size:0.65em">%</span></div>
-          <div class="lbl">Surveyed parents confirmed pain <a class="cite" href="#src-p1">P1</a></div>
+          <div>
+            <div class="kicker">Problem signal</div>
+            <div class="num">90<span style="font-size:0.65em">%</span></div>
+            <div class="stat-title">Surveyed parents confirmed the pain</div>
+          </div>
+          <p class="stat-note">The need is not abstract. Parents already feel the coordination burden.</p>
         </div>
         <div class="stat">
-          <div class="num accent">120K</div>
-          <div class="lbl">Physician-mom network claim <a class="cite" href="#src-p1">P1</a></div>
+          <div>
+            <div class="kicker">Launch channel</div>
+            <div class="num accent">120K</div>
+            <div class="stat-title">Physician-mom community reach</div>
+          </div>
+          <p class="stat-note">Founder-led distribution can start in a trusted, high-income niche.</p>
         </div>
       </div>
     </div>
@@ -436,30 +454,32 @@ strong{font-weight:600;color:var(--ink)}
       <div class="marker">Chapter<span class="num">01</span></div>
       <div class="section-title">
         <span class="eyebrow">Executive Summary</span>
-        <h2 style="margin-top:14px">Decision frame: choose the 6–8 week AI-native Build + Test Sprint structure that matches the intended partnership. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></h2>
+        <h2 style="margin-top:14px">Decision frame: pick the 4–6 week AI-native Build + Test Sprint that fits the partnership.</h2>
       </div>
       <div class="meta">Section 01 / 17</div>
     </div>
 
     <div class="body-grid">
       <div class="col">
-        <p class="lede"><span class="drop">T</span>he strongest version of Looheru is not another family calendar, parent reminder app, childcare marketplace, or generic AI assistant. The strongest version is an <em>execution layer</em> for overloaded family operators: one request from the parent, outreach to the right real-world people, options returned, decision confirmed, and the loop closed. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-b1">B1</a></p>
+        <p class="lede"><span class="drop">L</span>ooheru should not be another family calendar or reminder app. It should do the work a busy parent does not have time to do: take one request, contact the right people, bring back options, confirm the choice, and close the loop. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-b1">B1</a></p>
+
+        <div class="pull">Plain English: the first sprint should answer three questions. Can people pay for this? Is the ownership clean enough to run it live? Which partnership option is fair after real pilot evidence?</div>
 
         <div class="pillars">
           <div class="pillar">
             <div class="mk">i · Build</div>
             <h3>Build</h3>
-            <p>Harden the current MVP into a chargeable pilot product with autonomous onboarding, payments, security, calendar sync, observability, and task-level instrumentation. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-v3">V3</a></p>
+            <p>Turn the current MVP into a paid pilot. Add self-serve setup, payment, basic security, calendar sync, task tracking, and cost tracking. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-v3">V3</a></p>
           </div>
           <div class="pillar">
             <div class="mk">ii · Own</div>
             <h3>Own</h3>
-            <p>Clean up entity, IP, domain, repo, phone, hosting, email, data, contributor, and credential ownership before anyone accepts production responsibility. <a class="cite" href="#src-o1">O1</a></p>
+            <p>Before anyone runs this live, clean up who owns the company, IP, domain, repo, phone number, hosting, email, data, contributors, and credentials. <a class="cite" href="#src-o1">O1</a></p>
           </div>
           <div class="pillar">
             <div class="mk">iii · Grow</div>
             <h3>Grow</h3>
-            <p>Use the first paid cohort to prove repeat use, willingness to pay, COGS, autonomous containment, and voice-lane safety before expanding into sponsors or deeper studio economics. <a class="cite" href="#src-g1">G1</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l1">L1</a></p>
+            <p>Use the first paid group to learn what people will use again and pay for. Track cost, completed tasks, self-serve setup, and voice safety before sponsor sales or deeper partner terms. <a class="cite" href="#src-g1">G1</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l1">L1</a></p>
           </div>
         </div>
 
@@ -858,7 +878,7 @@ strong{font-weight:600;color:var(--ink)}
 
     <div class="body-grid">
       <div class="col">
-        <p class="lede">The 6–8 week sprint is an AI-native hardening and evidence sprint from the existing repo. It is designed to prove the first paid coordination loop, not build the entire future platform. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-m1">M1</a></p>
+        <p class="lede">The 4–6 week sprint is an AI-native hardening and evidence sprint from the existing repo. It is designed to prove the first paid coordination loop, not build the entire future platform. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-m1">M1</a></p>
 
         <div class="timeline">
           <div class="tl-row" style="background:var(--cream);padding-left:16px;padding-right:16px;border-bottom:2px solid var(--ink)">
@@ -868,31 +888,31 @@ strong{font-weight:600;color:var(--ink)}
             <div class="eyebrow" style="color:var(--ochre)">Decision produced</div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 0</span>Audit + Roadmap Lock<span class="when">Days 1–3</span></div>
+            <div class="ph"><span class="num">Phase 0</span>Audit + Roadmap Lock<span class="when">Days 1–2</span></div>
             <div class="lane"><span class="h">Build</span>Repo / deployment / account map, ownership checklist, risk list, must/should/later backlog, voice/data gate table.</div>
             <div class="lane"><span class="h">Test</span>Production URL, SMS/email loop, Twilio baseline, job queue/database readiness, credential handoff.</div>
             <div class="lane decision"><span class="h">Decision</span>Confirm AI-native price is valid and lock scope. <a class="cite" href="#src-r1">R1</a></div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 1</span>Core Coordination<span class="when">Weeks 1–2</span></div>
+            <div class="ph"><span class="num">Phase 1</span>Core Coordination<span class="when">Week 1</span></div>
             <div class="lane"><span class="h">Build</span>Saved-contact task states, Twilio signature checks, rate limits, COGS ledger, admin task visibility.</div>
             <div class="lane"><span class="h">Test</span>Babysitter/caregiver loop, failed/no/ambiguous replies, opt-out, duplicate replies, SMS/email cost capture.</div>
             <div class="lane decision"><span class="h">Decision</span>Is the first loop reliable enough for paid pilot? <a class="cite" href="#src-v1">V1</a></div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 2</span>Onboarding + Payment<span class="when">Weeks 3–4</span></div>
+            <div class="ph"><span class="num">Phase 2</span>Onboarding + Payment<span class="when">Weeks 2–3</span></div>
             <div class="lane"><span class="h">Build</span>Autonomous household setup, trusted-contact entry, consent, Stripe/payment path, plan caps, first-task flow.</div>
             <div class="lane"><span class="h">Test</span>5–8 friendly users complete setup without staff, payment friction, first-task quality, blocked-task logic.</div>
             <div class="lane decision"><span class="h">Decision</span>Can onboarding stay autonomous without a human setup lane? <a class="cite" href="#src-v3">V3</a></div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 3</span>Pilot + Metrics<span class="when">Weeks 5–6</span></div>
+            <div class="ph"><span class="num">Phase 3</span>Pilot + Metrics<span class="when">Weeks 4–5</span></div>
             <div class="lane"><span class="h">Build</span>Pilot dashboard, invite/offer cards, post-task feedback, refund/extension rule, sponsor-proof evidence template.</div>
             <div class="lane"><span class="h">Test</span>18–24 family activation, paid commitment, task completion, repeat use, cost per completed task, relief signal.</div>
             <div class="lane decision"><span class="h">Decision</span>Scale, pause, narrow, or pivot the first task loop. <a class="cite" href="#src-pilot">PILOT</a></div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 4</span>Voice Decision<span class="when">Weeks 7–8</span></div>
+            <div class="ph"><span class="num">Phase 4</span>Voice Decision<span class="when">Week 6</span></div>
             <div class="lane"><span class="h">Build</span>Parent-facing voice intake prototype/script, low-risk outbound voice policy, provider recommendation, Phase 2 budget.</div>
             <div class="lane"><span class="h">Test</span>Low-risk parent voice intake, optional scripted nonclinical call tests, structured-result retention.</div>
             <div class="lane decision"><span class="h">Decision</span>Move voice into Phase 2, keep it parent-facing only, or wait. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-l1">L1</a></div>
@@ -929,7 +949,7 @@ strong{font-weight:600;color:var(--ink)}
             <span class="tag">Vendor economics</span>
             <ul>
               <li>$8K–$15K standalone audit / roadmap lock. <a class="cite" href="#src-m1">M1</a></li>
-              <li>$75K–$125K 6–8 week AI-native Build + Test Sprint. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></li>
+              <li>$75K–$125K 4–6 week AI-native Build + Test Sprint. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></li>
               <li>$100K–$250K+ per later phase if scope expands. <a class="cite" href="#src-s1">S1</a></li>
               <li>$12K–$25K/month maintenance or delivery retainer. <a class="cite" href="#src-f1">F1</a></li>
               <li>0% equity.</li>
@@ -942,7 +962,7 @@ strong{font-weight:600;color:var(--ink)}
             <span class="tag">Blended cash + equity</span>
             <ul>
               <li>Blended cash/equity path.</li>
-              <li>$25K–$45K 6–8 week AI-native Build + Test Sprint. <a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-e1">E1</a></li>
+              <li>$25K–$45K 4–6 week AI-native Build + Test Sprint. <a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-e1">E1</a></li>
               <li>$8K–$16K/month post-sprint operator/build retainer if continued. <a class="cite" href="#src-f1">F1</a></li>
               <li>10%–15% equity or warrants, signed up front and vested over 24–36 months / milestones. <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-o1">O1</a></li>
               <li>Fair if Utlyze / SolutionStream carries product, architecture, AI voice, and operating risk while taking less cash than Option A.</li>
@@ -1101,7 +1121,7 @@ strong{font-weight:600;color:var(--ink)}
             <div class="id">Option A</div>
             <h3>Cash Services</h3>
             <span class="tag">0% equity</span>
-            <div class="headline-num">$75K–$125K<small>Sprint, 6–8 weeks</small></div>
+            <div class="headline-num">$75K–$125K<small>Sprint, 4–6 weeks</small></div>
             <p style="font-size:14.5px;color:var(--ink-2);margin-top:14px">Cash-services build. Tamara pays market cash and keeps 100% of the company. Later phases are separate SOWs after pilot evidence. <a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-a1">A1</a></p>
           </div>
           <div class="opt">
@@ -1176,7 +1196,7 @@ strong{font-weight:600;color:var(--ink)}
 
         <div class="card" style="margin-top:18px">
           <h3>Research questions to refine before signature</h3>
-          <p>What is already production-ready? What exactly sits inside the first 6–8 week scope? Does Tamara prefer cash control, shared build risk, or an at-cost company-building partner? What revenue split applies after COGS recovery? Who owns incidents, refunds, support, vendor accounts, and safety tradeoffs? <a class="cite" href="#src-calc">CALC</a></p>
+          <p>What is already production-ready? What exactly sits inside the first 4–6 week scope? Does Tamara prefer cash control, shared build risk, or an at-cost company-building partner? What revenue split applies after COGS recovery? Who owns incidents, refunds, support, vendor accounts, and safety tradeoffs? <a class="cite" href="#src-calc">CALC</a></p>
         </div>
 
         <div class="pull">The near-term goal is not to build everything. The near-term goal is to prove the first repeatable promise.</div>
@@ -1261,7 +1281,7 @@ strong{font-weight:600;color:var(--ink)}
             <tr><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">PRICE</strong></td><td><strong>$29 / $59 / $119 pilot tiers</strong> <a class="cite" href="#src-cogs">COGS</a></td><td>Essential tests paid demand at four simple tasks while preserving gross margin after Stripe and loaded low-SMS COGS. Plus prices the likely hero workflow around 10 credits and moves complex tasks to 2+ credits. Signature prices priority, richer setup, and parent-facing voice intake separately from provider-call risk. <a class="cite" href="#src-b1">B1</a></td></tr>
             <tr id="src-pilot"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">PILOT</strong></td><td><strong>30–40 invites, 18–24 enrollments, 70%+ activation, 50%+ repeat</strong> <a class="cite" href="#src-g1">G1</a></td><td>Invite/enroll range assumes founder-led warm-network recruitment and a 45–60% conversion target from high-fit contacts. 18–24 households is large enough to reveal onboarding, payment, completion, repeat-use, and COGS issues while small enough for a controlled first paid pilot. Activation and repeat thresholds are decision gates, not statistical proof. <a class="cite" href="#src-p1">P1</a></td></tr>
             <tr id="src-sponsor"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">SP</strong></td><td><strong>Sponsored cohort pricing</strong> <a class="cite" href="#src-g2">G2</a></td><td>Ranges are planning models: physician association roughly 25–50 members × $400–$500; health-system workforce group roughly 50–100 × $400–$500; employer benefit pilot roughly 100–150 × $300–$500; women's leadership community roughly 25–60 × $400–$500; concierge cohort roughly 10–20 × $750–$1,500. <a class="cite" href="#src-b1">B1</a></td></tr>
-            <tr id="src-scope"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">SCOPE</strong></td><td><strong>6–8 week roadmap boundaries</strong> <a class="cite" href="#src-a1">A1</a></td><td>Included scope is limited to hardening, onboarding, payments, telemetry, COGS ledger, pilot dashboard, and voice decision package. Native apps, realtime voice bridge, full HIPAA/SOC 2, healthcare/provider scale, deep OAuth, enterprise reporting, and 24/7 support are later-phase costs because they create new risk streams and larger SOW economics. <a class="cite" href="#src-s1">S1</a></td></tr>
+            <tr id="src-scope"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">SCOPE</strong></td><td><strong>4–6 week roadmap boundaries</strong> <a class="cite" href="#src-a1">A1</a></td><td>Included scope is limited to hardening, onboarding, payments, telemetry, COGS ledger, pilot dashboard, and voice decision package. Native apps, realtime voice bridge, full HIPAA/SOC 2, healthcare/provider scale, deep OAuth, enterprise reporting, and 24/7 support are later-phase costs because they create new risk streams and larger SOW economics. <a class="cite" href="#src-s1">S1</a></td></tr>
             <tr id="src-o1"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">O1</strong></td><td><strong>Ownership and vesting logic</strong></td><td>Company-owned IP/accounts/data and milestone/time vesting are used to protect both sides: Tamara keeps founder control; Utlyze / SolutionStream earns upside only as scope, delivery, and operating responsibility are actually carried. Final instrument, tax treatment, valuation, and repurchase terms require counsel.</td></tr>
             <tr id="src-v4"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">V4</strong></td><td><strong>Failed automation and browser-work margin risk</strong></td><td>Margin sensitivity from failed automation, browser orchestration retries, and provider-side ambiguity, cross-checked against Twilio voice/SMS and AI/model call pricing trends. <a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-v2">V2</a></td></tr>
           </tbody>

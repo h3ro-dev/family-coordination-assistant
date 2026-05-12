@@ -8,9 +8,9 @@ const researchDir = path.join(docsDir, "research");
 const designHandoffDir = path.join(docsDir, "design-handoff");
 const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260512_172531Z_9ncwrru9";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/13";
-const issueLabel = "Issue #13";
+const traceId = "trc_20260512_181008Z_t4jp03cf";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/15";
+const issueLabel = "Issue #15";
 
 const sourceDocs = [
   {
@@ -573,6 +573,14 @@ const promptRuns = [
     status: "Completed in local workspace; tracked in GitHub issue #13",
     question:
       "Revise the proposal after internal partner feedback: make it easier to read, raise Option A cash-services build pricing, keep Option B cash pricing but raise equity to 10%-15%, and revise Option C to an at-cost build path with 35%-40% company ownership, COGS-first revenue recovery, and a later revenue split."
+  },
+  {
+    group: "Hero proof-card readability revision",
+    prompt: "First-screen comprehension and sprint framing edit",
+    model: "Codex GPT-5 with Proposal Writer and proposal-readability-editor skills",
+    status: "Completed in local workspace; tracked in GitHub issue #15",
+    question:
+      "Rewrite the first-screen proof boxes so a first-time reader understands the context and consequence, reduce citation noise in the hero and decision frame, and update the first AI-native Build + Test Sprint framing from 6-8 weeks to 4-6 weeks."
   }
 ];
 
