@@ -8,9 +8,9 @@ const researchDir = path.join(docsDir, "research");
 const designHandoffDir = path.join(docsDir, "design-handoff");
 const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260512_181008Z_t4jp03cf";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/15";
-const issueLabel = "Issue #15";
+const traceId = "trc_20260512_183321Z_17qarn3x";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/17";
+const issueLabel = "Issue #17";
 
 const sourceDocs = [
   {
@@ -581,6 +581,14 @@ const promptRuns = [
     status: "Completed in local workspace; tracked in GitHub issue #15",
     question:
       "Rewrite the first-screen proof boxes so a first-time reader understands the context and consequence, reduce citation noise in the hero and decision frame, and update the first AI-native Build + Test Sprint framing from 6-8 weeks to 4-6 weeks."
+  },
+  {
+    group: "Proposal-wide plain-language pass",
+    prompt: "Lower reading level and reduce review friction",
+    model: "Codex GPT-5 with Proposal Writer and proposal-readability-editor skills",
+    status: "Completed in local workspace; tracked in GitHub issue #17",
+    question:
+      "Run a proposal-wide plain-language pass so the proposal feels easy to review for all audiences, with simpler first-read promise, simpler section headings, shorter dense passages, and plain-English summaries while preserving pricing, equity, legal meaning, citations, and source traceability."
   }
 ];
 
