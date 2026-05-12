@@ -6,9 +6,9 @@ const tamaraRoot = process.env.TAMARA_PROJECT_ROOT || path.resolve(repoRoot, "..
 const docsDir = path.join(repoRoot, "docs");
 const researchDir = path.join(docsDir, "research");
 
-const traceId = "trc_20260512_013908Z_sxh8i9wk";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/5";
-const issueLabel = "Issue #5";
+const traceId = "trc_20260512_015401Z_oz02ayg0";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/7";
+const issueLabel = "Issue #7";
 
 const sourceDocs = [
   {
@@ -257,7 +257,7 @@ const sourceDocs = [
       "How should the current repo baseline change the voice roadmap?"
     ],
     summary:
-      "Replaced the previous partnership stance with three market-grounded paths and recommended Option B: Strategic Build Partner."
+      "Replaced the previous partnership stance with three market-grounded paths, including Option B: Strategic Build Partner."
   },
   {
     file: "19-current-market-validation-and-option-scope.md",
@@ -526,6 +526,14 @@ const promptRuns = [
     status: "Completed in local workspace; tracked in GitHub issue #5",
     question:
       "Tie pricing to a 6-8 week roadmap, show what is built and tested by phase, and adjust first-sprint pricing for AI-assisted development trends."
+  },
+  {
+    group: "Decision framing revision",
+    prompt: "Remove prechosen-path language while preserving Option B",
+    model: "Codex GPT-5 local proposal edit",
+    status: "Completed in local workspace; tracked in GitHub issue #7",
+    question:
+      "Remove language that presents Option B as chosen in advance while keeping Option B as a fully described partnership option."
   }
 ];
 
