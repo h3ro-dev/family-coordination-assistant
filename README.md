@@ -3,6 +3,12 @@
 System guide (GitHub Pages):
 
 - https://h3ro-dev.github.io/family-coordination-assistant/
+- Looheru strategic proposal:
+  - `docs/proposal.html`
+- Public-safe research appendix:
+  - `docs/research/index.html`
+- Prompts and model lineage:
+  - `docs/research/prompts-and-models.html`
 - Recommended architecture/design doc:
   - `docs/recommended-architecture.md`
 

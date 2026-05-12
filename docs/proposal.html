@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Looheru Strategic Partnership Proposal</title>
+  <style>
+    :root {
+      --ink: #181a20;
+      --muted: #697184;
+      --line: #d9dde7;
+      --paper: #f7f4ee;
+      --panel: #ffffff;
+      --coal: #111318;
+      --gold: #d8aa34;
+      --coral: #e65643;
+      --blue: #2c8fca;
+      --teal: #2f9c91;
+      --violet: #4d4b76;
+      --green: #587d4b;
+      --shadow: 0 18px 50px rgba(17, 19, 24, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: #e7e2d9;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px;
+    }
+
+    .deck {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .page {
+      background: var(--paper);
+      min-height: 900px;
+      margin: 0 auto 32px;
+      padding: 56px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(24, 26, 32, 0.08);
+    }
+
+    .page.white { background: #fff; }
+    .page.dark { background: var(--coal); color: #fff; }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .dark .badge {
+      border-color: rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    h1, h2, h3, h4, p { margin-top: 0; }
+
+    h1 {
+      font-size: 74px;
+      line-height: 0.96;
+      letter-spacing: 0;
+      margin: 0 0 24px;
+      max-width: 960px;
+    }
+
+    h2 {
+      font-size: 36px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 21px;
+      letter-spacing: 0;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #303441;
+      max-width: 820px;
+      font-size: 16px;
+    }
+
+    .dark p { color: rgba(255, 255, 255, 0.78); }
+
+    .hero-title {
+      font-size: 96px;
+      line-height: 0.88;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 22px;
+    }
+
+    .hero-title .accent { color: var(--coral); }
+
+    .hero-subtitle {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 26px;
+      line-height: 1.18;
+      max-width: 900px;
+      margin-bottom: 42px;
+      font-weight: 650;
+    }
+
+    .hero-ribbon {
+      background: #0b0d10;
+      color: #fff;
+      margin: 48px -56px 44px;
+      padding: 22px 56px;
+      font-size: 35px;
+      line-height: 1.08;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 900;
+    }
+
+    .hero-ribbon span { color: var(--gold); }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .metric {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 20px;
+      min-height: 124px;
+    }
+
+    .metric .num {
+      display: block;
+      color: var(--gold);
+      font-size: 44px;
+      line-height: 1;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .metric .label {
+      color: rgba(255, 255, 255, 0.72);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 24px;
+      border-radius: 6px;
+    }
+
+    .card.dark-card {
+      background: #15171d;
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .card p, .card li {
+      color: #3d4250;
+      font-size: 14px;
+    }
+
+    .dark-card p, .dark-card li { color: rgba(255, 255, 255, 0.76); }
+
+    .pull {
+      border-left: 6px solid var(--gold);
+      padding: 18px 22px;
+      background: rgba(216, 170, 52, 0.1);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.18;
+      margin: 24px 0;
+      color: var(--ink);
+    }
+
+    .section-note {
+      max-width: 980px;
+      font-size: 18px;
+      color: #404652;
+      margin-bottom: 28px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #f0eee8;
+      border: 1px solid #e0ddd4;
+      color: #333744;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .promise-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .promise-table th, .promise-table td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .promise-table th {
+      background: #111318;
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .check {
+      display: inline-block;
+      color: #fff;
+      background: var(--green);
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      border-radius: 50%;
+      text-align: center;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .visual-title {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .workstream {
+      display: grid;
+      grid-template-columns: 0.9fr repeat(4, 1fr);
+      gap: 10px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .workstream > div {
+      border: 1px solid var(--line);
+      background: #fff;
+      min-height: 70px;
+      padding: 14px;
+      font-size: 13px;
+    }
+
+    .workstream .head {
+      background: var(--coal);
+      color: #fff;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .workstream .lane {
+      font-weight: 900;
+      color: var(--ink);
+      border-left: 6px solid var(--gold);
+    }
+
+    .bar {
+      height: 18px;
+      border-radius: 999px;
+      background: #ece9e1;
+      overflow: hidden;
+      margin: 8px 0 4px;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+
+    .bar.gold > span { background: var(--gold); }
+    .bar.coral > span { background: var(--coral); }
+    .bar.teal > span { background: var(--teal); }
+    .bar.green > span { background: var(--green); }
+
+    .confidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .confidence-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 16px;
+      border-radius: 6px;
+    }
+
+    .confidence-card strong {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: baseline;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .axis {
+      position: relative;
+      height: 420px;
+      background: #fff;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .axis:before, .axis:after {
+      content: "";
+      position: absolute;
+      background: #d9dde7;
+    }
+
+    .axis:before {
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+    }
+
+    .axis:after {
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+    }
+
+    .axis-label {
+      position: absolute;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+    }
+
+    .axis-label.left { left: 18px; bottom: 16px; }
+    .axis-label.right { right: 18px; bottom: 16px; }
+    .axis-label.top { left: 18px; top: 16px; }
+    .axis-label.bottom { right: 18px; top: 52%; }
+
+    .dot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #f4f2eb;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+      color: #2f3440;
+      white-space: nowrap;
+    }
+
+    .dot.primary {
+      background: var(--coal);
+      color: #fff;
+      border-color: var(--coal);
+      font-size: 15px;
+      padding: 12px 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .price-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 24px;
+      min-height: 360px;
+      position: relative;
+    }
+
+    .price-card.featured {
+      border: 3px solid var(--gold);
+      transform: translateY(-10px);
+    }
+
+    .price {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: 0;
+      margin: 10px 0 2px;
+    }
+
+    .price small {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    ul.clean {
+      padding-left: 18px;
+      margin-bottom: 0;
+    }
+
+    ul.clean li {
+      margin-bottom: 8px;
+    }
+
+    .cogs-row {
+      display: grid;
+      grid-template-columns: 300px 1fr 100px;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    .cost {
+      font-size: 18px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .ownership-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .owner-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 22px;
+      min-height: 240px;
+      position: relative;
+    }
+
+    .owner-card:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--gold);
+    }
+
+    .owner-card:nth-child(2):before { background: var(--teal); }
+    .owner-card:nth-child(3):before { background: var(--coral); }
+
+    .gate {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+
+    .gate .flag {
+      padding: 8px 10px;
+      border-radius: 4px;
+      background: var(--coal);
+      color: #fff;
+      text-align: center;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 11px;
+    }
+
+    .gate.green .flag { background: var(--green); }
+    .gate.yellow .flag { background: var(--gold); color: #141414; }
+    .gate.red .flag { background: var(--coral); }
+
+    .next-step {
+      background: var(--coal);
+      color: #fff;
+      padding: 28px;
+      border-radius: 6px;
+      margin-top: 24px;
+    }
+
+    .next-step p { color: rgba(255, 255, 255, 0.8); }
+
+    .footer {
+      position: absolute;
+      left: 56px;
+      right: 56px;
+      bottom: 26px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+    }
+
+    .dark .footer { color: rgba(255, 255, 255, 0.5); }
+
+    @media print {
+      html, body { background: #fff; padding: 0; }
+      .deck { max-width: none; }
+      .page {
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+      .price-card.featured { transform: none; }
+    }
+  
+    .repo-banner {
+      max-width: 1180px;
+      margin: 0 auto 18px;
+      padding: 14px 18px;
+      background: #111318;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+    .repo-banner a { color: #78dce8; font-weight: 800; }
+    .repo-banner span { color: rgba(255,255,255,0.72); }
+    </style>
+</head>
+<body>
+<div class="repo-banner">
+  <div><strong>Looheru Strategic Partnership Proposal</strong> <span>Published as a GitHub Pages proposal page for the February family coordination assistant repo.</span></div>
+  <div><a href="./index.html">System guide</a> · <a href="./research/index.html">Research appendix</a> · <a href="./research/prompts-and-models.html">Prompts + models</a></div>
+</div>
+<main class="deck">
+  <section class="page dark">
+    <div class="topline">
+      <span>Confidential Partner Proposal</span>
+      <span>May 2026</span>
+    </div>
+    <h1 class="hero-title">Looheru<span class="accent">.AI</span></h1>
+    <p class="hero-subtitle">Strategic opportunity and partnership proposal for turning an execution-first family coordination prototype into a chargeable pilot product.</p>
+    <div class="hero-ribbon">Every mom needs an army at her fingertips. <span>An agent army.</span></div>
+    <div class="grid-2">
+      <div>
+        <div class="badge">Prepared for Dr. Tamara Moores Todd</div>
+        <p style="margin-top:22px;">This proposal translates the Friday discussion, partner brief, current product evidence, and deeper research into a practical 30-60 day path: make the product chargeable, clean up ownership, prove paid demand, and earn the right to a deeper partnership.</p>
+      </div>
+      <div class="meta-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top:0;">
+        <div class="metric"><span class="num">4m</span><span class="label">First booking confirmed</span></div>
+        <div class="metric"><span class="num">15</span><span class="label">Beta testers opted in</span></div>
+        <div class="metric"><span class="num">90%</span><span class="label">Surveyed parents confirmed pain</span></div>
+        <div class="metric"><span class="num">120K</span><span class="label">Physician-mom network claim</span></div>
+      </div>
+    </div>
+    <div class="footer"><span>Utlyze / SolutionStream</span><span>One request. Your people. Zero friction.</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Executive Summary</span><span>01</span></div>
+    <h2>Our recommendation: a 30-60 day Build + Own Sprint under a strategic build-partner structure.</h2>
+    <p class="section-note">The strongest version of Looheru is not another family calendar, parent reminder app, childcare marketplace, or generic AI assistant. The strongest version is an execution layer for overloaded family operators: one request from the parent, outreach to the right real-world people, options returned, decision confirmed, and the loop closed.</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Build</h3>
+        <p>Harden the current MVP into a chargeable pilot product with autonomous onboarding, payments, security, calendar sync, observability, and task-level instrumentation.</p>
+      </div>
+      <div class="card">
+        <h3>Own</h3>
+        <p>Clean up entity, IP, domain, repo, phone, hosting, email, data, contributor, and credential ownership before anyone accepts production responsibility.</p>
+      </div>
+      <div class="card">
+        <h3>Grow</h3>
+        <p>Use the first paid cohort to prove repeat use, willingness to pay, COGS, autonomous containment, and voice-lane safety before expanding into sponsors or deeper studio economics.</p>
+      </div>
+    </div>
+    <div class="pull">The recommended path is cash plus upfront partner equity that vests through milestones: enough alignment for Utlyze / SolutionStream, without over-diluting Tamara before evidence.</div>
+    <table class="promise-table">
+      <thead>
+        <tr><th>What we promised</th><th>What this proposal provides</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Monetization and pricing</td><td><span class="check">✓</span>Three consumer packages, task-credit logic, and paid-pilot validation plan.</td></tr>
+        <tr><td>COGS and unit economics</td><td><span class="check">✓</span>First-pass task COGS, margin risks, and instrumentation requirements.</td></tr>
+        <tr><td>Competitor analysis</td><td><span class="check">✓</span>Direct and indirect threat map plus Looheru white-space positioning.</td></tr>
+        <tr><td>GTM and pilot path</td><td><span class="check">✓</span>B2C design partner pilot, then sponsored cohort path.</td></tr>
+        <tr><td>Partnership options</td><td><span class="check">✓</span>Three market-grounded paths: cash services, strategic build partner, and venture-studio / cofounder-level build partner.</td></tr>
+        <tr><td>Ownership recommendations</td><td><span class="check">✓</span>Founder control, company-owned IP/accounts/data, and upfront partner equity that vests through explicit milestones.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Looheru Strategic Partnership Proposal</span><span>Executive summary</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>Confidence Level</span><span>02</span></div>
+    <h2>We are confident enough to recommend a specific path, and clear about what still needs proof.</h2>
+    <p class="section-note">The confidence levels are evidence-weighted strategy scores, not statistical probabilities. They combine direct Looheru evidence, repo inspection, market benchmarks, current voice-agent technology, and legal/vendor source checks. Scores are lower where the next proof requires paid-user behavior, real operating data, or legal interpretation.</p>
+    <div class="confidence-grid">
+      <div class="confidence-card">
+        <strong><span>Core positioning</span><span>88%</span></strong>
+        <div class="bar green"><span style="width:88%"></span></div>
+        <p>Research, meeting notes, and partner brief all point to execution-first coordination rather than organization.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>First wedge</span><span>84%</span></strong>
+        <div class="bar green"><span style="width:84%"></span></div>
+        <p>Babysitter and saved-contact SMS coordination has proof, low COGS, and clear emotional value.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>Pricing direction</span><span>76%</span></strong>
+        <div class="bar gold"><span style="width:76%"></span></div>
+        <p>$29, $59, and $119 packages fit market anchors and unit economics, but paid conversion still needs proof.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>COGS model</span><span>78%</span></strong>
+        <div class="bar gold"><span style="width:78%"></span></div>
+        <p>SMS/email costs are low. Failed automation, browser work, provider voice, and support tickets drive margin risk.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>Autonomous onboarding</span><span>86%</span></strong>
+        <div class="bar green"><span style="width:86%"></span></div>
+        <p>Recent realtime voice and agent releases make self-serve setup credible, with parent handoff only when the system blocks a task.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>Partnership sequencing</span><span>92%</span></strong>
+        <div class="bar green"><span style="width:92%"></span></div>
+        <p>Three fair paths are now clear. Recommended path: cash plus 3%-7% upfront partner equity that vests through milestones.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>GTM / paid pilot path</span><span>85%</span></strong>
+        <div class="bar green"><span style="width:85%"></span></div>
+        <p>June pilot can now be run as a concrete paid test with offer cards, thresholds, sponsor proof targets, and operating cadence.</p>
+      </div>
+      <div class="confidence-card">
+        <strong><span>Voice / healthcare path</span><span>74%</span></strong>
+        <div class="bar gold"><span style="width:74%"></span></div>
+        <p>Parent-facing voice and scripted low-risk outbound voice can move earlier under product gates; healthcare/provider voice needs counsel validation before scale.</p>
+      </div>
+    </div>
+    <table class="promise-table" style="margin-top:24px;">
+      <thead>
+        <tr><th>Confidence input</th><th>How it grounded the score</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Direct evidence</td><td>Prototype, partner brief, beta testers, survey signal, founder distribution, and Friday transcript.</td></tr>
+        <tr><td>Repo evidence</td><td>Working SMS/email coordination, Twilio Voice jobs, voice-result ingestion, and adapter-based architecture.</td></tr>
+        <tr><td>Market evidence</td><td>Competitor white space, pricing anchors, advisor/fractional CTO/product-studio/venture-studio equity norms.</td></tr>
+        <tr><td>Technical evidence</td><td>May 2026 OpenAI, xAI, and Google voice-agent capabilities mapped against the existing architecture.</td></tr>
+        <tr><td>Risk evidence</td><td>FCC, FTC, HHS, Twilio, and California source checks translated into product gates.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Confidence is evidence-weighted</span><span>May 2026</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Positioning</span><span>03</span></div>
+    <h2>Win the execution layer. Do not compete as another organizer.</h2>
+    <div class="grid-2">
+      <div>
+        <p class="section-note">Family apps, calendars, reminder tools, marketplaces, and general AI assistants all reduce some friction. Looheru's opportunity is the work they leave behind: contacting real people, gathering options, handling ambiguity, and confirming the outcome.</p>
+        <div class="pill-row">
+          <span class="pill">Not a calendar</span>
+          <span class="pill">Not a marketplace</span>
+          <span class="pill">Not generic AI chat</span>
+          <span class="pill">Not parent coaching</span>
+          <span class="pill">Execution first</span>
+        </div>
+        <div class="pull">The job is not "help me remember." The job is "make this coordination task go away."</div>
+      </div>
+      <div class="axis">
+        <span class="axis-label top">No-app / real-world coordination</span>
+        <span class="axis-label bottom">App-first workflow</span>
+        <span class="axis-label left">Organizes</span>
+        <span class="axis-label right">Executes</span>
+        <span class="dot" style="left:22%; top:65%;">Cozi</span>
+        <span class="dot" style="left:35%; top:62%;">FamilyWall</span>
+        <span class="dot" style="left:42%; top:42%;">Ohai</span>
+        <span class="dot" style="left:55%; top:36%;">Skylight</span>
+        <span class="dot" style="left:58%; top:70%;">Care.com</span>
+        <span class="dot" style="left:70%; top:62%;">ChatGPT</span>
+        <span class="dot primary" style="left:78%; top:24%;">Looheru</span>
+      </div>
+    </div>
+    <div class="footer"><span>Positioning map</span><span>Execution-first family coordination</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>First Product Wedge</span><span>04</span></div>
+    <h2>Start with saved-contact babysitter and caregiver coordination over SMS and email.</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>First commercial promise</h3>
+        <p>Text Looheru what you need. Looheru contacts your trusted people, gathers availability, returns options, and confirms the booking.</p>
+        <div class="pull">One request. Your people. Zero friction.</div>
+      </div>
+      <div class="card">
+        <h3>Why this wedge is right</h3>
+        <ul class="clean">
+          <li>Concrete and easy to explain.</li>
+          <li>Already has a working proof point.</li>
+          <li>Low COGS when kept to SMS/email.</li>
+          <li>Emotionally resonant for the target user.</li>
+          <li>Avoids the highest-risk healthcare voice issues at launch.</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:30px;" class="grid-4">
+      <div class="card"><h4>Step 01</h4><h3>Text</h3><p>Parent sends one request in natural language.</p></div>
+      <div class="card"><h4>Step 02</h4><h3>Outreach</h3><p>System contacts trusted saved contacts by SMS/email.</p></div>
+      <div class="card"><h4>Step 03</h4><h3>Options</h3><p>Available options return to the parent cleanly.</p></div>
+      <div class="card"><h4>Step 04</h4><h3>Confirmed</h3><p>Parent selects, Looheru closes the loop.</p></div>
+    </div>
+    <div class="pull">The reusable product is one coordination loop: request, context, trusted contacts, outreach, options, parent decision, confirmation, audit trail.</div>
+    <div class="footer"><span>MVP wedge</span><span>Saved-contact coordination</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Pricing</span><span>05</span></div>
+    <h2>Price the paid pilot for completed coordination, not passive organization.</h2>
+    <p class="section-note">The June pilot should be paid, tightly scoped, and easy to understand. These can become recurring packages after proof, but the first job is to test payment, activation, repeat usage, COGS, and relief.</p>
+    <div class="grid-3" style="margin-top:34px;">
+      <div class="price-card">
+        <h3>Essential</h3>
+        <div class="price">$29<small>/30d</small></div>
+        <p>Entry paid plan for occasional but recurring coordination.</p>
+        <ul class="clean">
+          <li>4 in-scope tasks.</li>
+          <li>Up to 5 saved contacts per task.</li>
+          <li>Saved-contact SMS/email.</li>
+          <li>One options summary.</li>
+          <li>One confirmation loop.</li>
+          <li>Autonomous guided setup.</li>
+          <li>No autonomous healthcare calls.</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="badge" style="margin-bottom:10px;">Likely hero plan</div>
+        <h3>Plus</h3>
+        <div class="price">$59<small>/30d</small></div>
+        <p>Best balance of value, usage, and margin.</p>
+        <ul class="clean">
+          <li>10 in-scope tasks.</li>
+          <li>Simple coordination = 1 credit.</li>
+          <li>Complex tasks = 2+ credits.</li>
+          <li>Autonomous contact/calendar setup.</li>
+          <li>Broader saved-contact lists.</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>Signature</h3>
+        <div class="price">$119<small>/30d</small></div>
+        <p>Premium reliability for high-burden households.</p>
+        <ul class="clean">
+          <li>20 in-scope tasks.</li>
+          <li>Priority automation queue.</li>
+          <li>Richer household/contact graph.</li>
+          <li>Limited parent-facing voice intake beta.</li>
+          <li>Provider calls excluded from pilot.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer"><span>Paid pilot offer cards</span><span>Convert to recurring after proof</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>Paid Pilot Plan</span><span>06</span></div>
+    <h2>Run June as a paid design-partner pilot, not a free beta.</h2>
+    <p class="section-note">The pilot should enroll 18-24 high-burden households from Tamara's warm network. The first task loop is intentionally narrow: existing trusted sitters or caregivers, SMS/email outreach, options returned, parent chooses, Looheru confirms.</p>
+    <div class="grid-4">
+      <div class="card"><h4>Invite</h4><h3>30-40</h3><p>Founder-led 1:1 outreach to highest-fit contacts.</p></div>
+      <div class="card"><h4>Enroll</h4><h3>18-24</h3><p>Paid households, not generic free beta users.</p></div>
+      <div class="card"><h4>Activate</h4><h3>70%+</h3><p>Complete setup and submit a first request.</p></div>
+      <div class="card"><h4>Repeat</h4><h3>50%+</h3><p>Use Looheru more than once within 30 days.</p></div>
+    </div>
+    <table class="promise-table" style="margin-top:28px;">
+      <tr><th>Decision Gate</th><th>What We Need To Learn</th><th>Strong Signal</th></tr>
+      <tr><td>Payment</td><td>Will the right families pay before broad automation exists?</td><td>18-24 paid pilot households.</td></tr>
+      <tr><td>Activation</td><td>Can onboarding stay autonomous and lightweight?</td><td>70%+ finish setup; 60%+ complete a task in week one.</td></tr>
+      <tr><td>Operations</td><td>Can containment and COGS stay inside plan economics?</td><td>Most tasks remain in the saved-contact SMS/email lane.</td></tr>
+      <tr><td>Expansion</td><td>Can the proof support a sponsor conversation?</td><td>Repeat use, low containment, relief/NPS, referral intent, and clear work-disruption story.</td></tr>
+    </table>
+    <div class="pull">Pilot promise: if Looheru does not complete at least one in-scope task for a paid pilot household, extend the pilot or refund that household.</div>
+    <div class="footer"><span>June 2026 operating plan</span><span>Paid proof before sponsored cohorts</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Sponsored Cohort Ladder</span><span>07</span></div>
+    <h2>Use B2C proof to sell narrow sponsored relief programs.</h2>
+    <p class="section-note">The sponsored path should not be positioned as broad employer software or full care concierge. It should be sold as proof-backed relief for overloaded parent populations, with cohort pricing tied to activation, completed tasks, repeat usage, and reported relief.</p>
+    <table class="promise-table">
+      <tr><th>Buyer</th><th>Recommended Cohort Shape</th><th>Planning Range</th><th>Proof They Need</th></tr>
+      <tr><td>Physician association</td><td>25-50 members, founder-led recruitment, autonomous onboarding, saved-contact coordination only.</td><td>$10K-$25K</td><td>Paid conversion, repeat use, member relief.</td></tr>
+      <tr><td>Health-system workforce group</td><td>50-100 employees, controlled support model, workforce relief reporting.</td><td>$20K-$50K</td><td>Activation, reduced work disruption, low support burden.</td></tr>
+      <tr><td>Employer benefit buyer</td><td>Broader employee benefit pilot after stronger B2C proof.</td><td>$30K-$75K</td><td>Retention, productivity, family-care burden data.</td></tr>
+      <tr><td>Women's leadership community</td><td>Member-funded or sponsor-funded cohort for high-performing parents.</td><td>$10K-$30K</td><td>Founder story, referral intent, visible member value.</td></tr>
+      <tr><td>Concierge community</td><td>Smaller high-touch cohort with upgrade path to Signature.</td><td>$15K-$30K</td><td>Premium willingness to pay and high NPS.</td></tr>
+    </table>
+    <div class="grid-3" style="margin-top:28px;">
+      <div class="card"><h3>What Sponsors Buy</h3><p>Relief from recurring coordination burden for a trusted, high-need parent population.</p></div>
+      <div class="card"><h3>What They Do Not Buy</h3><p>Healthcare triage, insurance navigation, unrestricted concierge, or enterprise automation in disguise.</p></div>
+      <div class="card"><h3>What We Prove First</h3><p>Paid demand, completed tasks, repeat usage, COGS, autonomous containment, and measurable relief.</p></div>
+    </div>
+    <div class="footer"><span>Expansion path</span><span>Sponsored cohorts after paid proof</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>COGS And Margin</span><span>08</span></div>
+    <h2>Telecom and email are not the margin risk. Exceptions and provider voice are.</h2>
+    <p class="section-note">The product can have strong software economics if the first wedge stays tight. It becomes margin-poor if it silently becomes a concierge service or relies on people to rescue routine tasks.</p>
+    <div class="card">
+      <div class="visual-title">Estimated completed-task COGS</div>
+      <div class="cogs-row">
+        <strong>Babysitter by SMS only</strong>
+        <div class="bar green"><span style="width:5%"></span></div>
+        <span class="cost">$0.75</span>
+      </div>
+      <div class="cogs-row">
+        <strong>Babysitter by SMS + email</strong>
+        <div class="bar green"><span style="width:5%"></span></div>
+        <span class="cost">$0.70</span>
+      </div>
+      <div class="cogs-row">
+        <strong>Camp / activity coordination</strong>
+        <div class="bar gold"><span style="width:41%"></span></div>
+        <span class="cost">$6.00</span>
+      </div>
+      <div class="cogs-row">
+        <strong>Healthcare/provider voice</strong>
+        <div class="bar gold"><span style="width:44%"></span></div>
+        <span class="cost">$6.50</span>
+      </div>
+      <div class="cogs-row">
+        <strong>Manual concierge labor avoided</strong>
+        <div class="bar coral"><span style="width:100%"></span></div>
+        <span class="cost">$14.70</span>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:24px;">
+      <div class="card"><h3>Track per task</h3><p>Workflow, contacts, channel mix, SMS segments, emails, AI/model calls, containment, parent handoff, completion state, and cost.</p></div>
+      <div class="card"><h3>Protect margin</h3><p>Simple coordination can fit in $29. Complex browser/provider work needs credits, higher tiers, or explicit add-ons.</p></div>
+      <div class="card"><h3>Avoid unlimited</h3><p>Concierge and provider voice should never be unlimited inside a low-price plan.</p></div>
+    </div>
+    <div class="footer"><span>Unit economics</span><span>Task mix determines margin</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Build + Own Sprint</span><span>09</span></div>
+    <h2>The proposed first engagement is a 30-60 day sprint with five parallel workstreams.</h2>
+    <p class="section-note">This turns the working prototype into a chargeable pilot product while cleaning up the ownership and operating foundation required for any deeper partnership.</p>
+    <div class="workstream">
+      <div class="head">Workstream</div>
+      <div class="head">Weeks 1-2</div>
+      <div class="head">Weeks 3-4</div>
+      <div class="head">Weeks 5-6</div>
+      <div class="head">Weeks 7-8</div>
+
+      <div class="lane">Product hardening</div>
+      <div>Current-state audit, auth review, provider/webhook review.</div>
+      <div>Security, rate limits, autonomous onboarding, Twilio Lookup, observability.</div>
+      <div>Payments, calendar path, logging, failure visibility.</div>
+      <div>Launch checklist and stabilization.</div>
+
+      <div class="lane">Ownership cleanup</div>
+      <div>Entity, repo, domain, Twilio, hosting, email map.</div>
+      <div>Contributor/IP review and account control plan.</div>
+      <div>Credential rotation, backup, termination path.</div>
+      <div>Handoff packet and next-structure recommendation.</div>
+
+      <div class="lane">Pilot instrumentation</div>
+      <div>Define task ledger and workflow events.</div>
+      <div>Track COGS, task status, containment, handoffs.</div>
+      <div>Dashboard for paid pilot cohort.</div>
+      <div>Review metrics and revise plan.</div>
+
+      <div class="lane">Compliance guardrails</div>
+      <div>Non-PHI posture and prohibited data classes.</div>
+      <div>Voice/healthcare gates and legal-informed policy matrix.</div>
+      <div>Disclosure language, stop rules, structured-result retention.</div>
+      <div>Counsel validation targets and workflow classification.</div>
+
+      <div class="lane">Pilot launch</div>
+      <div>Target users and screening plan.</div>
+      <div>Offer cards, autonomous onboarding, blocked-task scripts.</div>
+      <div>18-24 family pilot activation.</div>
+      <div>Conversion, retention, and sponsor pitch evidence.</div>
+    </div>
+    <div class="footer"><span>Workstream visualization</span><span>Build + Own Sprint</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>Ownership Recommendations</span><span>10</span></div>
+    <h2>Give three fair paths, then recommend the strategic build-partner path.</h2>
+    <p class="section-note">The recommendation is founder-protective and partner-practical: Tamara remains majority owner and CEO; the company owns venture-specific IP, accounts, data, and brand assets; Utlyze / SolutionStream receives real upside if it takes real product, architecture, AI voice, implementation, and operating risk. Equity can be committed up front, but it should vest through scope and milestones.</p>
+    <div class="ownership-map">
+      <div class="owner-card">
+        <h3>Option A: Cash Services</h3>
+        <ul class="clean">
+          <li>$45K-$75K Build + Own Sprint.</li>
+          <li>$80K-$180K follow-on build depending on scope.</li>
+          <li>0% equity.</li>
+          <li>Best when Tamara wants maximum ownership and pays market cash rates.</li>
+        </ul>
+      </div>
+      <div class="owner-card">
+        <h3>Option B: Strategic Build Partner</h3>
+        <ul class="clean">
+          <li>Recommended path.</li>
+          <li>$25K-$45K Build + Own Sprint.</li>
+          <li>$8K-$18K/month post-sprint retainer if continued.</li>
+          <li>3%-7% equity or warrants, signed up front and vested over 24-36 months / milestones.</li>
+        </ul>
+      </div>
+      <div class="owner-card">
+        <h3>Option C: Studio / Cofounder Build</h3>
+        <ul class="clean">
+          <li>$0-$25K/month depending on subsidy.</li>
+          <li>10%-20% earned equity from the current product baseline.</li>
+          <li>Higher only with meaningful capital, sustained team, and executive operating responsibility.</li>
+          <li>Requires stronger governance, reserved matters, vesting, and offboarding terms.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pull">Market logic: advisor equity is too low for a build/operator partner; full venture-studio economics are too high unless the studio supplies capital, team, and company-creation risk. Option B fits the actual facts.</div>
+    <div class="footer"><span>Ownership architecture</span><span>Founder control plus earned partner equity</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Risk Gates</span><span>11</span></div>
+    <h2>Voice AI should move earlier under legal-informed product gates.</h2>
+    <p class="section-note">The May 2026 voice-agent releases and the existing Twilio Voice implementation support a more ambitious roadmap. The legal and operational issues around provider calls remain real, but they should become explicit product gates rather than a reason to freeze the voice path.</p>
+    <div class="gate green">
+      <div class="flag">Green</div>
+      <div>
+        <h3>Safe first workflows</h3>
+        <p>Babysitter coordination, saved-contact caregiver outreach, household services, and nonclinical coordination with SMS/email first.</p>
+      </div>
+    </div>
+    <div class="gate yellow">
+      <div class="flag">Yellow</div>
+      <div>
+        <h3>Research-gated / counsel-validated before scale</h3>
+        <p>Provider scheduling, therapy, behavioral health, special-needs services, identity or authority verification, and any interaction likely to surface sensitive details.</p>
+      </div>
+    </div>
+    <div class="gate red">
+      <div class="flag">Red</div>
+      <div>
+        <h3>Do not automate in MVP</h3>
+        <p>Clinical triage, diagnosis, treatment, medication, insurance, billing, prior authorization, teen/minor confidential services, provider-side PHI workflows, durable call transcripts, or healthcare voice without documented controls and counsel validation before scale.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;">
+      <h3>Launch-safe voice rule</h3>
+      <p>If voice is used early, start with parent-facing onboarding and task intake, then scripted low-risk outbound logistics using the current Twilio Voice foundation. For outbound business calls: nonclinical, disclosed, no voicemail drops, no audio recording, no raw transcript retention, structured-output only, line-type verified, business-main-line only, and easy for offices to opt out or ask the parent to call back.</p>
+    </div>
+    <div class="footer"><span>Voice and healthcare risk gates</span><span>Move intake earlier, validate scale gates</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span>Investment And Structure</span><span>12</span></div>
+    <h2>Recommended first signature: Option B, Strategic Build Partner.</h2>
+    <p class="section-note">These are planning ranges for the proposal conversation. Final scope and investment should be set after access to the current repo, deployment, accounts, and ownership history. The core decision is how to trade cash for equity while keeping founder control, clean IP, and fair upside alignment.</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Option A: Cash Services</h3>
+        <div class="price" style="font-size:34px;">$45K-$75K</div>
+        <p>30-60 day Build + Own Sprint at market cash rates. 0% equity. Best for maximum founder ownership and clean vendor economics.</p>
+      </div>
+      <div class="card" style="border:3px solid var(--gold);">
+        <h3>Option B: Strategic Build Partner</h3>
+        <div class="price" style="font-size:34px;">$25K-$45K</div>
+        <p>Recommended. Reduced sprint cash plus 3%-7% equity or warrants, committed up front and vested over 24-36 months / milestones.</p>
+      </div>
+      <div class="card">
+        <h3>Option C: Studio / Cofounder Build</h3>
+        <div class="price" style="font-size:34px;">10%-20%</div>
+        <p>$0-$25K/month plus earned equity if Utlyze / SolutionStream supplies sustained team, subsidy, product leadership, and operating responsibility.</p>
+      </div>
+    </div>
+    <div class="next-step">
+      <h3>Recommended decision for May 21</h3>
+      <p>Choose the partnership path and authorize the Build + Own Sprint scope, vesting logic, ownership cleanup, voice gates, and paid pilot criteria.</p>
+    </div>
+    <div class="footer"><span>Investment ranges</span><span>Cash/equity trade-off after diligence</span></div>
+  </section>
+
+  <section class="page white">
+    <div class="topline"><span>Next Steps</span><span>13</span></div>
+    <h2>What we need to start responsibly.</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Access and diligence</h3>
+        <ul class="clean">
+          <li>Current repo and deployment access.</li>
+          <li>Domain, Twilio, email, hosting, database, and payment ownership.</li>
+          <li>Contributor and IP history.</li>
+          <li>Any Intermountain conflict or public-title constraints.</li>
+          <li>Current production URL and pilot data state.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Pilot decisions</h3>
+        <ul class="clean">
+          <li>First paid task loop.</li>
+          <li>18-24 pilot family list.</li>
+          <li>Tasks in scope and out of scope.</li>
+          <li>Containment and parent-handoff rules.</li>
+          <li>Success, pivot, and stop thresholds.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;">
+      <h3>Partnership decision</h3>
+      <p>Choose Option A, B, or C. Our recommendation is Option B: $25K-$45K sprint cash, then $8K-$18K/month if continued, plus 3%-7% equity or warrants committed up front and vested through milestones.</p>
+    </div>
+    <div class="pull">The near-term goal is not to build everything. The near-term goal is to prove the first repeatable promise.</div>
+    <p class="section-note">No-go lines: no fully vested equity without scope and vesting, no free beta as the main proof, no healthcare/provider voice before documented controls and counsel validation for scale, and no broad family autopilot before the first coordination loop is paid and repeatable.</p>
+    <h2 style="margin-top:36px;">One request. Your people. Zero friction.</h2>
+    <p class="section-note">If we make the MVP chargeable, clean up ownership, prove paid demand, instrument real COGS, make onboarding autonomous, and move voice through explicit product gates, the sprint becomes an evidence machine: it tells us whether to scale, pivot, pause, or deepen the partnership.</p>
+    <div class="footer"><span>Close</span><span>Looheru Strategic Partnership Proposal</span></div>
+  </section>
+</main>
+</body>
+</html>
