@@ -1,6 +1,6 @@
 {
-  "traceId": "trc_20260512_021241Z_joz7okgt",
-  "issueUrl": "https://github.com/h3ro-dev/family-coordination-assistant/issues/9",
+  "traceId": "trc_20260512_131522Z_clvdy1fx",
+  "issueUrl": "https://github.com/h3ro-dev/family-coordination-assistant/issues/11",
   "sourceDocs": [
     {
       "file": "00-source-map.md",
@@ -497,6 +497,13 @@
       "model": "Codex GPT-5 with current source checks and local proposal edit",
       "status": "Completed in local workspace; tracked in GitHub issue #9",
       "question": "For every price, cited number, and material strategic determination, show the supporting source, source class, and calculation logic used to derive the proposal range."
+    },
+    {
+      "group": "Claude Design visual refresh",
+      "prompt": "Claude Design high-fidelity visual reimagination with content-freeze guard",
+      "model": "Claude Design via logged-in claude.ai browser session, high-fidelity mode",
+      "status": "Completed and exported into docs/design-handoff; integrated through GitHub Pages generator",
+      "question": "Reimagine the proposal's visual design without changing claims, numbers, citations, roadmap meaning, pricing, equity ranges, or legal/compliance statements, then export and integrate it into GitHub Pages."
     }
   ]
 }

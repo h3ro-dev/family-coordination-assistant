@@ -5,10 +5,12 @@ const repoRoot = process.cwd();
 const tamaraRoot = process.env.TAMARA_PROJECT_ROOT || path.resolve(repoRoot, "..", "..", "Tamara project");
 const docsDir = path.join(repoRoot, "docs");
 const researchDir = path.join(docsDir, "research");
+const designHandoffDir = path.join(docsDir, "design-handoff");
+const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260512_021241Z_joz7okgt";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/9";
-const issueLabel = "Issue #9";
+const traceId = "trc_20260512_131522Z_clvdy1fx";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/11";
+const issueLabel = "Issue #11";
 
 const sourceDocs = [
   {
@@ -555,6 +557,14 @@ const promptRuns = [
     status: "Completed in local workspace; tracked in GitHub issue #9",
     question:
       "For every price, cited number, and material strategic determination, show the supporting source, source class, and calculation logic used to derive the proposal range."
+  },
+  {
+    group: "Claude Design visual refresh",
+    prompt: "Claude Design high-fidelity visual reimagination with content-freeze guard",
+    model: "Claude Design via logged-in claude.ai browser session, high-fidelity mode",
+    status: "Completed and exported into docs/design-handoff; integrated through GitHub Pages generator",
+    question:
+      "Reimagine the proposal's visual design without changing claims, numbers, citations, roadmap meaning, pricing, equity ranges, or legal/compliance statements, then export and integrate it into GitHub Pages."
   }
 ];
 
@@ -782,6 +792,12 @@ function renderDocPage(doc) {
 }
 
 function writeProposalPage() {
+  if (fs.existsSync(claudeDesignExportPath)) {
+    const html = sanitizeClaudeDesignProposal(fs.readFileSync(claudeDesignExportPath, "utf8"));
+    fs.writeFileSync(path.join(docsDir, "proposal.html"), html);
+    return;
+  }
+
   const sourcePath = path.join(tamaraRoot, "proposal", "looheru-official-proposal.html");
   let html = fs.readFileSync(sourcePath, "utf8");
   html = html.replace(
@@ -815,6 +831,14 @@ function writeProposalPage() {
 </div>`
   );
   fs.writeFileSync(path.join(docsDir, "proposal.html"), html);
+}
+
+function sanitizeClaudeDesignProposal(html) {
+  return html
+    .replace(/\n\.opt\.featured\{background:var\(--cream\)\}/g, "")
+    .replace(/\n\.opt\.featured::before\{[^}]*\}/g, "")
+    .replace(/\n\s*\.opt\.featured::before\{transform:translate\(-50%,-50%\)\}/g, "")
+    .replaceAll('class="opt featured"', 'class="opt"');
 }
 
 ensureDir(researchDir);
