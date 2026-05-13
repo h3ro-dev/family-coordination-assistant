@@ -68,9 +68,99 @@
           <p>Replaced the previous partnership stance with three market-grounded paths, including Option B: Strategic Build Partner.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>Market-Grounded Partnership And Technology Options</h2>
+<p>Date: 2026-05-11 Trace ID: <code>trc_20260511_235419Z_5u96wlf5</code></p>
+<h3>Executive Update</h3>
+<p>The prior proposal was too conservative in two ways:</p>
+<ol><li>It treated legal review as a gating blocker instead of a risk-management validation step.</li><li>It treated upfront equity as something to avoid, when a serious technical/build partner would reasonably want equity if it is taking real product, architecture, implementation, and operating risk.</li></ol>
+<p>The corrected stance:</p>
+<blockquote>Looheru should move forward with research-backed product gates, not legal paralysis. Counsel should validate the highest-risk edges, but the team can make informed product decisions from the available regulatory, vendor, and market data. Utlyze/SolutionStream should also present equity-bearing paths because a company-building technical partner is not the same as an advisor or hourly vendor.</blockquote>
+<h3>Repo-Grounded Product Baseline</h3>
+<p>The associated product repo is not just a concept deck. It is a working coordination engine:</p>
+<ul><li>Repo: <code>h3ro-dev/family-coordination-assistant</code></li><li>Local checkout: <code>[local path redacted]</code></li><li>Stack: Node, Fastify, TypeScript, Postgres, <code>pg-boss</code>, Twilio, Resend.</li><li>Current channels: SMS, email, and Twilio Voice scripted calling.</li><li>Current workflow engine: request -&gt; outreach -&gt; options -&gt; parent choice -&gt; confirmation.</li><li>Existing voice components:</li><li><code>voice_jobs</code> table;</li><li><code>TwilioVoiceDialer</code>;</li><li><code>/webhooks/twilio/voice/answer</code>;</li><li><code>/webhooks/twilio/voice/gather</code>;</li><li><code>/webhooks/twilio/voice/status</code>;</li><li><code>/webhooks/voice/result</code>;</li><li>clinic / therapy task creation in admin UI;</li><li>scripted availability and booking calls;</li><li>voice-result ingestion into <code>task_options</code>.</li></ul>
+<p>The repo already proves the core architecture: a durable coordination core with replaceable adapters. The next technology step is hardening and upgrading, not inventing the first voice path from scratch.</p>
+<h3>Legal-Informed, Not Legal-Blocked</h3>
+<p>The product can responsibly move faster if we distinguish:</p>
+<ul><li>legal facts that are already knowable;</li><li>product risk gates we can encode;</li><li>residual legal questions that should be validated before scale.</li></ul>
+<p>Known enough to design around:</p>
+<ul><li>FCC: AI-generated humanlike voices are treated as artificial/prerecorded voice under TCPA analysis.</li><li>Twilio Lookup: line-type intelligence can identify mobile, landline, fixed VoIP, non-fixed VoIP, toll-free, and more.</li><li>California AB 3030: appointment scheduling, billing, and other clerical/business matters are expressly carved out from <code>patient clinical information</code> in that statute.</li><li>HHS: parent/personal-representative authority is usually broad for minors, but exceptions exist for minor-confidential services and state-law specific situations.</li><li>FTC: non-HIPAA consumer health apps can still face health-data breach and unauthorized-disclosure obligations.</li><li>Twilio: Programmable Voice/SMS can support HIPAA-eligible workflows under the right account, product, and BAA structure if Looheru later crosses into PHI-heavy scope.</li></ul>
+<p>Recommended operating stance:</p>
+<ul><li>Phase 1 and Phase 2 can proceed from researched product gates.</li><li>Counsel should review the exact policy matrix before broad scale, state expansion, PHI-heavy workflows, or clinical/identity/minor-confidential categories.</li><li>Counsel should not be framed as the reason the team cannot build or test. Counsel validates and sharpens the launch rules.</li></ul>
+<h3>Technology Roadmap By Phase</h3>
+<h4>Phase 0: Own And Harden The Current Product</h4>
+<p>Use the existing repo.</p>
+<p>Build:</p>
+<ul><li>company-owned repo/domain/Twilio/Resend/Railway/Stripe controls;</li><li>Twilio webhook signature verification;</li><li>Twilio Lookup line-type checks;</li><li>Stripe payment and plan caps;</li><li>autonomous onboarding;</li><li>task ledger and COGS tracking;</li><li>structured failure / blocked-task taxonomy;</li><li>retention changes so voice stores structured results, not raw transcripts by default.</li></ul>
+<h4>Phase 1: Paid Autonomous SMS/Email Coordination</h4>
+<p>Use:</p>
+<ul><li>current Fastify/Postgres coordination core;</li><li>Twilio SMS;</li><li>Resend email;</li><li><code>pg-boss</code> background jobs;</li><li>current saved-contact state machine.</li></ul>
+<p>Goal:</p>
+<ul><li>prove paid demand and repeat use without Looheru human labor.</li></ul>
+<h4>Phase 1.5: Parent-Facing Voice Intake</h4>
+<p>Use:</p>
+<ul><li>OpenAI Realtime / GPT-Realtime-2 for speech-to-structured task capture;</li><li>xAI Grok Voice or STT as an alternate adapter;</li><li>Gemini Live if multimodal Google ecosystem fit matters;</li><li>the existing <code>tasks</code>, <code>contacts</code>, and <code>task_options</code> model.</li></ul>
+<p>Goal:</p>
+<ul><li>make onboarding and task entry easier for parents before doing broad outbound calls.</li></ul>
+<h4>Phase 2: Scripted Outbound Voice For Low-Risk Business Logistics</h4>
+<p>Use and harden the current Twilio Voice implementation:</p>
+<ul><li>TwiML <code>&lt;Gather input=&quot;speech&quot;&gt;</code>;</li><li>deterministic slot parsing;</li><li>yes/no confirmation;</li><li><code>voice_jobs</code>;</li><li><code>/webhooks/voice/result</code>;</li><li>no recording;</li><li>no voicemail drop;</li><li>line-type blocklist;</li><li>business-main-line only;</li><li>office opt-out.</li></ul>
+<p>Goal:</p>
+<ul><li>use voice for camps, classes, household services, and nonclinical office logistics.</li></ul>
+<h4>Phase 3: Realtime Voice Bridge</h4>
+<p>Build a separate voice bridge service only after the scripted lane is proven.</p>
+<p>Use:</p>
+<ul><li>Twilio Media Streams, SIP, or a managed voice-agent layer;</li><li>OpenAI Realtime / xAI Voice / Gemini Live adapter interface;</li><li>deterministic tool calls into the coordination core;</li><li>structured result contract back to <code>/webhooks/voice/result</code>;</li><li>prohibited-topic classifier;</li><li>real-time stop rules;</li><li>structured output only.</li></ul>
+<p>Goal:</p>
+<ul><li>improve conversation flexibility without putting the state machine inside the voice model.</li></ul>
+<h4>Phase 4: Healthcare Logistics And Sponsored Cohorts</h4>
+<p>Use:</p>
+<ul><li>the same core/adapters pattern;</li><li>Twilio HIPAA-eligible product posture if PHI workflows become real;</li><li>BAAs only where the product crosses into covered-entity/business-associate or PHI-heavy territory;</li><li>sponsor cohort dashboards and reporting.</li></ul>
+<p>Goal:</p>
+<ul><li>expand from nonclinical logistics into higher-value healthcare-adjacent coordination with explicit risk acceptance and technical controls.</li></ul>
+<h3>Market-Grounded Partnership Options</h3>
+<p>The proposal should give three paths.</p>
+<h4>Option A: Cash Services / No Equity</h4>
+<p>Best if Tamara wants maximum founder ownership and treats Utlyze/SolutionStream as a vendor.</p>
+<p>Suggested economics:</p>
+<ul><li>Discovery / solution map: <code>$10K-$18K</code>.</li><li>Build + Own Sprint: <code>$45K-$75K</code>.</li><li>Follow-on build: <code>$80K-$180K</code> depending on scope.</li><li>Equity: <code>0%</code>.</li></ul>
+<p>Trade-off:</p>
+<ul><li>Lowest dilution.</li><li>Highest cash requirement.</li><li>Less upside alignment for Utlyze/SolutionStream.</li></ul>
+<h4>Option B: Strategic Build Partner</h4>
+<p>Recommended.</p>
+<p>Best if both sides want real alignment without jumping to a full venture-studio structure.</p>
+<p>Suggested economics:</p>
+<ul><li>Build + Own Sprint cash: <code>$25K-$45K</code>.</li><li>Monthly build/operator retainer after sprint: <code>$8K-$18K/month</code>.</li><li>Equity or warrant pool: <code>3%-7%</code>, signed at the start but vesting over time and milestones.</li></ul>
+<p>Suggested vesting:</p>
+<ul><li>24-36 month vesting.</li><li>Milestone tranche for production hardening and paid pilot readiness.</li><li>Milestone tranche for successful paid pilot and autonomous onboarding.</li><li>Milestone tranche for voice lane hardening and sponsored cohort readiness.</li><li>Unvested equity stops if the relationship ends.</li></ul>
+<p>Trade-off:</p>
+<ul><li>Preserves founder control.</li><li>Gives Utlyze/SolutionStream real company upside.</li><li>More market-consistent than advisor equity because the role is build/operator, not advice.</li></ul>
+<h4>Option C: Venture Studio / Cofounder-Level Build Partner</h4>
+<p>Best only if Tamara wants Utlyze/SolutionStream to function as a true co-builder with sustained team, capital, architecture, product, and operating responsibility.</p>
+<p>Suggested economics:</p>
+<ul><li>Cash: <code>$0K-$25K/month</code> depending on how much studio cost is subsidized.</li><li>Equity: <code>10%-20%</code> for a meaningful co-build role from the current product baseline.</li><li>Higher than <code>20%</code> only if Utlyze/SolutionStream supplies meaningful capital, sustained full-stack team, executive operating responsibility, and accepts company-creation risk comparable to a venture studio.</li></ul>
+<p>Trade-off:</p>
+<ul><li>Highest alignment and lowest cash.</li><li>Highest dilution.</li><li>Requires clearer governance, board/observer rights, decision rights, vesting, repurchase/offboarding, and reserved matters.</li></ul>
+<h3>Market Anchors</h3>
+<p>Advisor equity is not the right benchmark for a build partner, but it helps define the floor. Carta reports that the median pre-seed advisor grant was about <code>0.21%</code>, and only a small minority of advisors received <code>1%+</code>. Fractional CTO market guides commonly place hybrid cash/equity arrangements around <code>0.25%-2%</code>, depending on time commitment and operating accountability.</p>
+<p>Product-studio and service-for-equity examples are materially higher. Public examples show <code>5%-15%</code> or <code>10%-20%</code> equity for MVP/product build partnerships, especially when cash is reduced. True venture studios are higher still, often <code>30%-70%</code> in ventures they create from scratch, because they supply capital, team, and company formation.</p>
+<p>Looheru is not a studio-created company from scratch. Tamara brings founder-market fit, story, distribution, and a working field-tested prototype. Utlyze/SolutionStream brings the ability to turn that into a durable AI product/company. That makes the recommended fair zone lower than a full studio stake but higher than advisor equity.</p>
+<h3>Recommended Proposal Language</h3>
+<blockquote>We recommend Option B: a Strategic Build Partner structure. It gives Tamara founder control and majority ownership, while giving Utlyze/SolutionStream real upside for taking product, architecture, implementation, AI voice, and operating risk. The equity should be committed up front but earned through vesting and milestones, not handed over fully vested on day one.</blockquote>
+<h3>Sources</h3>
+<ul><li>Current repo: <code>[local path redacted]</code></li><li>Carta advisor equity benchmark: <code>https://carta.com/learn/startups/founding-team/advisor/</code></li><li>Fractional CTO compensation benchmark: <code>https://fractionalcxo.to/guides/fractional-cto-cost-guide</code></li><li>Venture studio equity benchmark: <code>https://www.mandalorepartners.com/research/tag/Studio</code></li><li>Product-studio market examples:</li><li><code>https://pixelperinches.com/</code></li><li><code>https://quantflow.studio/startups</code></li><li>FCC AI voice ruling: <code>https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf</code></li><li>Twilio Lookup line-type docs: <code>https://www.twilio.com/docs/lookup/quickstart</code></li><li>Twilio HIPAA-eligible Voice/SMS: <code>https://www.twilio.com/en-us/changelog/programmable-voice--sip--and-sms-are-now-hipaa-eligible</code></li><li>FTC Health Breach Notification Rule update: <code>https://www.ftc.gov/news-events/news/press-releases/2024/04/ftc-finalizes-changes-health-breach-notification-rule</code></li><li>HHS personal representative guidance: <code>https://www.hhs.gov/hipaa/for-professionals/privacy/guidance/personal-representatives/index.html</code></li></ul>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.

@@ -613,6 +613,222 @@ function slugFromFile(file) {
     .toLowerCase();
 }
 
+function sourcePathForDoc(file) {
+  return path.join(tamaraRoot, "research", file);
+}
+
+function canPublishFullSource(doc) {
+  const sensitivity = doc.sensitivity.toLowerCase();
+  return !(
+    sensitivity.includes("private source") ||
+    sensitivity.includes("private evidence") ||
+    sensitivity.includes("raw transcript") ||
+    sensitivity.includes("raw email") ||
+    sensitivity.includes("redacted")
+  );
+}
+
+function redactPublicMarkdown(markdown) {
+  return markdown
+    .replace(/\/Users\/jamesbrady(?:\/[^\n`)]+)?/g, "[local path redacted]")
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email redacted]");
+}
+
+function inlineMarkdown(value) {
+  const codeSnippets = [];
+  let html = String(value).replace(/`([^`]+)`/g, (_match, code) => {
+    const token = `@@CODE${codeSnippets.length}@@`;
+    codeSnippets.push(`<code>${escapeHtml(code)}</code>`);
+    return token;
+  });
+
+  html = escapeHtml(html);
+  html = html.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+    (_match, text, href) =>
+      `<a href="${escapeHtml(href)}">${escapeHtml(text)}</a>`
+  );
+  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+  for (const [index, snippet] of codeSnippets.entries()) {
+    html = html.replaceAll(`@@CODE${index}@@`, snippet);
+  }
+
+  return html;
+}
+
+function splitTableRow(line) {
+  return line
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function isTableDivider(line) {
+  return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+}
+
+function renderTable(lines, start) {
+  const header = splitTableRow(lines[start]);
+  const rows = [];
+  let i = start + 2;
+  while (i < lines.length && /\|/.test(lines[i]) && lines[i].trim()) {
+    rows.push(splitTableRow(lines[i]));
+    i += 1;
+  }
+
+  const thead = `<thead><tr>${header
+    .map((cell) => `<th>${inlineMarkdown(cell)}</th>`)
+    .join("")}</tr></thead>`;
+  const tbody = `<tbody>${rows
+    .map(
+      (row) =>
+        `<tr>${row.map((cell) => `<td>${inlineMarkdown(cell)}</td>`).join("")}</tr>`
+    )
+    .join("")}</tbody>`;
+
+  return { html: `<table class="table source-table">${thead}${tbody}</table>`, next: i };
+}
+
+function markdownToHtml(markdown) {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const blocks = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      i += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("```")) {
+      const codeLines = [];
+      i += 1;
+      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+        codeLines.push(lines[i]);
+        i += 1;
+      }
+      if (i < lines.length) i += 1;
+      blocks.push(`<pre><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+      continue;
+    }
+
+    const heading = /^(#{1,6})\s+(.+)$/.exec(trimmed);
+    if (heading) {
+      const level = Math.min(heading[1].length + 1, 6);
+      blocks.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      i += 1;
+      continue;
+    }
+
+    if (/^---+$/.test(trimmed)) {
+      blocks.push("<hr />");
+      i += 1;
+      continue;
+    }
+
+    if (i + 1 < lines.length && /\|/.test(trimmed) && isTableDivider(lines[i + 1])) {
+      const table = renderTable(lines, i);
+      blocks.push(table.html);
+      i = table.next;
+      continue;
+    }
+
+    if (/^>\s+/.test(trimmed)) {
+      const quoteLines = [];
+      while (i < lines.length && /^>\s?/.test(lines[i].trim())) {
+        quoteLines.push(lines[i].trim().replace(/^>\s?/, ""));
+        i += 1;
+      }
+      blocks.push(`<blockquote>${inlineMarkdown(quoteLines.join(" "))}</blockquote>`);
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(trimmed)) {
+      const items = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^[-*]\s+/, ""));
+        i += 1;
+      }
+      blocks.push(`<ul>${items.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ul>`);
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const items = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
+        i += 1;
+      }
+      blocks.push(`<ol>${items.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ol>`);
+      continue;
+    }
+
+    const paragraph = [];
+    while (
+      i < lines.length &&
+      lines[i].trim() &&
+      !/^(#{1,6})\s+/.test(lines[i].trim()) &&
+      !/^[-*]\s+/.test(lines[i].trim()) &&
+      !/^\d+\.\s+/.test(lines[i].trim()) &&
+      !/^>\s?/.test(lines[i].trim()) &&
+      !lines[i].trim().startsWith("```") &&
+      !(i + 1 < lines.length && /\|/.test(lines[i].trim()) && isTableDivider(lines[i + 1]))
+    ) {
+      paragraph.push(lines[i].trim());
+      i += 1;
+    }
+    blocks.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
+  }
+
+  return blocks.join("\n");
+}
+
+function renderSourceDocumentSection(doc) {
+  const sourcePath = sourcePathForDoc(doc.file);
+  if (!fs.existsSync(sourcePath)) {
+    return `
+        <section class="card">
+          <h2>Research Document</h2>
+          <div class="callout warn">
+            The source markdown file was not found at generation time, so this public page includes the summary, questions, model, and publication boundary only.
+          </div>
+        </section>
+`;
+  }
+
+  if (!canPublishFullSource(doc)) {
+    return `
+        <section class="card">
+          <h2>Research Document</h2>
+          <div class="callout warn">
+            This research source is private or redacted. The public page intentionally exposes the model, questions, and summary without copying raw mailbox,
+            transcript, private attachment, or account material into GitHub Pages.
+          </div>
+        </section>
+`;
+  }
+
+  const markdown = redactPublicMarkdown(fs.readFileSync(sourcePath, "utf8").trim());
+  return `
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+${markdownToHtml(markdown)}
+          </div>
+        </section>
+`;
+}
+
 function renderShell({ title, description, nav = "", body, depth = "." }) {
   return `<!doctype html>
 <html lang="en">
@@ -803,9 +1019,10 @@ function renderDocPage(doc) {
           <p>${escapeHtml(doc.summary)}</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+${renderSourceDocumentSection(doc)}
 `;
   return renderShell({
     title: `Looheru Research - ${doc.title}`,

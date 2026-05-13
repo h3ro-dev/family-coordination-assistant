@@ -68,9 +68,128 @@
           <p>Updated the product stance toward autonomous onboarding, parent handoff only when blocked, earlier parent-facing voice, and phased outbound voice.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>Autonomous Onboarding And Voice Phase Reevaluation</h2>
+<p>Date: 2026-05-11 Trace ID: <code>trc_20260511_234002Z_x6nfvim1</code></p>
+<h3>Executive Takeaway</h3>
+<p>Yes, this changes the product sequencing.</p>
+<p>The earlier proposal treated human escalation as a safety and reliability valve. After re-reading the meeting notes and checking the newest voice-agent releases available as of May 11, 2026, the better product posture is:</p>
+<blockquote>Looheru should be autonomous by default. The MVP should not depend on a Looheru human support layer. When the system cannot complete a task safely, it should fail closed, return the decision to the parent, or block the workflow.</blockquote>
+<p>That does <strong>not</strong> mean the system should make every call or handle every category autonomously. It means the product should avoid building an underpriced human concierge business into the core offer.</p>
+<p>The key update is to separate three concepts that were previously blended together:</p>
+<ol><li><strong>Autonomous onboarding</strong>: should move into the MVP.</li><li><strong>Autonomous low-risk coordination</strong>: should be the core paid product.</li><li><strong>Autonomous outbound healthcare/provider voice</strong>: can move earlier in the roadmap for nonclinical logistics, but only behind line-type, disclosure, retention, and prohibited-topic gates.</li></ol>
+<h3>What Changed In The Technology Context</h3>
+<h4>OpenAI</h4>
+<p>OpenAI announced new Realtime API voice models on <strong>May 7, 2026</strong>:</p>
+<ul><li><code>GPT-Realtime-2</code>: a realtime voice model with GPT-5-class reasoning for live conversations, tool calls, corrections, interruptions, and longer agentic workflows.</li><li><code>GPT-Realtime-Translate</code>: live translation across more than 70 input languages into 13 output languages.</li><li><code>GPT-Realtime-Whisper</code>: live streaming speech-to-text.</li></ul>
+<p>OpenAI specifically describes the new pattern as moving realtime audio from simple call-and-response toward agents that can listen, reason, translate, transcribe, use tools, and take action while a conversation unfolds.</p>
+<p>Sources:</p>
+<ul><li>https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/</li><li>https://developers.openai.com/api/docs/guides/voice-agents</li></ul>
+<h4>xAI</h4>
+<p>xAI released <code>grok-voice-think-fast-1.0</code> as a flagship voice model in April 2026, with emphasis on ambiguous multi-step workflows, high-volume tool calling, precise data entry, telephony audio, accents, and interruptions. xAI also claims Starlink is using Grok Voice in phone sales and support with a 70% autonomous support resolution rate.</p>
+<p>xAI also exposes a Voice Agent API over WebSocket, tool support, OpenAI Realtime API compatibility, telephony examples, and STT/TTS APIs with strong entity extraction and low published STT costs.</p>
+<p>Sources:</p>
+<ul><li>https://x.ai/news/grok-voice-think-fast-1</li><li>https://docs.x.ai/developers/model-capabilities/audio/voice-agent</li><li>https://x.ai/news/grok-stt-and-tts-apis</li></ul>
+<h4>Google</h4>
+<p>Google launched Gemini 3.1 Flash Live via the Gemini Live API in March 2026. It supports low-latency voice and vision agents, stronger instruction-following, tool use, function calling, session management, ephemeral tokens, multilingual interactions, and barge-in.</p>
+<p>Sources:</p>
+<ul><li>https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-3-1-flash-live/</li><li>https://ai.google.dev/gemini-api/docs/live-api</li></ul>
+<h3>What This Means For Looheru</h3>
+<p>The product should not depend on a human layer for onboarding or normal task completion. That is consistent with the Friday conversation:</p>
+<ul><li>Moms do not want training.</li><li>Moms do not want setup burden.</li><li>The product should silently automate where possible.</li><li>Amazon-style &quot;no customer service because it just works&quot; is the right product ideal.</li><li>Pricing should not silently become human concierge.</li></ul>
+<p>The product should therefore use:</p>
+<ul><li>autonomous guided onboarding;</li><li>progressive contact/context collection;</li><li>deterministic task gates;</li><li>explicit task caps;</li><li>automated failure states;</li><li>parent-in-the-loop decisions;</li><li>no hidden Looheru operator doing the work.</li></ul>
+<h3>Product Rule Update: No Human Escalation</h3>
+<p>Replace the old &quot;human escalation&quot; concept with <strong>autonomous containment</strong>.</p>
+<table class="table source-table"><thead><tr><th>Old Concept</th><th>Updated Concept</th></tr></thead><tbody><tr><td>Human escalation</td><td>Automated stop, defer, or parent handoff</td></tr><tr><td>Human review</td><td>Deterministic policy check + blocked lane</td></tr><tr><td>Human takeover</td><td>End call / stop workflow / ask parent to proceed personally</td></tr><tr><td>White-glove onboarding</td><td>Autonomous guided setup with optional voice assistant</td></tr><tr><td>Premium human review</td><td>Premium automation capacity, faster retries, richer integrations, and voice credits</td></tr><tr><td>Office can ask for human callback</td><td>Office can ask for parent callback or opt out</td></tr></tbody></table>
+<p>This keeps the product software-led and protects margin. It also makes product truth cleaner: if the system cannot complete the task autonomously, that is a product-learning signal, not a hidden labor cost.</p>
+<h3>Autonomous Onboarding MVP</h3>
+<p>Autonomous onboarding should become a first-class MVP feature, not a later add-on.</p>
+<h4>MVP Onboarding Flow</h4>
+<ol><li>Account creation.</li><li>Plan selection and Stripe payment.</li><li>Short guided intake: household role, children count/ages if needed, ZIP/time zone, preferred communication channels.</li><li>Permission prompts with plain-language reasons:</li></ol>
+<ul><li>contacts;</li><li>calendar;</li><li>email only if needed and separately justified;</li><li>notifications/SMS.</li></ul>
+<ol><li>Saved-contact setup:</li></ol>
+<ul><li>import or manually add sitters/caregivers;</li><li>confirm relationship and allowed contact methods;</li><li>optionally send opt-in / expectation-setting message.</li></ul>
+<ol><li>First task wizard:</li></ol>
+<ul><li>choose task type;</li><li>choose contacts;</li><li>choose time window;</li><li>confirm message draft;</li><li>launch.</li></ul>
+<ol><li>Completion dashboard:</li></ol>
+<ul><li>request status;</li><li>replies;</li><li>parent decision;</li><li>confirmation.</li></ul>
+<h4>Voice In Onboarding</h4>
+<p>Because of the May 2026 voice-model changes, parent-facing voice onboarding can move forward. This is lower risk than outbound third-party calls because the user is directly interacting with Looheru.</p>
+<p>Recommended use:</p>
+<ul><li>parent speaks the first task;</li><li>model extracts structured fields;</li><li>model asks only missing clarifying questions;</li><li>parent confirms before outreach;</li><li>structured data persists, not raw voice/transcript by default.</li></ul>
+<h3>Revised Tier Philosophy</h3>
+<p>If there is no human escalation, tiers should not be based on &quot;access to humans.&quot; They should be based on:</p>
+<ul><li>number of task credits;</li><li>number of saved contacts;</li><li>supported channels;</li><li>retry depth;</li><li>calendar/contact integrations;</li><li>autonomous voice credits;</li><li>speed / priority queueing;</li><li>household complexity;</li><li>reporting/history.</li></ul>
+<h4>Suggested Paid Pilot Tiers</h4>
+<table class="table source-table"><thead><tr><th>Tier</th><th>Price</th><th>Automation Promise</th><th>Included</th></tr></thead><tbody><tr><td>Essential</td><td><code>$29 / 30 days</code></td><td>Autonomous saved-contact SMS/email coordination.</td><td>4 tasks, up to 5 contacts per task, basic onboarding, no voice.</td></tr><tr><td>Plus</td><td><code>$59 / 30 days</code></td><td>More capacity and better setup automation.</td><td>10 tasks, up to 10 contacts per task, calendar sync, contact import, automated retries.</td></tr><tr><td>Signature</td><td><code>$119 / 30 days</code></td><td>Highest autonomy and earliest voice access.</td><td>20 tasks, richer household/contact graph, priority automation queue, limited parent-facing voice intake, optional nonclinical business-main-line voice beta when gates are met.</td></tr></tbody></table>
+<p>No tier should promise unlimited concierge, human review, or provider advocacy.</p>
+<h3>Revised Phase Plan</h3>
+<h4>Phase 0: Build + Own Foundation</h4>
+<p>Goal: clean up ownership, security, payments, observability, and product gates.</p>
+<p>Must include:</p>
+<ul><li>repo/domain/Twilio/email/hosting/payment ownership map;</li><li>Stripe payment;</li><li>authentication and webhook verification;</li><li>task-state instrumentation;</li><li>plan/task caps;</li><li>blocked-task taxonomy;</li><li>autonomous onboarding architecture;</li><li>provider abstraction for voice vendors.</li></ul>
+<h4>Phase 1: Autonomous Saved-Contact MVP</h4>
+<p>Goal: prove paid autonomous coordination without a Looheru human operator.</p>
+<p>Included:</p>
+<ul><li>autonomous onboarding;</li><li>saved-contact SMS/email coordination;</li><li>parent approval before outreach where needed;</li><li>parent decision before confirmation;</li><li>automated retries;</li><li>deterministic fail-closed states;</li><li>no healthcare/provider voice;</li><li>no human escalation.</li></ul>
+<p>Primary metric:</p>
+<ul><li>completed tasks without Looheru human intervention.</li></ul>
+<h4>Phase 1.5: Parent-Facing Voice Intake And Onboarding</h4>
+<p>Goal: use the new realtime voice models to reduce onboarding friction and make requests easier.</p>
+<p>Included:</p>
+<ul><li>voice-to-structured-task intake;</li><li>spoken onboarding assistant;</li><li>speech-to-text field extraction;</li><li>confirmation before any outbound action;</li><li>no third-party autonomous calls yet.</li></ul>
+<p>Best technology candidates:</p>
+<ul><li>OpenAI <code>GPT-Realtime-2</code> for speech-to-speech task capture and tool calling.</li><li>OpenAI <code>GPT-Realtime-Whisper</code> or xAI STT for streaming transcription.</li><li>Gemini 3.1 Flash Live as a multimodal alternative if Google ecosystem integration matters.</li></ul>
+<h4>Phase 2: Autonomous Voice For Low-Risk Business Logistics</h4>
+<p>Goal: test outbound voice where the legal and product risk is materially lower than healthcare.</p>
+<p>Candidate workflows:</p>
+<ul><li>camps/classes general availability;</li><li>vendors/service providers;</li><li>business office hours;</li><li>intake process questions;</li><li>public scheduling logistics;</li><li>no identity verification;</li><li>no sensitive details.</li></ul>
+<p>Required gates:</p>
+<ul><li>verified business main line or fixed business VoIP;</li><li>no mobile or ambiguous line types;</li><li>upfront AI disclosure;</li><li>opt-out;</li><li>no voicemail drops;</li><li>no audio recording;</li><li>no durable raw transcript;</li><li>structured-only extraction;</li><li>prohibited-topic classifier;</li><li>automatic stop and parent handoff.</li></ul>
+<h4>Phase 3: Nonclinical Healthcare Logistics Voice Pilot</h4>
+<p>Goal: test whether voice can handle administrative healthcare logistics without entering clinical, insurance, billing, identity, or PHI-heavy workflows.</p>
+<p>Candidate workflows:</p>
+<ul><li>&quot;Are you accepting new patients?&quot;</li><li>&quot;What is your scheduling process?&quot;</li><li>&quot;What forms are required?&quot;</li><li>&quot;What fax/email/portal should a parent use?&quot;</li><li>&quot;What are your office hours?&quot;</li></ul>
+<p>Blocked:</p>
+<ul><li>diagnosis;</li><li>symptoms;</li><li>treatment;</li><li>medications;</li><li>insurance;</li><li>billing;</li><li>prior authorization;</li><li>teen/minor confidential services;</li><li>therapy/behavioral-health details;</li><li>identity or personal-representative verification.</li></ul>
+<p>This phase should still require outside counsel before launch, but it no longer needs to be treated as a vague distant roadmap item. The new voice technology makes the engineering plausible; the gating question is legal/product boundary design.</p>
+<h4>Phase 4: Sponsored Cohorts And Higher-Complexity Autonomy</h4>
+<p>Goal: expand only after Phase 1-3 evidence shows low exception rates.</p>
+<p>Do not sell this phase until the product can report:</p>
+<ul><li>task completion without human intervention;</li><li>blocked-task rate;</li><li>parent-handoff rate;</li><li>voice success rate;</li><li>opt-out rate;</li><li>support ticket rate;</li><li>COGS per task;</li><li>retention/repeat use;</li><li>sponsor-ready relief metrics.</li></ul>
+<h3>Architecture Recommendation</h3>
+<p>Use a <strong>voice-provider abstraction layer</strong>, not a single-vendor bet.</p>
+<p>The voice market is moving too quickly to hardwire one provider. The product should define a Looheru voice interface:</p>
+<ul><li>start session;</li><li>provide instructions;</li><li>stream audio in/out;</li><li>call tools;</li><li>emit structured events;</li><li>stop on prohibited topics;</li><li>persist structured output;</li><li>discard raw transcript/audio by default.</li></ul>
+<p>Then implement adapters for:</p>
+<ul><li>OpenAI Realtime;</li><li>xAI Grok Voice;</li><li>Gemini Live;</li><li>Twilio/Vapi/Retell if telephony routing becomes easier through them.</li></ul>
+<h3>Legal And Compliance Reality</h3>
+<p>The technology got better. The law did not disappear.</p>
+<p>The FCC's February 2024 declaratory ruling confirms that TCPA restrictions on artificial or prerecorded voice apply to current AI-generated humanlike voice calls. That means outbound AI calls still require consent analysis, line-type handling, disclosure, identification, and opt-out discipline.</p>
+<p>Source:</p>
+<ul><li>https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf</li></ul>
+<p>California AB 3030 also matters if Looheru ever becomes provider-side or generates patient communications about clinical information for healthcare entities. It requires AI disclaimers and human contact instructions for covered healthcare communications about patient clinical information. Looheru can reduce exposure by staying consumer-side and excluding patient-clinical content in the MVP.</p>
+<p>Source:</p>
+<ul><li>https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB3030</li></ul>
+<h3>Updated Confidence</h3>
+<table class="table source-table"><thead><tr><th>Area</th><th>Prior Confidence</th><th>Updated Confidence</th><th>Why</th></tr></thead><tbody><tr><td>Autonomous onboarding feasibility</td><td>70%</td><td>86%</td><td>Current realtime voice/tooling makes guided self-serve onboarding realistic.</td></tr><tr><td>No-human core MVP feasibility</td><td>72%</td><td>82%</td><td>Narrow saved-contact SMS/email coordination can fail closed instead of escalating.</td></tr><tr><td>Parent-facing voice intake</td><td>60%</td><td>82%</td><td>OpenAI/xAI/Google now support realtime speech, tool use, interruptions, and structured capture.</td></tr><tr><td>Nonclinical outbound business voice</td><td>55%</td><td>72%</td><td>Technical feasibility improved; legal gates still matter.</td></tr><tr><td>Autonomous healthcare/provider voice</td><td>68%</td><td>70%</td><td>Technology improved, but compliance and clinical-boundary risk still cap confidence.</td></tr><tr><td>Overall phase plan confidence</td><td>91%</td><td>92%</td><td>Better sequencing: autonomy-first MVP, voice intake earlier, external voice gated by risk.</td></tr></tbody></table>
+<h3>Bottom Line</h3>
+<p>The product should not be built around human escalation. It should be built around autonomous completion and autonomous containment.</p>
+<p>Recommended updated language:</p>
+<blockquote>Looheru should launch as an autonomous coordination product, not a tech-enabled concierge service. The MVP should onboard users without a human, complete narrow saved-contact tasks without a human, and fail closed when a request crosses a legal, identity, safety, or scope boundary. The newest voice models make parent-facing voice onboarding and task intake worth moving earlier, while outbound healthcare voice remains gated by line type, disclosure, data retention, prohibited-topic controls, and outside counsel.</blockquote>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.

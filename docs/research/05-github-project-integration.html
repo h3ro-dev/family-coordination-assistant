@@ -68,9 +68,88 @@
           <p>Identified the associated repo as h3ro-dev/family-coordination-assistant and recommended keeping raw private research outside the public repo.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>GitHub Project Integration Map</h2>
+<p>Last updated: 2026-05-11 Trace ID: <code>trc_20260511_130412Z_x79dqkqs</code></p>
+<h3>Associated GitHub Project</h3>
+<ul><li>Repo: <code>h3ro-dev/family-coordination-assistant</code></li><li>URL: https://github.com/h3ro-dev/family-coordination-assistant</li><li>Visibility: public</li><li>Default branch: <code>main</code></li><li>Local checkout: <code>[local path redacted]</code></li><li>GitHub Pages system guide: https://h3ro-dev.github.io/family-coordination-assistant/</li><li>Repo description: <code>Phase 1 MVP: SMS/email coordination orchestrator for families</code></li></ul>
+<p>This is the February project associated with Tamara / Looheru. The local commit history shows the MVP progression from SMS sitter orchestration through admin UI, email proxying, recommended architecture, voice result ingestion, and Twilio Voice scripted calling.</p>
+<h3>Placement Recommendation</h3>
+<p>Do not commit the raw research packet into this GitHub repo as-is. The repo is public, and the current research packet contains private mailbox evidence, relationship context, contact details, partnership positioning, and diligence questions that should remain private unless Tamara explicitly approves publication.</p>
+<p>Recommended structure:</p>
+<ol><li>Keep the private source-of-truth packet here:</li></ol>
+<ul><li><code>[local path redacted]</code></li></ul>
+<ol><li>Add a redacted, public-safe strategy document to the app repo:</li></ol>
+<ul><li><code>[local path redacted]</code></li></ul>
+<ol><li>Link that document from the app repo README only after it has been redacted:</li></ol>
+<ul><li><code>[local path redacted]</code></li></ul>
+<ol><li>Optionally add a public GitHub Pages section later:</li></ol>
+<ul><li><code>[local path redacted]</code></li></ul>
+<h3>What Can Safely Move Into The Public Repo</h3>
+<p>Public-safe material:</p>
+<ul><li>The category framing: SMS-first family coordination assistant.</li><li>The core wedge: trusted closed-loop execution for overloaded parents and caregivers.</li><li>Transcript-refined framing: parent assistant / task execution intervention, not family calendar or spouse-nudging software.</li><li>The product boundary: saved contacts first, not a marketplace or broad discovery product.</li><li>Public competitor landscape at a high level.</li><li>Defensibility themes: trust, consent, permissioned contact graph, reliability, privacy posture, workflow templates, and distribution.</li><li>Public pricing hypotheses, clearly labeled as hypotheses.</li><li>Pilot success metrics:</li><li>completed requests</li><li>time to first option</li><li>time to confirmed booking</li><li>parent manual-intervention rate</li><li>failed/abandoned task rate</li><li>cost per completed coordination</li><li>willingness to pay after trial</li><li>Public-safe strategic questions with names/contact details removed.</li></ul>
+<h3>What Should Stay Private</h3>
+<p>Keep out of the public repo unless explicitly approved:</p>
+<ul><li>Private Outlook/Gmail evidence and any direct email-derived wording.</li><li>Raw transcript text, private meeting notes, or non-public founder/partnership discussion.</li><li>Email addresses, phone numbers, private scheduling details, and forwarded-message context.</li><li>Internal Utlyze / SolutionStream positioning and partnership economics.</li><li>Named IP, contribution, equity, or credit questions involving specific people.</li><li>Claims about Tamara's private reach or distribution list unless she confirms the exact claim can be public.</li><li>Any live deployment URLs, admin URLs, secrets, customer/test-family data, or vendor-account status.</li><li>Any healthcare/special-needs details that could imply sensitive family or medical context.</li></ul>
+<h3>Best Repo Targets</h3>
+<h4>1. <code>docs/product-strategy-and-research.md</code></h4>
+<p>Best first addition. This should be a public-safe synthesis covering:</p>
+<ul><li>Positioning</li><li>Target customer</li><li>Problem validation hypotheses</li><li>Competitive landscape</li><li>Pricing hypotheses</li><li>GTM hypotheses</li><li>Pilot metrics</li><li>Partnership/open strategic questions, redacted</li></ul>
+<p>This keeps strategy separate from the technical architecture.</p>
+<h4>2. <code>docs/pilot-runbook.md</code></h4>
+<p>Good place for operationally useful research-derived changes:</p>
+<ul><li>Pilot cohort assumptions</li><li>Pilot scope boundaries</li><li>Success metrics</li><li>Launch-readiness checklist</li><li>Privacy/compliance guardrails for pilot use</li></ul>
+<p>This file also has documentation drift: it still says Phase 1 does not place phone calls, while the README and system guide state scripted Twilio Voice calling now exists.</p>
+<h4>3. <code>docs/recommended-architecture.md</code></h4>
+<p>Use only for architecture implications from the research:</p>
+<ul><li>Keep &quot;coordination core + adapters&quot; as the technical center.</li><li>Keep healthcare scheduling and voice agents behind stricter compliance and privacy gates.</li><li>Add observability and measurement requirements if the repo moves from prototype to pilot.</li></ul>
+<p>Avoid mixing GTM, pricing, and partnership strategy into this file.</p>
+<h4>4. <code>README.md</code></h4>
+<p>Use only as an index:</p>
+<ul><li>Add one short link to the public-safe strategy document.</li><li>Do not put the detailed research directly in the README.</li></ul>
+<h4>5. <code>docs/index.html</code></h4>
+<p>Only update this after the markdown strategy doc is stable. Since this is published through GitHub Pages, it should contain the most conservative public-safe version of the research.</p>
+<h3>Proposed Public-Safe Document Outline</h3>
+<pre><code># Product Strategy And Research
+
+## Positioning
+
+## First Wedge
+
+## Target Customer Hypotheses
+
+## Public Market Context
+
+## Differentiation And Defensibility
+
+## Pilot Scope
+
+## Pilot Metrics
+
+## Pricing Hypotheses
+
+## GTM Hypotheses
+
+## Open Strategic Questions
+
+## Out Of Scope For Public Repo</code></pre>
+<h3>Suggested Next Change Set</h3>
+<p>If we decide to add this to the app repo, the safest first patch is:</p>
+<ol><li>Create <code>docs/product-strategy-and-research.md</code> with redacted public-safe content.</li><li>Add a single README link under the existing system guide links.</li><li>Fix the <code>docs/pilot-runbook.md</code> voice documentation drift.</li><li>Run <code>pnpm lint</code>, <code>pnpm typecheck</code>, <code>pnpm test</code>, and <code>pnpm build</code> if docs changes touch only markdown; for markdown-only changes, a lighter docs/link review is acceptable.</li></ol>
+<h3>Current Recommendation</h3>
+<p>Use the public repo for a sanitized strategy artifact and pilot-readiness checklist. Keep the full private research packet outside the repo until there is a private repo, explicit publication approval, or a signed engagement context that defines what can be shared.</p>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.
