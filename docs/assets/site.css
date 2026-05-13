@@ -190,6 +190,71 @@ pre,
 
 .card ul { padding-left: 18px; margin: 10px 0 0; }
 
+.source-card {
+  display: grid;
+  gap: 14px;
+}
+
+.source-content {
+  display: grid;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.source-content h2,
+.source-content h3,
+.source-content h4,
+.source-content h5,
+.source-content h6 {
+  margin: 8px 0 0;
+  color: var(--text);
+  font-family: var(--serif);
+  letter-spacing: 0.2px;
+}
+
+.source-content h2 { font-size: 24px; }
+.source-content h3 { font-size: 20px; }
+.source-content h4 { font-size: 17px; }
+
+.source-content p,
+.source-content ul,
+.source-content ol,
+.source-content blockquote,
+.source-content pre,
+.source-content table {
+  margin: 0;
+}
+
+.source-content ul,
+.source-content ol {
+  padding-left: 22px;
+}
+
+.source-content li + li {
+  margin-top: 6px;
+}
+
+.source-content blockquote {
+  border-left: 3px solid var(--warn);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 209, 102, 0.08);
+  color: var(--text);
+}
+
+.source-content hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid rgba(233, 236, 245, 0.14);
+  margin: 6px 0;
+}
+
+.source-table {
+  margin: 4px 0;
+}
+
 .meta {
   display: grid;
   gap: 8px;

@@ -68,9 +68,80 @@
           <p>Reframed the first engagement as an AI-native Build + Test Sprint with build/test/decision gates and lower first-sprint pricing, while reserving larger budgets for later roadmap phases.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>AI-Native Roadmap Pricing Architecture</h2>
+<p>Date: 2026-05-12 Trace ID: <code>trc_20260512_013908Z_sxh8i9wk</code></p>
+<h3>Executive Update</h3>
+<p>The pricing architecture should be tied directly to the roadmap. The proposal should not ask Tamara to evaluate a generic 6-8 week &quot;project cost&quot; without seeing exactly what is built, what is tested, and what decisions are produced.</p>
+<p>The previous market-validation pass was directionally useful but over-weighted traditional agency replacement cost. That was too high for the first sprint if we assume:</p>
+<ul><li>The February <code>family-coordination-assistant</code> repo is a usable starting point.</li><li>The sprint is deliberately narrow.</li><li>We use AI-assisted development aggressively.</li><li>We do not include native mobile apps, full provider voice, full HIPAA / SOC 2, deep OAuth, 24/7 support, or broad enterprise systems in the first 6-8 weeks.</li></ul>
+<p>The revised pricing should separate:</p>
+<ol><li><strong>AI-native 6-8 week Build + Test Sprint</strong>: lower cash, tight roadmap, explicit tests.</li><li><strong>Phase 2 product expansion</strong>: additional connectors, parent voice, richer admin, sponsored cohort readiness.</li><li><strong>Phase 3 voice / provider / enterprise scale</strong>: higher-risk voice, compliance, reporting, and scale work.</li></ol>
+<h3>Current AI Development Pricing Logic</h3>
+<table class="table source-table"><thead><tr><th>Source signal</th><th>What it says</th><th>How it changes Looheru pricing</th></tr></thead><tbody><tr><td>GoodFirms 2026 survey</td><td>90.6% of software companies use AI tools across SDLC; 61% expect AI to reduce project budgets by 10-25%; small/mid software projects commonly price $30K-$100K; AI/advanced integrations often price $50K-$125K.</td><td>Do not price the first sprint like a traditional custom build. A 20-40% AI-native discount is reasonable if scope is narrow and the repo baseline is useful.</td></tr><tr><td>TeaCode 2026 MVP guide</td><td>AI-assisted development is listed around $20K-$100K over 2-4 months, while prompt-to-app/vibe builds can be $2K-$15K but are better for validation/simple internal tools.</td><td>Looheru should not be priced like a raw vibe-coded prototype, but the 6-8 week sprint can sit in the lower middle of AI-assisted MVP economics.</td></tr><tr><td>McKinsey genAI developer productivity research</td><td>AI can significantly speed routine coding, documentation, and refactoring; high-complexity tasks see much smaller gains and still require senior context, QA, and risk controls.</td><td>AI lowers implementation time; it does not remove product architecture, privacy, vendor, pilot, and operating-risk work.</td></tr><tr><td>Existing repo baseline</td><td>The project already has SMS/email coordination, Twilio Voice jobs, worker flows, docs, admin concepts, and testable architecture.</td><td>We should price from &quot;harden and validate existing product&quot; rather than &quot;build from zero.&quot;</td></tr></tbody></table>
+<h3>Revised Recommendation</h3>
+<p>Option B remains recommended, but the proposal should shift from a broad <code>$50K-$90K</code> sprint to a narrower AI-native first sprint:</p>
+<ul><li><strong>Option A: Cash Services / No Equity</strong>: <code>$40K-$70K</code> for the 6-8 week AI-native sprint, <code>0%</code> equity.</li><li><strong>Option B: Strategic Build Partner</strong>: <code>$25K-$45K</code> for the sprint, <code>$8K-$16K/month</code> if continued, and <code>4%-8%</code> equity or warrants that vest over milestones.</li><li><strong>Option C: Studio / Cofounder-Level Partner</strong>: <code>$0-$20K/month</code> during active build plus <code>12%-25%</code> earned equity, only if Utlyze / SolutionStream is carrying sustained product, engineering, GTM, and operating responsibility.</li></ul>
+<p>These numbers assume the first sprint is a focused roadmap sprint, not a full platform build.</p>
+<h3>What The 6-8 Week Sprint Includes</h3>
+<h4>Phase 0: Audit And Roadmap Lock</h4>
+<p>Timing: days 1-3.</p>
+<p>Build / create:</p>
+<ul><li>Repo, deployment, vendor-account, and ownership map.</li><li>Current-state technical risk list.</li><li>Sprint backlog with must-have / should-have / later split.</li><li>Phase gate table for voice, healthcare-adjacent tasks, and data retention.</li></ul>
+<p>Test / verify:</p>
+<ul><li>Production URL and deployment state.</li><li>SMS/email loop status.</li><li>Twilio webhook and voice job baseline.</li><li>Database/schema and job queue readiness.</li><li>Account ownership and credential handoff path.</li></ul>
+<p>Decision:</p>
+<ul><li>Confirm whether the repo is usable for the AI-native price.</li><li>Confirm final sprint scope and any scope that moves to Phase 2.</li></ul>
+<h4>Phase 1: Core Coordination Hardening</h4>
+<p>Timing: weeks 1-2.</p>
+<p>Build:</p>
+<ul><li>Saved-contact task model and status states.</li><li>Twilio signature verification.</li><li>Basic rate limiting / abuse checks.</li><li>Task event ledger.</li><li>COGS tracking by task and channel.</li><li>Admin visibility for task state, failed/blocked tasks, and completion.</li></ul>
+<p>Test:</p>
+<ul><li>End-to-end babysitter / caregiver coordination loop.</li><li>Failed reply, no reply, ambiguous reply, duplicate reply, and opt-out handling.</li><li>SMS/email cost capture.</li><li>Basic security / webhook verification.</li></ul>
+<p>Decision:</p>
+<ul><li>Is the first coordination loop reliable enough for a paid pilot?</li></ul>
+<h4>Phase 2: Autonomous Onboarding And Paid Pilot Path</h4>
+<p>Timing: weeks 3-4.</p>
+<p>Build:</p>
+<ul><li>Autonomous household setup.</li><li>Trusted-contact import / manual entry path.</li><li>Consent and task-scope setup.</li><li>Stripe checkout or payment-request path.</li><li>Plan limits / task credits.</li><li>First-task guided flow.</li></ul>
+<p>Test:</p>
+<ul><li>5-8 internal / friendly users complete setup without staff onboarding.</li><li>Payment friction.</li><li>First-task submission quality.</li><li>Blocked-task and parent-handoff logic.</li></ul>
+<p>Decision:</p>
+<ul><li>Is self-serve setup credible without a human onboarding option?</li></ul>
+<h4>Phase 3: Pilot Instrumentation And Launch</h4>
+<p>Timing: weeks 5-6.</p>
+<p>Build:</p>
+<ul><li>Pilot dashboard for activation, first task, repeat task, completion, COGS, containment, and blocked tasks.</li><li>Pilot invite and offer-card flow.</li><li>Post-task feedback form.</li><li>Refund / extension rule.</li><li>Sponsor-proof evidence template.</li></ul>
+<p>Test:</p>
+<ul><li>18-24 family pilot activation.</li><li>Paid checkout or paid commitment.</li><li>Completion rate by task type.</li><li>Cost per completed task.</li><li>Repeat usage and reported relief.</li></ul>
+<p>Decision:</p>
+<ul><li>Scale, pause, narrow, or pivot the first task loop.</li></ul>
+<h4>Phase 4: Voice And Next-Phase Decision Package</h4>
+<p>Timing: weeks 7-8.</p>
+<p>Build:</p>
+<ul><li>Parent-facing voice intake prototype or script.</li><li>Low-risk outbound voice policy matrix.</li><li>Voice provider recommendation.</li><li>Counsel-review packet for high-risk workflows.</li><li>Phase 2 roadmap and budget.</li></ul>
+<p>Test:</p>
+<ul><li>Parent-facing voice intake on low-risk requests.</li><li>Scripted nonclinical outbound calls only if product gates are met.</li><li>Structured-result retention without raw transcript/audio by default.</li></ul>
+<p>Decision:</p>
+<ul><li>Whether voice should move into Phase 2, stay parent-facing only, or wait.</li></ul>
+<h3>What Is Not Included In The First Sprint</h3>
+<ul><li>Native iOS / Android apps.</li><li>Full realtime voice bridge.</li><li>Full provider / healthcare scheduling at scale.</li><li>Insurance, prior authorization, billing, or clinical workflows.</li><li>Full HIPAA / SOC 2 program.</li><li>Deep calendar/contact OAuth beyond the pilot path.</li><li>24/7 support or human concierge operations.</li><li>Enterprise sponsor reporting beyond the pilot evidence template.</li><li>Fundraising, legal formation, or legal document drafting.</li></ul>
+<h3>Future Roadmap Phases</h3>
+<table class="table source-table"><thead><tr><th>Phase</th><th>Timing</th><th>Purpose</th><th>Example systems</th><th>Pricing posture</th></tr></thead><tbody><tr><td>Phase 1</td><td>Weeks 1-8</td><td>Prove first paid coordination loop.</td><td>Hardening, onboarding, payments, task ledger, pilot dashboard, pilot launch, voice decision packet.</td><td>AI-native sprint pricing.</td></tr><tr><td>Phase 2</td><td>Months 2-4</td><td>Expand product surface after proof.</td><td>Parent voice intake, calendar/contact improvements, richer admin, task templates, sponsored cohort readiness.</td><td>Separate SOW or retainer.</td></tr><tr><td>Phase 3</td><td>Months 4-6</td><td>Add higher-risk voice and scale systems.</td><td>Business/provider voice, state-by-state gates, deeper reporting, escalation rules, compliance controls.</td><td>Higher-risk product build pricing.</td></tr><tr><td>Phase 4</td><td>After proof</td><td>Platform expansion.</td><td>Native apps, enterprise benefits, richer integrations, marketplace/referral data plays, formal compliance program.</td><td>New budget / financing decision.</td></tr></tbody></table>
+<h3>Source Links</h3>
+<ul><li>GoodFirms 2026 custom software cost survey summary: <code>https://rss.globenewswire.com/news-release/2026/03/17/3257317/0/en/goodfirms-survey-91-of-software-companies-use-ai-to-cut-development-costs-in-2026.html</code></li><li>TeaCode 2026 MVP cost and AI guide: <code>https://www.teacode.io/blog/mvp-development-costs</code></li><li>McKinsey developer productivity with generative AI: <code>https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/unleashing-developer-productivity-with-generative-ai</code></li><li>Microsoft Research / GitHub Copilot productivity study: <code>https://www.microsoft.com/en-us/research/publication/the-impact-of-ai-on-developer-productivity-evidence-from-github-copilot/</code></li></ul>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.

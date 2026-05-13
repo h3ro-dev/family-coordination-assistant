@@ -68,9 +68,318 @@
           <p>Prepared nine deep-research prompts covering strategy, monetization, COGS, competitors, ICP, AI voice risk, partnership structures, pilot design, and public-safe repo artifacts.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>GPT 5.5 Pro Research Prompt Pack</h2>
+<p>Last updated: 2026-05-11 Purpose: prepare research prompts for GPT 5.5 Pro / deep research so James can run the research, bring results back, and use them to increase confidence before the May 21 follow-up with Tamara.</p>
+<p>Copy/paste-ready version with attachment paths: <code>08-copy-paste-gpt-55-pro-prompts.md</code>.</p>
+<h3>What We Promised Tamara On Friday</h3>
+<p>From the Otter-style transcript, the commitment was not to build immediately. It was to do a serious research and strategy pass, then return with concrete options.</p>
+<p>Promised or strongly implied deliverables:</p>
+<ol><li>Research the opportunity deeply.</li><li>Prepare actionable monetization propositions.</li><li>Prepare actionable partnership propositions.</li><li>Research price points and price sensitivity for the target ICP.</li><li>Analyze COGS and margin for the current baseline model.</li><li>Compare competitors and adjacent substitutes.</li><li>Identify where parents are already spending money or time today.</li><li>Think through B2C first, then B2B/employer/community benefit paths.</li><li>Research AI voice-call opportunities and legal/compliance constraints.</li><li>Bring back enough clarity to decide the next partnership/build step.</li></ol>
+<p>The follow-up meeting discussed in the transcript was Thursday, May 21, 2026, roughly 9:30-11:00 AM.</p>
+<h3>Working Context To Reuse In Prompts</h3>
+<p>Use this short context block at the top of any prompt where helpful:</p>
+<pre><code>Context:
+We are evaluating Looheru, a proposed parent assistant / task execution intervention for high-load families. The product starts as an SMS-first family coordination assistant: a parent texts one number, the system contacts saved sitters or providers, aggregates availability, returns options, and confirms the selected option. It is not intended to be a marketplace, family calendar, reminder app, or spouse-nudging tool. The core wedge is reducing cognitive burden by actually completing coordination tasks.
+
+Initial ICP hypothesis: high-performing working mothers, physician mothers, high-income dual-career households, and families with high coordination burden. Founder has healthcare AI/informatics credibility and access to physician-mother networks, but the first wedge should stay parent/caregiver-focused rather than clinical healthtech.
+
+Known technical baseline: public repo at https://github.com/h3ro-dev/family-coordination-assistant. It implements a Phase 1 MVP with SMS/email coordination, saved contacts, admin UI, Postgres workflow state, Twilio/Resend integrations, background jobs, and a voice-result/Twilio Voice path.
+
+We need to prepare for a follow-up meeting with actionable monetization options, partnership options, ICP/price sensitivity research, COGS modeling, competitive analysis, technical risk, and pilot design.</code></pre>
+<h3>Prompt 1: Master Strategy Research</h3>
+<pre><code>Act as a senior venture strategist, product strategist, and AI product diligence analyst.
+
+Use current web research. Cite sources with links and dates. Prioritize primary sources, official pricing pages, regulatory sources, company docs, public filings, reputable market reports, and credible interviews. Clearly separate confirmed facts, estimates, and your inferences.
+
+[Paste Working Context here.]
+
+Research whether Looheru's parent assistant / task execution intervention is a credible venture-scale opportunity or a narrower services/SaaS opportunity.
+
+Answer in these sections:
+1. Executive judgment: strongest path, biggest doubts, confidence level.
+2. Category definition: what market is this actually in?
+3. Pain validation: what evidence supports the cognitive-burden / family coordination problem?
+4. Substitutes today: what do target customers use now?
+5. Competitive landscape: family assistants, parent tech, AI assistants, concierge services, care marketplaces, and employer caregiver benefits.
+6. Defensible wedge: what cannot be easily copied by OpenAI, Google, Apple, Care.com, or a generic AI assistant?
+7. First ICP recommendation and why.
+8. First paid offer recommendation.
+9. 12-month product sequencing.
+10. Key invalidation risks.
+11. What we should ask Tamara next.
+12. Research appendix with source list.</code></pre>
+<h3>Prompt 2: Monetization And Pricing</h3>
+<pre><code>Act as a monetization strategist for consumer SaaS, concierge services, and employer-benefit products.
+
+Use current web research. Cite all sources. Include public pricing examples where available.
+
+[Paste Working Context here.]
+
+We need actionable monetization propositions for a May 21 meeting. Research and design pricing options for a parent assistant that completes coordination tasks, starting with babysitter/saved-contact scheduling and later expanding to summer camps, activities, and healthcare-provider calls.
+
+Evaluate:
+1. B2C subscription model with 3 tiers.
+2. Subscription plus usage caps / task credits.
+3. Concierge or human-reviewed premium tier.
+4. Employer/community/association benefit model.
+5. Hybrid B2C-to-B2B path.
+6. Whether ads or referral monetization should be avoided or deferred.
+
+For each model, provide:
+- target customer
+- price range
+- included tasks
+- usage limits
+- gross-margin risks
+- operational burden
+- why customers would pay
+- why they might churn
+- recommended pilot test
+
+Explicitly compare price sensitivity against:
+- family calendar apps
+- AI assistant apps
+- household/virtual assistant services
+- childcare/care coordination services
+- employer caregiver benefits
+- high-income family concierge or personal assistant substitutes
+
+End with 3 concrete pricing packages we could put in front of Tamara.</code></pre>
+<h3>Prompt 3: COGS And Unit Economics</h3>
+<pre><code>Act as a startup CFO and technical operations analyst.
+
+Use current pricing sources for Twilio, email providers, AI voice/transcription/model costs where possible, hosting/database assumptions, payment fees, and realistic support costs. Cite sources and state assumptions.
+
+[Paste Working Context here.]
+
+Build a first-pass COGS and unit economics model for a parent assistant that performs coordination tasks.
+
+Model these workflows separately:
+1. Babysitter coordination by SMS only.
+2. Babysitter coordination by SMS + email.
+3. Activity/summer camp coordination with browser/email work.
+4. Healthcare or provider scheduling with AI voice calls.
+5. High-touch concierge/human escalation case.
+
+For each workflow, estimate:
+- messages sent/received
+- voice minutes, if any
+- AI model/transcription/tool cost
+- email cost
+- hosting/database allocation
+- human support minutes
+- failed-task/remediation cost
+- estimated COGS per attempted task
+- estimated COGS per completed task
+- margin at $20, $29, $40, $79, and $99/month
+
+Then recommend:
+1. Fair-use limits.
+2. Task-credit structure.
+3. Minimum viable price.
+4. Metrics we must instrument in the MVP.
+5. What assumptions matter most and need real pilot data.</code></pre>
+<h3>Prompt 4: Competitor And Substitute Matrix</h3>
+<pre><code>Act as a competitive intelligence analyst.
+
+Use current web research. Cite every company claim from primary sources where possible. Do not rely on outdated listicles without verification.
+
+[Paste Working Context here.]
+
+Build a competitor and substitute matrix for Looheru.
+
+Include these categories:
+1. AI family assistants and parenting tech.
+2. Family calendars and coordination apps.
+3. AI personal assistants / executive assistants.
+4. Care marketplaces and childcare platforms.
+5. Virtual assistant / concierge services.
+6. Employer caregiver benefits.
+7. General AI assistants from OpenAI, Google, Apple, Anthropic, Microsoft, and others.
+8. AI voice-agent platforms that could make provider calls easier.
+
+For each relevant competitor/substitute, capture:
+- company/product
+- target customer
+- core use case
+- pricing
+- channels
+- AI capabilities
+- human support
+- SMS/email/voice/calendar capabilities
+- privacy/security posture
+- funding or traction if public
+- strengths
+- weaknesses
+- how Looheru could differentiate
+
+End with:
+1. top 5 direct threats
+2. top 5 indirect threats
+3. white-space opportunities
+4. what not to build because it is already commoditized</code></pre>
+<h3>Prompt 5: ICP, User Research, And Willingness To Pay</h3>
+<pre><code>Act as a user researcher and behavioral product strategist.
+
+Use current research sources and cite them. Include market/behavioral evidence on working mothers, physician mothers, caregiver burden, mental load, dual-career households, special-needs caregiving, and willingness to pay for time-saving services.
+
+[Paste Working Context here.]
+
+We need to validate the ICP and willingness-to-pay assumptions for Looheru.
+
+Research:
+1. Which segments feel the highest family coordination burden?
+2. Which segments already pay to remove household/admin work?
+3. How physician mothers and high-income working mothers differ from broad parent markets.
+4. Whether families with special-needs children represent a strong wedge or a compliance-heavy later segment.
+5. What jobs-to-be-done are highest frequency and highest pain.
+6. What setup burden users will tolerate for contacts/email/calendar/voice permissions.
+7. What emotional framing is strongest: time saved, fewer dropped balls, family reliability, executive-function support, caregiver support, or &quot;every mom needs an army.&quot;
+
+Produce:
+- 3 ICP options with pros/cons.
+- 10 discovery interview questions.
+- 10 willingness-to-pay test questions.
+- a 25-family pilot recruitment screener.
+- a recommendation for the first ICP to test and why.</code></pre>
+<h3>Prompt 6: AI Voice Calls, Consent, And Compliance</h3>
+<pre><code>Act as a legal/compliance research analyst and AI product risk analyst. This is research, not legal advice.
+
+Use current primary sources where possible: FCC, FTC, TCPA guidance, state AI disclosure laws, call recording consent law summaries from reputable legal sources, HIPAA/HHS guidance, Twilio/provider docs, and official state materials. Cite sources with links and dates.
+
+[Paste Working Context here.]
+
+Research the legal/compliance constraints for a parent-authorized AI assistant that calls businesses, caregivers, camps, clinics, dentists, therapists, or healthcare offices on behalf of a parent to schedule or gather availability.
+
+Focus on:
+1. Is this different from robocalling or solicitation if the call is parent-authorized and task-specific?
+2. What disclosure is required if an AI voice agent is interactive?
+3. Which U.S. states have AI disclosure, call recording, two-party consent, or automated-call constraints that matter?
+4. What changes when the call is to a healthcare provider or involves therapy/special-needs scheduling?
+5. HIPAA boundary: when is this consumer family logistics versus PHI/HIPAA-adjacent or covered workflow?
+6. What data should not be stored in early pilots?
+7. How should deterministic logic be used to reduce risk?
+8. What consent and audit logs should the product maintain?
+9. What should the AI voice agent say at the start of a call?
+10. What should remain human-reviewed until legal risk is clearer?
+
+End with:
+- launch-safe recommendations
+- red/yellow/green workflow classification
+- required counsel review questions
+- exact product guardrails for the MVP</code></pre>
+<h3>Prompt 7: Partnership Structures With Utlyze / SolutionStream</h3>
+<pre><code>Act as a venture studio operator and startup partnership strategist.
+
+[Paste Working Context here.]
+
+We need actionable partnership propositions to discuss with Tamara. She likely wants majority ownership, fast execution, direct communication, and a slim operating model. Utlyze/SolutionStream can bring AI research, software architecture/build capacity, product strategy, enterprise delivery experience, New Reward visibility, and Vuplicity/background-check adjacency.
+
+Design 6 partnership options:
+1. Paid discovery / solution map only.
+2. Technical audit + hardening sprint.
+3. Scoped build project.
+4. Fractional CTO / product partner.
+5. Venture studio build partner.
+6. Advisory-only relationship.
+
+For each option provide:
+- when it fits
+- scope
+- deliverables
+- duration
+- cash economics
+- possible equity/rev-share/warrant economics
+- decision rights
+- IP ownership
+- responsibilities for Tamara
+- responsibilities for Utlyze/SolutionStream
+- risks
+- clean exit/transition path
+- what must be true before selecting it
+
+Then recommend:
+1. the safest first step
+2. the highest-upside step
+3. what we should not offer yet
+4. negotiation questions for Tamara</code></pre>
+<h3>Prompt 8: Pilot Design And Build Roadmap</h3>
+<pre><code>Act as a product lead and technical program manager designing a lean pilot.
+
+[Paste Working Context here.]
+
+Design a 30-60 day pilot plan for Looheru that increases confidence without overbuilding.
+
+Include:
+1. first ICP and recruitment target
+2. pilot size
+3. inclusion/exclusion criteria
+4. first 1-2 workflows
+5. onboarding flow
+6. manual vs automated boundaries
+7. consent/privacy copy requirements
+8. success metrics
+9. support process
+10. risk monitoring
+11. product instrumentation
+12. what must be learned by week 2, week 4, and week 8
+13. what to build now, next, and later
+14. what to explicitly avoid building
+15. what evidence would justify a deeper partnership or build investment
+
+Assume the current baseline repo is the public `family-coordination-assistant` MVP and that it can be hardened rather than rebuilt from scratch.</code></pre>
+<h3>Prompt 9: Public-Safe Repo Research Artifact</h3>
+<pre><code>Act as a product strategist writing a public-safe strategy document for a public GitHub repo.
+
+Use this repo as context: https://github.com/h3ro-dev/family-coordination-assistant
+
+Write a public-safe `docs/product-strategy-and-research.md` for the repo.
+
+Constraints:
+- Do not include private emails, raw transcript content, contact details, private partnership discussion, named personal details, or internal Utlyze/SolutionStream economics.
+- Do not mention private distribution claims unless framed as hypotheses.
+- Keep it suitable for a public GitHub repository.
+- Separate facts from hypotheses.
+
+Sections:
+1. Positioning
+2. First wedge
+3. Target customer hypotheses
+4. Public market context
+5. Differentiation and defensibility
+6. Pilot scope
+7. Pilot metrics
+8. Pricing hypotheses
+9. GTM hypotheses
+10. Open strategic questions
+11. Out of scope for this public repo</code></pre>
+<h3>Suggested Run Order</h3>
+<p>Run these first:</p>
+<ol><li>Prompt 2: Monetization And Pricing.</li><li>Prompt 3: COGS And Unit Economics.</li><li>Prompt 4: Competitor And Substitute Matrix.</li><li>Prompt 6: AI Voice Calls, Consent, And Compliance.</li><li>Prompt 7: Partnership Structures.</li></ol>
+<p>Then run:</p>
+<ol><li>Prompt 5: ICP, User Research, And Willingness To Pay.</li><li>Prompt 8: Pilot Design And Build Roadmap.</li><li>Prompt 1: Master Strategy Research as a synthesis pass after the focused prompts.</li><li>Prompt 9 only when we are ready to create a redacted public repo artifact.</li></ol>
+<h3>Return Format For James To Send Back</h3>
+<p>When you paste research results back, include:</p>
+<pre><code>Prompt number:
+Key findings:
+Sources:
+Confidence:
+Surprises:
+Implications for Tamara:
+Questions still unresolved:</code></pre>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.

@@ -68,9 +68,56 @@
           <p>Adds a source register and calculation methodology for proposal pricing, equity, COGS, pilot thresholds, sponsored cohorts, roadmap scope, vendor assumptions, and legal/product risk gates.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>Proposal Source And Calculation Methodology</h2>
+<p>Date: 2026-05-12 Trace ID: <code>trc_20260512_021241Z_joz7okgt</code></p>
+<h3>Purpose</h3>
+<p>This pass answers James's request that the Looheru proposal show what supports each cited number, price pathway, percentage, and strategic determination. The proposal now uses compact citation chips and two appendix pages:</p>
+<ul><li><strong>Source Register</strong>: source IDs for private evidence, repo evidence, market data, vendor pricing, legal/product risk sources, and ownership/equity benchmarks.</li><li><strong>Calculation Notes</strong>: the method used to translate those sources into Looheru-specific planning ranges.</li></ul>
+<p>The intent is not to make the proposal look academic. The intent is to make the business logic auditable: Tamara should be able to see which numbers are external market anchors, which are vendor pass-through rates, which are direct Looheru evidence, and which are judgment calls that still require diligence.</p>
+<h3>Source Categories</h3>
+<table class="table source-table"><thead><tr><th>ID</th><th>Source category</th><th>Used for</th></tr></thead><tbody><tr><td><code>P1</code></td><td>Private Looheru packet, Friday transcript, partner brief, and local source map</td><td>Founder claims, first-booking proof, beta/pilot signals, network/distribution claims, Friday promises.</td></tr><tr><td><code>R1</code></td><td>Repo inspection of <code>h3ro-dev/family-coordination-assistant</code></td><td>Current product baseline, existing SMS/email/Twilio Voice architecture, realistic first-sprint scope.</td></tr><tr><td><code>COMP</code></td><td>Competitive intelligence research</td><td>Positioning map and white-space claim.</td></tr><tr><td><code>B1</code></td><td>Bessemer AI pricing playbook</td><td>Workflow/outcome-based pricing logic for AI agents.</td></tr><tr><td><code>G1</code></td><td>GPT 5.5 Pro GTM/pilot research</td><td>Pilot structure, activation/repeat thresholds, sponsor-proof evidence.</td></tr><tr><td><code>G2</code></td><td>AARP caregiving value report plus GTM synthesis</td><td>Sponsored/employer/cohort value story.</td></tr><tr><td><code>M1</code></td><td>Clutch software pricing</td><td>Traditional custom-software replacement-cost anchor.</td></tr><tr><td><code>S1</code></td><td>SSNTPL SaaS MVP cost guide</td><td>SaaS MVP/later-phase cost anchors.</td></tr><tr><td><code>A1</code></td><td>GoodFirms, TeaCode, McKinsey</td><td>AI-assisted development discount and productivity caveats.</td></tr><tr><td><code>F1</code></td><td>Fractional Pulse and Rewired</td><td>Fractional CTO/operator retainer anchors.</td></tr><tr><td><code>E1</code></td><td>Carta, Cooply, Fundreef</td><td>Advisor, technical/build partner, cofounder, and venture-studio equity anchors.</td></tr><tr><td><code>E2</code></td><td>BLS administrative support and virtual-assistant market checks</td><td>Manual labor avoided and substitution value.</td></tr><tr><td><code>V1</code></td><td>Twilio SMS, Voice, Lookup, webhook security, HIPAA eligibility</td><td>Telecom COGS, line-type gates, webhook controls, healthcare-adjacent vendor posture.</td></tr><tr><td><code>V2</code></td><td>OpenAI pricing and voice-agent docs</td><td>Realtime/parent-facing voice feasibility and voice COGS planning.</td></tr><tr><td><code>V3</code></td><td>Stripe, Resend, Railway</td><td>Payments, transactional email, hosting assumptions.</td></tr><tr><td><code>L1</code></td><td>FCC 24-17</td><td>AI voice / TCPA risk posture.</td></tr><tr><td><code>L2</code></td><td>FTC Health Breach Notification Rule</td><td>Consumer health data risk.</td></tr><tr><td><code>L3</code></td><td>HHS personal representatives guidance</td><td>Parent/minor authority and exceptions.</td></tr><tr><td><code>L4</code></td><td>Medical Board of California AB 3030 guidance</td><td>GenAI health-care notification boundary and administrative carveout.</td></tr></tbody></table>
+<h3>Calculation Logic</h3>
+<h4>Partner Option Pricing</h4>
+<p>The proposal does not treat the A/B/C paths as arbitrary quotes. Each path starts from market anchors and then adjusts for scope, AI-assisted delivery, equity, and responsibility.</p>
+<table class="table source-table"><thead><tr><th>Path</th><th>Formula</th></tr></thead><tbody><tr><td>Option A: Cash Services</td><td>Custom software / SaaS MVP anchor, reduced for existing repo and AI-assisted development, no equity discount.</td></tr><tr><td>Option B: Strategic Build Partner</td><td>Option A cash range discounted because the partner receives earned upside; equity is above advisor grants and below true studio/cofounder economics.</td></tr><tr><td>Option C: Studio / Cofounder Build</td><td>Cash can fall toward zero only if equity rises and the partner carries sustained team, subsidy, product leadership, operating, hiring/fundraising, and scale responsibility.</td></tr></tbody></table>
+<h4>Consumer Pricing</h4>
+<p>The <code>$29</code>, <code>$59</code>, and <code>$119</code> pilot tiers combine:</p>
+<ul><li>workflow/outcome-based AI pricing logic;</li><li>loaded COGS estimates by task type;</li><li>Stripe transaction drag on small monthly payments;</li><li>pilot learnings needed around willingness to pay, activation, repeat use, and relief;</li><li>guardrails against unlimited complex tasks, provider voice, or hidden concierge labor.</li></ul>
+<p>The consumer tiers should be treated as pilot hypotheses until paid conversion and real COGS are measured.</p>
+<h4>COGS</h4>
+<p>The COGS values in the proposal are <strong>loaded completed-task planning estimates</strong>, not raw vendor pass-through.</p>
+<p>Formula:</p>
+<p><code>loaded task COGS = vendor pass-through + payment allocation + AI/model calls + retry/failure buffer + complexity reserve</code></p>
+<p>Implications:</p>
+<ul><li>SMS/email tasks have very low raw telecom/email costs, but still need a buffer for retries, parsing, failed replies, and support risk.</li><li>Voice tasks add Twilio call minutes, line-type lookup, AI/audio model cost, and a higher failure/retry reserve.</li><li>Complex browser/provider tasks are not expensive because of telecom; they are expensive because ambiguity, exceptions, compliance sensitivity, and failed automation create operating risk.</li></ul>
+<h4>Pilot Size And Thresholds</h4>
+<p>The <code>30-40</code> invite and <code>18-24</code> enrolled-household range is a controlled first-pilot sample, not a statistical significance claim. It is meant to expose:</p>
+<ul><li>whether warm-network users will pay;</li><li>whether onboarding can stay autonomous;</li><li>whether at least one repeatable task loop works;</li><li>whether COGS stay inside plan economics;</li><li>whether the sponsor story has enough proof to become credible.</li></ul>
+<p>Activation and repeat-use thresholds are decision gates:</p>
+<ul><li><code>70%+</code> setup activation means the self-serve onboarding flow is probably not too heavy.</li><li><code>60%+</code> first-week task completion means the first loop is operationally viable.</li><li><code>50%+</code> repeat within 30 days suggests the product is not only a novelty.</li></ul>
+<h4>Sponsored Cohort Ranges</h4>
+<p>Sponsored ranges are planning models based on cohort size and implied per-member pilot price:</p>
+<table class="table source-table"><thead><tr><th>Buyer</th><th>Planning formula</th></tr></thead><tbody><tr><td>Physician association</td><td><code>25-50 members x $400-$500</code></td></tr><tr><td>Health-system workforce group</td><td><code>50-100 employees x $400-$500</code></td></tr><tr><td>Employer benefit buyer</td><td><code>100-150 employees x $300-$500</code></td></tr><tr><td>Women's leadership community</td><td><code>25-60 members x $400-$500</code></td></tr><tr><td>Concierge community</td><td><code>10-20 households x $750-$1,500</code></td></tr></tbody></table>
+<p>Those ranges should not be sold before B2C proof exists. They are designed as post-pilot sponsor conversation anchors.</p>
+<h3>Diligence Boundaries</h3>
+<p>These are planning ranges, not final SOW terms. Before signature, the team still needs:</p>
+<ul><li>repo/deployment/account access;</li><li>current production URL and usage state;</li><li>entity/IP/account ownership review;</li><li>actual scope lock for the first 6-8 weeks;</li><li>legal review of the equity/warrant instrument and vesting/repurchase terms;</li><li>counsel validation before voice scale, PHI-heavy workflow, teen/minor-confidential category, or state expansion.</li></ul>
+<h3>Verification</h3>
+<p>This pass should be verified by:</p>
+<ol><li>Regenerating the public docs from the local proposal.</li><li>Scanning the proposal for dollar and percent claims that lack nearby citation chips.</li><li>Rendering the proposal in Playwright to catch overflow caused by source additions.</li><li>Running repo lint/typecheck/diff checks.</li></ol>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.

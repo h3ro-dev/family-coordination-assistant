@@ -68,9 +68,124 @@
           <p>Converted the first research cycle into revised prompts for paid pilot/user research, May 21 decision-making, legal issue spotting, and a public-safe repo artifact.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>Revised Follow-Up GPT 5.5 Pro Prompts</h2>
+<p>Date: 2026-05-11 Trace ID: <code>trc_20260511_163930Z_xykbb5us</code></p>
+<h3>Attachment Instructions</h3>
+<p>Attach the full current research packet folder:</p>
+<p><code>[local path redacted]</code></p>
+<p>Especially include:</p>
+<ul><li><code>09-gpt-55-results-synthesis.md</code></li><li><code>deep-research-results/02-monetization-strategy.md</code></li><li><code>deep-research-results/03-cogs-unit-economics.md</code></li><li><code>deep-research-results/04-competitive-intelligence-report.md</code></li><li><code>deep-research-results/06-ai-voice-legal-product-risk.md</code></li><li><code>deep-research-results/07-partnership-structures.md</code></li><li><code>06-friday-meeting-strategy-notes.md</code></li><li><code>04-strategic-questions.md</code></li><li><code>05-github-project-integration.md</code></li></ul>
+<p>If adding repo context, attach:</p>
+<p><code>[local path redacted]</code></p>
+<h3>Recommendation On Original Remaining Prompts</h3>
+<p>Do not run original prompts 1, 5, 8, and 9 unchanged.</p>
+<ul><li>Original prompt 1 is now better as a final synthesis/memo after the new results.</li><li>Original prompt 5 and prompt 8 should be merged into one pilot-design/user-research prompt.</li><li>Original prompt 9 should wait until Tamara confirms what can be public and whether the public repo is the right baseline.</li></ul>
+<h3>Prompt A: 30-Day Paid Pilot And User Research Design</h3>
+<pre><code>Act as a startup product strategist, user researcher, and pricing experimentation lead.
+
+Use the attached research packet first. The packet contains the prior Looheru research, Friday meeting notes, and GPT 5.5 Pro reports on monetization, COGS, competition, AI voice risk, and partnership structures.
+
+Goal:
+Design the next 30-day paid pilot for Looheru so we can validate willingness to pay, repeat usage, operational cost, and founder-led GTM before the team overbuilds.
+
+Current strategic context:
+- Looheru is best positioned as execution-first family coordination, not a calendar, reminder app, marketplace, or generic AI assistant.
+- Highest-confidence launch wedge is saved-contact sitter or trusted-contact coordination by SMS/email.
+- Healthcare/provider voice is strategically attractive but legally and operationally higher risk and should be excluded or human-reviewed in MVP.
+- Candidate pricing is Essential $29/month, Plus $59/month, Signature $119/month, with task credits and fair-use caps.
+- First likely ICP is high-income, high-burden working mothers, especially physician mothers and dual-career households.
+
+Please produce:
+1. The exact pilot thesis.
+2. Target participant profile and exclusion criteria.
+3. Recruiting script for Tamara's network.
+4. Screening questions.
+5. Paid offer cards for $29, $59, and $119.
+6. What task types are allowed in the pilot and what is out of scope.
+7. Onboarding flow.
+8. First-week user journey.
+9. Metrics dashboard: activation, completed tasks, repeat usage, time-to-confirm, COGS, support minutes, NPS/relief, conversion.
+10. Interview script before use, after first completed task, and at day 30.
+11. Success thresholds for proceeding, pivoting, or stopping.
+12. What data to collect without storing sensitive child/health content.
+13. How to turn pilot results into a sponsored cohort pitch.
+
+Be concrete enough that we could run the pilot with 15-25 families in June 2026.</code></pre>
+<h3>Prompt B: May 21 Meeting Decision Memo</h3>
+<pre><code>Act as a venture studio operating partner preparing James, Jason, and the Utlyze/SolutionStream team for a strategic follow-up meeting with Tamara Moores Todd about Looheru.
+
+Use the attached research packet first. It includes private Friday meeting notes, the local strategy packet, and the completed GPT 5.5 Pro reports on monetization, COGS, competitors, AI voice compliance, and partnership structures.
+
+Goal:
+Create a May 21 meeting memo that is actionable, direct, and suitable for discussing with a founder who values fast execution, clear disagreement, majority ownership, and low-ego partnership.
+
+Please produce:
+1. A one-page executive brief.
+2. What we promised on Friday and how this memo answers it.
+3. The recommended path: technical audit + hardening sprint with solution-map component.
+4. The highest-upside path after that: fractional CTO/product partner, then potential venture studio only after diligence.
+5. The three pricing packages: Essential, Plus, Signature.
+6. The first paid pilot recommendation.
+7. The non-negotiable legal/voice/healthcare boundaries.
+8. The 12 questions we must ask Tamara in the meeting.
+9. A suggested agenda for a 90-minute whiteboard session.
+10. A direct but relationship-preserving way to say what we should not offer yet.
+11. A decision tree for what to do if Tamara wants vendor-only, fractional CTO, venture studio, or advisory-only.
+12. Draft follow-up email after the meeting.
+
+Keep the language practical, founder-to-founder, and specific. Avoid generic startup platitudes.</code></pre>
+<h3>Prompt C: Counsel-Ready Legal Issue List</h3>
+<pre><code>Act as a product counsel issue-spotter and compliance product manager. This is not legal advice; the output is a counsel-prep memo.
+
+Use the attached research packet first, especially the AI voice legal/product risk report and the current product/repo context.
+
+Goal:
+Prepare a concise outside-counsel question list and product requirements checklist before Looheru does autonomous AI voice calling.
+
+Please produce:
+1. A counsel memo summary.
+2. The exact state/federal issues that require legal review.
+3. A green/yellow/red workflow classification.
+4. MVP requirements if voice is nonclinical only.
+5. MVP requirements if healthcare scheduling is human-assisted.
+6. Data retention and transcript handling requirements.
+7. Recommended call disclosure language.
+8. What to block technically until counsel signs off.
+9. Vendor contract questions for Twilio, hosting, email, voice AI, and LLM providers.
+10. A product acceptance checklist engineering can implement.
+
+Do not overstate HIPAA applicability. Clearly distinguish consumer-side use, provider-side use, consumer health data risk, and HIPAA business associate risk.</code></pre>
+<h3>Prompt D: Public-Safe GitHub Strategy Artifact</h3>
+<p>Run this only after Tamara confirms what can be public.</p>
+<pre><code>Act as a public product strategy document editor for a public GitHub repository.
+
+Use the attached private research packet to create a public-safe `docs/product-strategy-and-research.md` for the family-coordination-assistant repo.
+
+Constraints:
+- Do not include private email evidence.
+- Do not include personal medical/family details.
+- Do not include private partnership economics unless approved.
+- Do not include internal legal speculation as fact.
+- Keep it useful for product contributors and future agents.
+
+Output:
+1. A public-safe strategy doc.
+2. A short README link section.
+3. A private-to-public redaction notes table explaining what was omitted and why.
+4. A follow-up issue title/body for GitHub if we decide to track this publicly.</code></pre>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.

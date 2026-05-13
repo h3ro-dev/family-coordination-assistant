@@ -68,9 +68,68 @@
           <p>Positioned Looheru as an execution-first family coordination layer, not a calendar, marketplace, spouse-nudging tool, or generic assistant.</p>
           <div class="callout warn" style="margin-top: 12px;">
             This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, secrets, deployment URLs, or private account data.
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
           </div>
         </section>
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>
+          <div class="source-content">
+<h2>Product, Strategy, GTM, And Market Notes</h2>
+<h3>Current Product Thesis</h3>
+<p>Looheru's strongest wedge is not &quot;AI for parents&quot; broadly. It is coordination with existing trusted people through SMS, starting with babysitters and then expanding to other caregiver/provider categories.</p>
+<p>The distinctive part is &quot;my people, contacted for me&quot; rather than a new marketplace, new app, or general family calendar.</p>
+<p>Friday meeting update: the sharper language is &quot;parent assistant&quot; and &quot;task execution intervention.&quot; The point is not to nudge a spouse, populate another calendar, or organize information. The point is to complete family coordination work that otherwise sits on the parent.</p>
+<h3>Offering Hypothesis</h3>
+<p>The cleanest initial offer appears to be:</p>
+<blockquote>An SMS family coordination assistant that contacts your trusted care network, gathers availability, and confirms logistics without making you download or manage another app.</blockquote>
+<p>Potential first SKU:</p>
+<ul><li>Consumer subscription for working parents with repeat childcare/activity coordination.</li><li>Test family onboarding includes saved contacts, permissions, communication preferences, and allowed task types.</li><li>Initial jobs: babysitter availability, coach/tutor scheduling, appointment logistics, and activity coordination.</li></ul>
+<h3>Market Context</h3>
+<p>There is real market movement around AI household and family assistants:</p>
+<ul><li>Skylight Assistant is SMS-first, no app required, and backed by Skylight's family-calendar audience.</li><li>Ohai.ai targets household calendars, tasks, emails, meals, and family coordination; public pricing starts at $9.99/month.</li><li>Gether targets emails, schedules, shared calendars, SMS reminders, and caregiver access; public pricing starts at $4.90/month.</li><li>Pippa, Peeta, Polipo, and others emphasize family memory, proactive coordination, privacy, chat, email, voice, and calendar integrations.</li></ul>
+<p>Sources:</p>
+<ul><li>https://assistant.myskylight.com/</li><li>https://www.ohai.ai/</li><li>https://www.gether.life/</li><li>https://www.meetpippa.ai/</li><li>https://www.peeta.ai/</li><li>https://polipo.ai/</li></ul>
+<h3>Strategic Implication</h3>
+<p>The generic &quot;family AI assistant&quot; lane is crowded. Looheru needs a sharper wedge than family calendar automation:</p>
+<ul><li>Trusted-contact orchestration.</li><li>High-friction tasks that require outbound coordination.</li><li>Physician mother / high-load professional parent niche.</li><li>Special-needs and caregiver coordination, if handled with privacy and clinical boundary discipline.</li><li>Human-in-the-loop reliability for calls, confirmations, and ambiguous scheduling.</li></ul>
+<h3>Pricing Considerations</h3>
+<p>Public adjacent pricing gives a rough consumer-SaaS floor:</p>
+<ul><li>Gether starts at $4.90/month.</li><li>Ohai starts premium at $9.99/month.</li><li>Other products appear to use free trials, waitlists, or unpublished pricing.</li></ul>
+<p>Looheru's outbound SMS/voice coordination may justify a higher tier if it actually completes work rather than only organizing information. The right question is not only &quot;what will parents pay?&quot; but &quot;what task completion level supports a price above generic family calendar tools?&quot;</p>
+<p>Possible pricing tests:</p>
+<ul><li>$15-25/month for SMS-only household coordination with usage caps.</li><li>$49-99/month for high-touch concierge or special-needs coordination support.</li><li>Group/cohort pricing for physician mothers, including onboarding and coaching.</li><li>Employer, association, or health-system benefit pricing if framed as caregiver support and burnout reduction.</li><li>Certification or coaching as a separate revenue line, not bundled into the first product until demand is proven.</li></ul>
+<p>Friday meeting update: the active pricing lane should include <code>$20-$29/month</code>, <code>$30-$40/month</code>, and a higher-touch <code>$49-$99/month</code> tier. Tamara described the target household income range as roughly <code>$250K-$1M</code>, with many likely in the <code>$250K-$500K</code> band, and described <code>5-10 hours/week</code> of coordination burden. The pricing research should compare against paid personal assistants, concierge services, parent tech apps, and employer caregiver benefits, not only low-cost family calendar apps.</p>
+<p>COGS must be modeled before proposing pricing: SMS, voice minutes, AI inference/transcription, email, hosting, payment fees, support, human escalation, failed-task remediation, and any background-check costs.</p>
+<h3>GTM Considerations</h3>
+<p>Best initial GTM path likely uses founder trust and niche density:</p>
+<ul><li>Start with working physician mothers already in Tamara's audience.</li><li>Recruit 10-25 high-load families for a structured paid or design-partner pilot.</li><li>Measure task completion, time saved, failed coordination attempts, and repeat weekly usage.</li><li>Use &quot;coordination load removed&quot; stories, not generic AI claims.</li><li>Build a waitlist site only after the pilot narrative and pricing hypothesis are clear.</li></ul>
+<p>Potential channels:</p>
+<ul><li>Physician mother communities and talks.</li><li>HIMSS / healthcare leadership audience, but only if the buyer is professional parents or employer benefits.</li><li>Specialty communities around special-needs caregiving, with careful privacy posture.</li><li>Referral loops through babysitters, caregivers, tutors, and coaches if provider-side experience is respectful.</li></ul>
+<p>Friday meeting update: do not lead with an ads model because it conflicts with the low-noise cognitive-burden thesis. B2C should likely validate the product first, then B2B/employer/community benefit models can follow once completion rate, willingness to pay, and support burden are visible.</p>
+<h3>Partnership Options For Utlyze</h3>
+<h4>Option 1: Technical Due Diligence Sprint</h4>
+<p>Utlyze reviews the existing Railway/Twilio/Resend/admin implementation, identifies production risks, and creates a stabilization roadmap. Low commitment, high clarity.</p>
+<h4>Option 2: Venture Studio Build Partner</h4>
+<p>Utlyze becomes the technical product partner for MVP hardening, pilot instrumentation, privacy architecture, reliability, and roadmap execution. This requires clear economics and IP terms.</p>
+<h4>Option 3: Product/GTM Strategy Partner</h4>
+<p>Utlyze helps define wedge, pricing, pilot design, metrics, onboarding, positioning, and partnership packaging while Tamara keeps or sources technical execution separately.</p>
+<h4>Option 4: Compliance-First AI Architecture Partner</h4>
+<p>Utlyze owns privacy/security/agent architecture for family and potential healthcare scheduling workflows. This is a fit if Looheru wants to lean into trust as a durable differentiator.</p>
+<h4>Option 5: Advisor / Board-Level Relationship</h4>
+<p>Utlyze provides strategic guidance, review, and introductions without owning implementation. Best if the existing prototype team remains in place and only needs senior judgment.</p>
+<h4>Option 6: No Partnership Yet, Paid Discovery First</h4>
+<p>Require a paid discovery and diligence phase before equity, build commitments, or rev-share. Best if IP, founder time, technical state, and market proof remain unclear.</p>
+<h3>Friday Meeting Strategy Addendum</h3>
+<p>The Friday transcript adds several important directions:</p>
+<ul><li>Tamara wants clarity before partnership. She values speed, direct disagreement, low ego, and shared ownership.</li><li>She appears open to a deeper build/venture partnership, but likely wants majority ownership and meaningful decision authority.</li><li>The next meeting should produce actionable monetization propositions and actionable partnership propositions, not broad strategy.</li><li>The likely follow-up date discussed was Thursday, 2026-05-21, 9:30-11:00 AM.</li><li>Self-serve onboarding is a major product lever: contacts, Gmail, calendar, permissions, and simple fallback/manual setup.</li><li>AI voice calls are strategically important but legally sensitive. Research must cover consent, disclosure, state-by-state rules, non-solicitation framing, and deterministic logic where possible.</li><li>New Reward could support visibility/distribution, and Vuplicity/background checks could become an adjacent trust layer for caregivers, tutors, coaches, sitters, or child-facing providers.</li></ul>
+<p>For the detailed transcript-derived synthesis, see <code>06-friday-meeting-strategy-notes.md</code>.</p>
+          </div>
+        </section>
+
 
         <div class="footer">
           Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.
