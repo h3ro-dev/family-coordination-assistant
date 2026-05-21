@@ -304,18 +304,23 @@ const sourceDocs = [
   },
   {
     file: "22-may-21-tamara-meeting-integration.md",
-    title: "May 21 Meeting Review And Follow-Up Agenda",
-    type: "Agenda review, next-step plan, and tranche update",
-    model: "Codex GPT-5 with Otter.ai transcript review, Product Manager skill, and proposal-readability-editor",
-    sensitivity: "Public-safe synthesis; private transcript not reproduced",
+    title: "May 21 Meeting Review And May 29 Prep",
+    type: "Meeting review, tranche roadmap, and May 29 prep",
+    model: "Codex GPT-5 with Otter.ai transcript review, proposal-readability-editor, Duckbill source check, and legal source check",
+    sensitivity: "Meeting review",
+    hideMetaCard: true,
+    hideSummaryCard: true,
+    hideSourceNote: true,
     questions: [
       "What items were covered in the May 21 meeting?",
-      "What outcomes and open decisions came out of the meeting?",
-      "What next steps should be completed before May 29?",
-      "How should tranches 0, 1, 2, and 3 be updated?"
+      "What has already been updated in the A/B/C framework and ownership checklist?",
+      "What should the tranche roadmap look like now?",
+      "What internal resourcing assumptions should be shown?",
+      "What can Duckbill teach us before May 29?",
+      "Which legal questions can be prepared for counsel?"
     ],
     summary:
-      "Reframes the May 21 page as a meeting review and follow-up agenda: items covered, outcomes, next steps before May 29, and updated tranches for decision prep, paid coordination, voice logistics, and camp/activity automation."
+      "Refines the May 21 page into a practical review packet: what was covered, what has already been updated, the tranche roadmap, internal resourcing assumptions, Duckbill takeaways, legal facilitation notes, and the May 29 draft invite plan."
   },
   {
     file: "TRACKER.md",
@@ -607,11 +612,11 @@ const promptRuns = [
   },
   {
     group: "May 21 Tamara follow-up integration",
-    prompt: "Meeting review rewrite into agenda, next steps, and tranche updates",
-    model: "Codex GPT-5 with Otter.ai transcript review, Product Manager skill, and proposal-readability-editor",
+    prompt: "Final meeting review refinement with tranche roadmap and May 29 prep",
+    model: "Codex GPT-5 with Otter.ai transcript review, proposal-readability-editor, Duckbill source check, and legal source check",
     status: "Updated in local workspace; tracked in GitHub issue #21",
     question:
-      "Rewrite the May 21 page so it reads like an agenda review meeting: what items were covered, what outcomes/open decisions came out of the meeting, what next steps are due before May 29, and how the tranches should update."
+      "Refine the May 21 review page so it only says what was covered, what has already been updated, how the roadmap converts into tranches, what internal resources are assumed, what Duckbill and legal source checks add, and how to prepare a May 29 draft invite without sending it."
   }
 ];
 
@@ -839,12 +844,16 @@ function renderSourceDocumentSection(doc) {
   }
 
   const markdown = redactPublicMarkdown(fs.readFileSync(sourcePath, "utf8").trim());
+  const sourceNote = doc.hideSourceNote
+    ? ""
+    : `
+          <div class="callout">
+            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
+          </div>`;
   return `
         <section class="card source-card">
           <h2>Research Document</h2>
-          <div class="callout">
-            This is the public-safe HTML rendering of the source research document. Local filesystem paths and direct email addresses are redacted.
-          </div>
+${sourceNote}
           <div class="source-content">
 ${markdownToHtml(markdown)}
           </div>
@@ -852,7 +861,15 @@ ${markdownToHtml(markdown)}
 `;
 }
 
-function renderShell({ title, description, nav = "", body, depth = "." }) {
+function renderShell({
+  title,
+  description,
+  nav = "",
+  body,
+  depth = ".",
+  sidebarSubtitle = "Public-safe proposal and research pages for the February family coordination assistant repo.",
+  sidebarPill = "Public-safe"
+}) {
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -873,11 +890,11 @@ function renderShell({ title, description, nav = "", body, depth = "." }) {
       <aside class="sidebar">
         <div class="brand">
           <div class="title">Looheru Research Appendix</div>
-          <div class="subtitle">Public-safe proposal and research pages for the February family coordination assistant repo.</div>
+          <div class="subtitle">${escapeHtml(sidebarSubtitle)}</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <span class="pill">Trace: ${traceId}</span>
             <span class="pill">${issueLabel}</span>
-            <span class="pill">Public-safe</span>
+            ${sidebarPill ? `<span class="pill">${escapeHtml(sidebarPill)}</span>` : ""}
           </div>
         </div>
         <nav class="nav">
@@ -1011,6 +1028,29 @@ function renderPromptsPage() {
 }
 
 function renderDocPage(doc) {
+  const metaCard = doc.hideMetaCard
+    ? ""
+    : `
+        <section class="card">
+          <h2>Document Metadata</h2>
+          <div class="meta">
+            <div><strong>Source document:</strong> <span class="k">${escapeHtml(doc.file)}</span></div>
+            <div><strong>Type:</strong> ${escapeHtml(doc.type)}</div>
+            <div><strong>Model / method:</strong> ${escapeHtml(doc.model)}</div>
+            <div><strong>Publication boundary:</strong> ${escapeHtml(doc.sensitivity)}</div>
+          </div>
+        </section>`;
+  const summaryCard = doc.hideSummaryCard
+    ? ""
+    : `
+        <section class="card">
+          <h2>Summary</h2>
+          <p>${escapeHtml(doc.summary)}</p>
+          <div class="callout warn" style="margin-top: 12px;">
+            This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
+            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
+          </div>
+        </section>`;
   const body = `
         <section class="hero">
           <h1>${escapeHtml(doc.title)}</h1>
@@ -1021,36 +1061,23 @@ function renderDocPage(doc) {
             <a href="../proposal.html">Proposal</a>
           </div>
         </section>
-
-        <section class="card">
-          <h2>Document Metadata</h2>
-          <div class="meta">
-            <div><strong>Source document:</strong> <span class="k">${escapeHtml(doc.file)}</span></div>
-            <div><strong>Type:</strong> ${escapeHtml(doc.type)}</div>
-            <div><strong>Model / method:</strong> ${escapeHtml(doc.model)}</div>
-            <div><strong>Publication boundary:</strong> ${escapeHtml(doc.sensitivity)}</div>
-          </div>
-        </section>
+${metaCard}
 
         <section class="card">
           <h2>Questions / Prompts Used</h2>
           ${listItems(doc.questions)}
         </section>
-
-        <section class="card">
-          <h2>Public-Safe Summary</h2>
-          <p>${escapeHtml(doc.summary)}</p>
-          <div class="callout warn" style="margin-top: 12px;">
-            This page intentionally does not reproduce raw private email content, raw meeting transcript text, contact details,
-            sensitive personal context, local filesystem paths, secrets, deployment URLs, or private account data.
-          </div>
-        </section>
+${summaryCard}
 ${renderSourceDocumentSection(doc)}
 `;
   return renderShell({
     title: `Looheru Research - ${doc.title}`,
     description: doc.summary,
     depth: "..",
+    sidebarSubtitle: doc.hideMetaCard
+      ? "Meeting review and prep page for the May 29 decision meeting."
+      : undefined,
+    sidebarPill: doc.hideMetaCard ? "Meeting Review" : undefined,
     body
   });
 }
