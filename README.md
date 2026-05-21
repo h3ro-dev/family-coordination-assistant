@@ -32,6 +32,16 @@ The May 21 Tamara meeting clarified the near-term sequence:
 3. **Tranche 3:** test camp/activity registration automation for a narrow geography and later
    seasonal cycle, without turning the first product into a camp marketplace.
 
+May 21 meeting items now reflected in the project system:
+
+- Keep the three partner paths visible: Option A cash services, Option B blended cash/equity, and
+  Option C at-cost company building for 35%-40% ownership.
+- Make company-owned IP, founder decision control, background-IP carveouts, and cost recovery
+  explicit before signature.
+- Use twice-weekly updates as the operating cadence if work proceeds.
+- Treat Friday, May 29, 2026 as the next decision checkpoint. An internal Outlook hold exists for
+  9:00-10:00 a.m. Mountain Time; external invites still need confirmation.
+
 ## Status: What Is Completed
 
 Core functionality (Phase 1):

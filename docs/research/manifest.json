@@ -273,13 +273,15 @@
       "file": "22-may-21-tamara-meeting-integration.md",
       "title": "May 21 Tamara Meeting Integration",
       "type": "Meeting integration and roadmap update",
-      "model": "Codex GPT-5 with Otter.ai transcript review and Product Manager skill",
-      "sensitivity": "Public-safe synthesis; raw transcript not published",
+      "model": "Codex GPT-5 with Otter.ai transcript review, Product Manager skill, and proposal-readability-editor",
+      "sensitivity": "Public-safe synthesis; private transcript not reproduced",
       "questions": [
         "What changed after the May 21 meeting with Tamara?",
-        "How should the roadmap, tranches, ownership terms, and follow-up commitments be updated?"
+        "Which items were covered in the meeting?",
+        "How should the roadmap, tranches, ownership terms, and follow-up commitments be updated?",
+        "How should the next-Friday follow-up be represented in the project system?"
       ],
-      "summary": "Integrated the May 21 Otter meeting into the Looheru roadmap: deterministic tranche one, voice tranche two, camp automation tranche three, company-owned IP, founder decision control, May 29 decision deadline, and formal follow-up package."
+      "summary": "Adds a plain-language May 21 meeting synthesis with the items covered, roadmap/project updates, deterministic tranche one, voice tranche two, camp automation tranche three, company-owned IP, founder decision control, May 29 decision checkpoint, and follow-up package."
     },
     {
       "file": "TRACKER.md",
@@ -540,10 +542,10 @@
     },
     {
       "group": "May 21 Tamara follow-up integration",
-      "prompt": "Otter transcript synthesis into roadmap and follow-up package",
-      "model": "Codex GPT-5 with Otter.ai transcript review and Product Manager skill",
-      "status": "Completed in local workspace; tracked in GitHub issue #21",
-      "question": "Review the May 21 Tamara meeting, identify what should change, and update the roadmap, proposal, research appendix, and future follow-up commitments."
+      "prompt": "Otter transcript synthesis into readable roadmap and follow-up package",
+      "model": "Codex GPT-5 with Otter.ai transcript review, Product Manager skill, and proposal-readability-editor",
+      "status": "Updated in local workspace; tracked in GitHub issue #21",
+      "question": "Review the May 21 Tamara meeting, identify what changed, list the items covered, update the roadmap/proposal/research appendix, improve readability for a broad business audience, and add the next-Friday follow-up meeting to the project system."
     }
   ]
 }

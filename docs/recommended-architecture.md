@@ -34,6 +34,17 @@ The May 21 Tamara meeting clarified the build sequence:
 
 This sequence keeps the core boring and reliable while leaving room for richer AI interfaces later.
 
+The meeting also added operating requirements that affect the system plan:
+
+- Tranche 1 should be treated as a 4-week hardening and paid-pilot readiness sprint.
+- Option C, if chosen, is not a discounted vendor build. It is an at-cost company-building path
+  with 35%-40% ownership, cost-first revenue recovery, and a later revenue split.
+- The company should own company-created IP, while existing background IP should be carved out.
+- Tamara should keep founder decision control unless a future signed agreement changes that.
+- The operating cadence should include twice-weekly updates, including "no update" updates.
+- The next decision checkpoint is Friday, May 29, 2026. A 9:00-10:00 a.m. Mountain Time internal
+  hold has been added; external attendees still need confirmation.
+
 ## Explicit Boundaries (What Is and Is Not Built)
 
 ### Built now (Phase 1 MVP)
