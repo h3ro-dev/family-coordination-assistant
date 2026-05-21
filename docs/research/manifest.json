@@ -271,17 +271,17 @@
     },
     {
       "file": "22-may-21-tamara-meeting-integration.md",
-      "title": "May 21 Tamara Meeting Integration",
-      "type": "Meeting integration and roadmap update",
+      "title": "May 21 Meeting Review And Follow-Up Agenda",
+      "type": "Agenda review, next-step plan, and tranche update",
       "model": "Codex GPT-5 with Otter.ai transcript review, Product Manager skill, and proposal-readability-editor",
       "sensitivity": "Public-safe synthesis; private transcript not reproduced",
       "questions": [
-        "What changed after the May 21 meeting with Tamara?",
-        "Which items were covered in the meeting?",
-        "How should the roadmap, tranches, ownership terms, and follow-up commitments be updated?",
-        "How should the next-Friday follow-up be represented in the project system?"
+        "What items were covered in the May 21 meeting?",
+        "What outcomes and open decisions came out of the meeting?",
+        "What next steps should be completed before May 29?",
+        "How should tranches 0, 1, 2, and 3 be updated?"
       ],
-      "summary": "Adds a plain-language May 21 meeting synthesis with the items covered, roadmap/project updates, deterministic tranche one, voice tranche two, camp automation tranche three, company-owned IP, founder decision control, May 29 decision checkpoint, and follow-up package."
+      "summary": "Reframes the May 21 page as a meeting review and follow-up agenda: items covered, outcomes, next steps before May 29, and updated tranches for decision prep, paid coordination, voice logistics, and camp/activity automation."
     },
     {
       "file": "TRACKER.md",
@@ -542,10 +542,10 @@
     },
     {
       "group": "May 21 Tamara follow-up integration",
-      "prompt": "Otter transcript synthesis into readable roadmap and follow-up package",
+      "prompt": "Meeting review rewrite into agenda, next steps, and tranche updates",
       "model": "Codex GPT-5 with Otter.ai transcript review, Product Manager skill, and proposal-readability-editor",
       "status": "Updated in local workspace; tracked in GitHub issue #21",
-      "question": "Review the May 21 Tamara meeting, identify what changed, list the items covered, update the roadmap/proposal/research appendix, improve readability for a broad business audience, and add the next-Friday follow-up meeting to the project system."
+      "question": "Rewrite the May 21 page so it reads like an agenda review meeting: what items were covered, what outcomes/open decisions came out of the meeting, what next steps are due before May 29, and how the tranches should update."
     }
   ]
 }
