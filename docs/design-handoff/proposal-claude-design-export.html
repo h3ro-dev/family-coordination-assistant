@@ -410,7 +410,7 @@ strong{font-weight:600;color:var(--ink)}
 
     <div class="hero-body">
       <div>
-        <p class="lede">This proposal turns the Friday discussion, partner brief, product proof, and research into one first sprint. <strong>The plan is simple: turn on payment, clean up ownership, prove people will pay, and then decide whether to build a deeper partnership.</strong></p>
+        <p class="lede">This proposal turns the Friday discussion, May 21 follow-up, partner brief, product proof, and research into one first sprint. <strong>The plan is simple: turn on payment, clean up ownership, prove people will pay, and then decide whether to build a deeper partnership.</strong></p>
       </div>
       <div class="hero-stats">
         <div class="stat">
@@ -466,7 +466,7 @@ strong{font-weight:600;color:var(--ink)}
       <div class="col">
         <p class="lede"><span class="drop">L</span>ooheru should not be another family calendar or reminder app. It should do the work a busy parent does not have time to do. One request goes in. Looheru contacts the right people, brings back options, confirms the choice, and closes the loop. <a class="cite" href="#src-p1">P1</a><a class="cite" href="#src-b1">B1</a></p>
 
-        <div class="pull">Plain English: the first sprint should answer three questions. Will families pay? Is ownership clean enough to run this live? Which partnership option feels fair after real pilot proof?</div>
+        <div class="pull">Plain English: the first sprint should answer three questions. Will families pay? Is ownership clean enough to run this live? Which partnership option feels fair after real pilot proof? Tamara plans to choose a path by May 29. <a class="cite" href="#src-mtg">MTG</a></div>
 
         <div class="pillars">
           <div class="pillar">
@@ -882,7 +882,8 @@ strong{font-weight:600;color:var(--ink)}
 
     <div class="body-grid">
       <div class="col">
-        <p class="lede">The 4–6 week sprint starts from the existing repo. The goal is to prove one paid coordination loop, not build the whole future platform. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-m1">M1</a></p>
+        <p class="lede">The 4–6 week sprint starts from the existing repo. The goal is to harden the deterministic saved-contact loop, make it payable, and prove one paid coordination promise. It is tranche one, not the whole future platform. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-m1">M1</a><a class="cite" href="#src-mtg">MTG</a></p>
+        <div class="pull">May 21 update: promise four weeks for a solid first tranche. A two-week demo may happen, but the external commitment should be reliability, not speed theater. <a class="cite" href="#src-mtg">MTG</a></div>
 
         <div class="timeline">
           <div class="tl-row" style="background:var(--cream);padding-left:16px;padding-right:16px;border-bottom:2px solid var(--ink)">
@@ -893,15 +894,15 @@ strong{font-weight:600;color:var(--ink)}
           </div>
           <div class="tl-row">
             <div class="ph"><span class="num">Phase 0</span>Audit + Roadmap Lock<span class="when">Days 1–2</span></div>
-            <div class="lane"><span class="h">Build</span>Map the repo, deployment, accounts, owners, risks, backlog, voice gates, and data gates.</div>
-            <div class="lane"><span class="h">Test</span>Check the live URL, text/email loop, Twilio baseline, jobs, database, and credentials.</div>
-            <div class="lane decision"><span class="h">Decision</span>Confirm the price and lock scope. <a class="cite" href="#src-r1">R1</a></div>
+            <div class="lane"><span class="h">Build</span>Map the repo, Railway/Postgres/Twilio/Resend baseline, accounts, owners, risks, backlog, voice gates, and data gates.</div>
+            <div class="lane"><span class="h">Test</span>Check what already runs, what is broken, what is deterministic, and what must be moved under company ownership.</div>
+            <div class="lane decision"><span class="h">Decision</span>Confirm scope, price, owner, and first tranche success criteria. <a class="cite" href="#src-r1">R1</a><a class="cite" href="#src-mtg">MTG</a></div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 1</span>Core Coordination<span class="when">Week 1</span></div>
-            <div class="lane"><span class="h">Build</span>Saved-contact task states, Twilio checks, rate limits, cost ledger, and admin view.</div>
-            <div class="lane"><span class="h">Test</span>Babysitter/caregiver loop, no replies, unclear replies, opt-outs, duplicates, and message cost.</div>
-            <div class="lane decision"><span class="h">Decision</span>Is the first loop reliable enough for paid pilot? <a class="cite" href="#src-v1">V1</a></div>
+            <div class="ph"><span class="num">Phase 1</span>Deterministic Core<span class="when">Week 1</span></div>
+            <div class="lane"><span class="h">Build</span>Saved-contact task states, manual trusted-contact onboarding, Twilio checks, rate limits, cost ledger, and admin view.</div>
+            <div class="lane"><span class="h">Test</span>Babysitter/caregiver loop, fewer-than-five trusted contacts, no replies, unclear replies, opt-outs, duplicates, and message cost.</div>
+            <div class="lane decision"><span class="h">Decision</span>Can the first loop run without adding an LLM? <a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-mtg">MTG</a></div>
           </div>
           <div class="tl-row">
             <div class="ph"><span class="num">Phase 2</span>Onboarding + Payment<span class="when">Weeks 2–3</span></div>
@@ -916,14 +917,20 @@ strong{font-weight:600;color:var(--ink)}
             <div class="lane decision"><span class="h">Decision</span>Scale, pause, narrow, or pivot the first task loop. <a class="cite" href="#src-pilot">PILOT</a></div>
           </div>
           <div class="tl-row">
-            <div class="ph"><span class="num">Phase 4</span>Voice Decision<span class="when">Week 6</span></div>
-            <div class="lane"><span class="h">Build</span>Parent voice intake script, low-risk call policy, provider recommendation, and Phase 2 budget.</div>
-            <div class="lane"><span class="h">Test</span>Parent voice intake and optional scripted nonclinical calls. Keep structured results only.</div>
-            <div class="lane decision"><span class="h">Decision</span>Move voice into Phase 2, keep it parent-facing only, or wait. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-l1">L1</a></div>
+            <div class="ph"><span class="num">Tranche 2 Prep</span>Voice Logistics<span class="when">Week 5+</span></div>
+            <div class="lane"><span class="h">Build</span>Voice provider memo, parent voice intake script, deterministic tool contract, low-risk call policy, and tranche-two budget.</div>
+            <div class="lane"><span class="h">Test</span>Parent voice intake first. Then test scripted scheduling calls only where the task is logistics, not clinical advice.</div>
+            <div class="lane decision"><span class="h">Decision</span>Start the voice sprint, keep voice parent-facing, or wait. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-l1">L1</a><a class="cite" href="#src-mtg">MTG</a></div>
+          </div>
+          <div class="tl-row">
+            <div class="ph"><span class="num">Tranche 3 Prep</span>Camp Automation<span class="when">August / fall-winter</span></div>
+            <div class="lane"><span class="h">Build</span>Geographic camp inventory, child-age constraints, week-by-week fit grid, registration automation tests, and completion listener.</div>
+            <div class="lane"><span class="h">Test</span>Start with partial coverage. Automate parent-side discovery and registration where existing camp sites allow it.</div>
+            <div class="lane decision"><span class="h">Decision</span>Can camp registration create enough value without becoming a two-sided marketplace? <a class="cite" href="#src-mtg">MTG</a></div>
           </div>
         </div>
 
-        <div class="pull">Not in the first sprint: native apps, full real-time voice, healthcare/provider scheduling at scale, insurance work, full HIPAA/SOC 2, deep OAuth, 24/7 support, or fundraising/legal documents. <a class="cite" href="#src-scope">SCOPE</a></div>
+        <div class="pull">Not in the first sprint: native apps, full real-time voice, healthcare/provider scheduling at scale, insurance work, full HIPAA/SOC 2, deep OAuth, 24/7 support, camp marketplace operations, or fundraising/legal documents. <a class="cite" href="#src-scope">SCOPE</a><a class="cite" href="#src-mtg">MTG</a></div>
       </div>
     </div>
   </div>
@@ -980,13 +987,14 @@ strong{font-weight:600;color:var(--ink)}
               <li>Build at Utlyze / SolutionStream cost instead of market vendor price. <a class="cite" href="#src-f1">F1</a><a class="cite" href="#src-e1">E1</a></li>
               <li>35%–40% company ownership for the build/operator role. <a class="cite" href="#src-e1">E1</a></li>
               <li>First revenue pays direct costs and approved build recovery before profit-sharing.</li>
+              <li>Cost lines should be transparent: team cost, API/vendor cost, and no margin padding. <a class="cite" href="#src-mtg">MTG</a></li>
               <li>After cost recovery, the operating agreement sets the revenue split.</li>
               <li>Needs clear governance, reserved decisions, vesting, repurchase rights, and offboarding terms.</li>
             </ul>
           </div>
         </div>
 
-        <div class="pull">Pricing logic: AI lowers some build labor. It does not remove product judgment, architecture risk, legal gates, pilot work, or partner accountability. If Utlyze / SolutionStream carries those risks, the equity should match the role. <a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-e1">E1</a></div>
+        <div class="pull">Pricing logic: AI lowers some build labor. It does not remove product judgment, architecture risk, legal gates, pilot work, or partner accountability. Company-created IP should sit with the company, while Tamara stays the founder decision-maker. <a class="cite" href="#src-a1">A1</a><a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-mtg">MTG</a></div>
       </div>
     </div>
   </div>
@@ -1012,11 +1020,11 @@ strong{font-weight:600;color:var(--ink)}
         <table class="dtable">
           <thead><tr><th style="width:18%">Area</th><th>Option A · Cash Services</th><th>Option B · Strategic Build Partner</th><th>Option C · Studio / Cofounder</th></tr></thead>
           <tbody>
-            <tr><td><strong>First sprint systems</strong></td><td>Production audit, ownership checklist, auth/admin hardening, Twilio checks, Stripe payment path, self-serve setup, task ledger, pilot dashboard. <a class="cite" href="#src-r1">R1</a></td><td>Everything in A, plus product ownership, tech roadmap, vendor memos, release cadence, pilot review, and Phase 2 voice decisions. <a class="cite" href="#src-f1">F1</a></td><td>Everything in B, delivered at cost, plus engineering leadership, recurring team capacity, sponsor support, hiring/vendor roadmap, and approved later voice work. <a class="cite" href="#src-e1">E1</a></td></tr>
+            <tr><td><strong>First sprint systems</strong></td><td>Production audit, ownership checklist, auth/admin hardening, Twilio checks, Stripe payment path, self-serve setup, task ledger, pilot dashboard. <a class="cite" href="#src-r1">R1</a></td><td>Everything in A, plus product ownership, tech roadmap, vendor memos, release cadence, pilot review, and Phase 2 voice decisions. <a class="cite" href="#src-f1">F1</a></td><td>Everything in B, delivered at cost, plus engineering leadership, recurring team capacity, sponsor support, hiring/vendor roadmap, and approved later voice work. <a class="cite" href="#src-e1">E1</a><a class="cite" href="#src-mtg">MTG</a></td></tr>
             <tr><td><strong>Excluded unless scoped</strong></td><td>Full real-time voice, native apps, full HIPAA/SOC 2, insurance work, provider-side PHI workflows, deep OAuth, 24/7 support, fundraising/legal docs. <a class="cite" href="#src-scope">SCOPE</a></td><td>Same exclusions unless a paid voice or scale sprint is approved.</td><td>May include some excluded work only if governance, budget, team commitment, and risk ownership are clear.</td></tr>
             <tr><td><strong>Utlyze role</strong></td><td>Vendor / delivery partner.</td><td>Strategic build and operating partner.</td><td>Cofounder-level venture-building partner.</td></tr>
             <tr><td><strong>Fair exchange</strong></td><td>$75K–$125K sprint cash, no dilution. <a class="cite" href="#src-m1">M1</a></td><td>$25K–$45K sprint cash, $8K–$16K/month if continued, and 10%–15% earned equity. <a class="cite" href="#src-e1">E1</a></td><td>At-cost build, 35%–40% ownership, first revenue to cost recovery, then revenue split. <a class="cite" href="#src-e1">E1</a></td></tr>
-            <tr><td><strong>Future phases</strong></td><td>Separate SOW after pilot proof.</td><td>Retainer or new sprint for parent voice, sponsor readiness, and more integrations.</td><td>Company-building plan through pilot, sponsor, voice, financing, and scale. Revenue-share terms are documented before launch.</td></tr>
+            <tr><td><strong>Future phases</strong></td><td>Separate SOW after pilot proof.</td><td>Retainer or new sprint for parent voice, sponsor readiness, and more integrations.</td><td>Company-building plan through pilot, sponsor, voice, camp automation, financing, and scale. Revenue-share terms are documented before launch.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1072,8 +1080,8 @@ strong{font-weight:600;color:var(--ink)}
 
     <div class="body-grid">
       <div class="col">
-        <p class="lede">New voice-agent tools and the current Twilio Voice work make voice worth testing sooner. Provider calls still carry legal and operating risk. That risk should create clear gates, not stop the whole voice path. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l1">L1</a></p>
-        <div class="pull">Plain read: use voice where risk is low. Slow down where it starts to sound like healthcare, billing, or sensitive family data.</div>
+        <p class="lede">New voice-agent tools and the current Twilio Voice work make voice worth testing sooner. The May 21 meeting moved voice into tranche two, but with a clear rule: Looheru is a family logistics tool, not a health-tech or clinical AI product. <a class="cite" href="#src-v2">V2</a><a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-l1">L1</a><a class="cite" href="#src-mtg">MTG</a></p>
+        <div class="pull">Plain read: use voice where it finishes logistics. Slow down where it starts to sound like healthcare, billing, or sensitive family data.</div>
 
         <div class="gates" style="margin-top:32px">
           <div class="gate green">
@@ -1087,7 +1095,7 @@ strong{font-weight:600;color:var(--ink)}
             <span class="flag">Yellow</span>
             <div>
               <h3>Test carefully before scale</h3>
-              <p>Provider scheduling, therapy, behavioral health, special-needs services, identity checks, and anything likely to reveal sensitive details. <a class="cite" href="#src-l2">L2</a><a class="cite" href="#src-l3">L3</a></p>
+              <p>Provider scheduling, therapy, behavioral health, special-needs services, identity checks, and anything likely to reveal sensitive details. These can be family logistics, but they should not be marketed as health tech. <a class="cite" href="#src-l2">L2</a><a class="cite" href="#src-l3">L3</a><a class="cite" href="#src-mtg">MTG</a></p>
             </div>
           </div>
           <div class="gate red">
@@ -1122,7 +1130,7 @@ strong{font-weight:600;color:var(--ink)}
 
     <div class="body-grid">
       <div class="col">
-        <p class="lede">These are planning ranges. The simple question is: does Tamara want to buy the work, share the build risk, or make Utlyze / SolutionStream a company-building partner? Final documents still need entity, IP, tax, and counsel review. <a class="cite" href="#src-calc">CALC</a><a class="cite" href="#src-o1">O1</a></p>
+        <p class="lede">These are planning ranges. The simple question is: does Tamara want to buy the work, share the build risk, or make Utlyze / SolutionStream a company-building partner? May 29 is the next decision target. Final documents still need entity, IP, tax, and counsel review. <a class="cite" href="#src-calc">CALC</a><a class="cite" href="#src-o1">O1</a><a class="cite" href="#src-mtg">MTG</a></p>
 
         <div class="compare">
           <div class="opt">
@@ -1149,10 +1157,10 @@ strong{font-weight:600;color:var(--ink)}
         </div>
 
         <div class="next">
-          <div class="stamp">Decision · May 21</div>
+          <div class="stamp">Decision · May 29</div>
           <div>
-            <h3>Choose the path. Authorize the Phase 1 roadmap.</h3>
-            <p>Choose the partnership path and authorize the Phase 1 roadmap, vesting logic, ownership cleanup, voice gates, and paid pilot criteria. <a class="cite" href="#src-o1">O1</a><a class="cite" href="#src-l1">L1</a></p>
+            <h3>Choose the path. Authorize the tranche-one roadmap.</h3>
+            <p>Choose the partnership path and authorize the tranche-one roadmap, vesting logic, ownership cleanup, voice gates, paid pilot criteria, and formal proposal framework. <a class="cite" href="#src-o1">O1</a><a class="cite" href="#src-l1">L1</a><a class="cite" href="#src-mtg">MTG</a></p>
           </div>
         </div>
       </div>
@@ -1203,8 +1211,13 @@ strong{font-weight:600;color:var(--ink)}
         </div>
 
         <div class="card" style="margin-top:18px">
+          <h3>May 29 follow-up package</h3>
+          <p>Send a formal proposal and framework for the path Tamara chooses. It should include company-owned IP, founder decision control, Option C cost accounting, twice-weekly communication cadence, tranche-one scope, tranche-two voice gates, and tranche-three camp automation as a later roadmap item. <a class="cite" href="#src-mtg">MTG</a></p>
+        </div>
+
+        <div class="card" style="margin-top:18px">
           <h3>Research questions to refine before signature</h3>
-          <p>What is already live? What is inside the first 4–6 week scope? Does Tamara prefer cash control, shared risk, or an at-cost company-building partner? What revenue split starts after cost recovery? Who owns incidents, refunds, support, vendor accounts, and safety tradeoffs? <a class="cite" href="#src-calc">CALC</a></p>
+          <p>What is already live? What is inside the first 4–6 week scope? Does Tamara prefer cash control, shared risk, or an at-cost company-building partner? What revenue split starts after cost recovery? Who owns incidents, refunds, support, vendor accounts, safety tradeoffs, and team allocation? <a class="cite" href="#src-calc">CALC</a><a class="cite" href="#src-mtg">MTG</a></p>
         </div>
 
         <div class="pull">The near-term goal is not to build everything. The near-term goal is to prove the first repeatable promise.</div>
@@ -1238,6 +1251,7 @@ strong{font-weight:600;color:var(--ink)}
 
         <div class="source-list">
           <div class="source-row" id="src-p1"><div class="sid">P1</div><div class="supports">Founder evidence, 4-minute booking, beta tester count, survey signal, physician-mom network claim, Friday meeting promises.</div><div class="src">Private Looheru email/research packet, Friday transcript, partner brief, and local research source map. Raw private content stays outside the public repo.</div></div>
+          <div class="source-row" id="src-mtg"><div class="sid">MTG</div><div class="supports">May 21 tranche roadmap, May 29 decision deadline, company-owned IP stance, founder decision control, Option C cost transparency, voice as tranche two, camp automation as tranche three, and follow-up commitments.</div><div class="src">Otter.ai meeting review: AI Task Management Strategy, May 21, 2026. Public-safe synthesis is published in the research appendix; raw transcript remains private.</div></div>
           <div class="source-row" id="src-r1"><div class="sid">R1</div><div class="supports">Existing product baseline, current SMS/email/Twilio Voice architecture, repo-derived scope.</div><div class="src">Local and GitHub repo inspection of <a href="https://github.com/h3ro-dev/family-coordination-assistant">h3ro-dev/family-coordination-assistant</a>.</div></div>
           <div class="source-row" id="src-comp"><div class="sid">COMP</div><div class="supports">Competitor map and white-space claim.</div><div class="src">GPT 5.5 Pro competitive intelligence report plus public competitor/source review summarized in the research appendix.</div></div>
           <div class="source-row" id="src-b1"><div class="sid">B1</div><div class="supports">Completed-work / outcome-based AI pricing logic.</div><div class="src"><a href="https://www.bvp.com/atlas/the-ai-pricing-and-monetization-playbook">Bessemer AI pricing and monetization playbook</a>.</div></div>
@@ -1289,8 +1303,9 @@ strong{font-weight:600;color:var(--ink)}
             <tr><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">PRICE</strong></td><td><strong>$29 / $59 / $119 pilot tiers</strong> <a class="cite" href="#src-cogs">COGS</a></td><td>Essential tests paid demand with four simple tasks. Plus gives the likely main workflow about 10 credits. Signature prices priority, richer setup, and parent voice intake away from provider-call risk. <a class="cite" href="#src-b1">B1</a></td></tr>
             <tr id="src-pilot"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">PILOT</strong></td><td><strong>30–40 invites, 18–24 enrollments, 70%+ activation, 50%+ repeat</strong> <a class="cite" href="#src-g1">G1</a></td><td>Warm-network recruiting should convert better than cold outreach. 18–24 households is enough to reveal payment, setup, task completion, repeat use, and cost issues. <a class="cite" href="#src-p1">P1</a></td></tr>
             <tr id="src-sponsor"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">SP</strong></td><td><strong>Sponsored cohort pricing</strong> <a class="cite" href="#src-g2">G2</a></td><td>Planning model: multiply expected members by expected value per member. Smaller, high-fit cohorts price higher. Larger employer pilots price lower per member. <a class="cite" href="#src-b1">B1</a></td></tr>
-            <tr id="src-scope"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">SCOPE</strong></td><td><strong>4–6 week roadmap boundaries</strong> <a class="cite" href="#src-a1">A1</a></td><td>Included: hardening, setup, payments, telemetry, cost ledger, pilot dashboard, and voice decision package. Later: native apps, full voice bridge, healthcare scale, deep OAuth, enterprise reporting, and 24/7 support. <a class="cite" href="#src-s1">S1</a></td></tr>
-            <tr id="src-o1"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">O1</strong></td><td><strong>Ownership and vesting logic</strong></td><td>Company-owned IP, accounts, and data protect the company. Vesting protects both sides. Tamara keeps founder control. Utlyze / SolutionStream earns upside only as work and responsibility are carried. Counsel must set final documents.</td></tr>
+            <tr id="src-scope"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">SCOPE</strong></td><td><strong>4–6 week roadmap boundaries</strong> <a class="cite" href="#src-a1">A1</a></td><td>Included: hardening, setup, payments, telemetry, cost ledger, pilot dashboard, and voice decision package. Later: native apps, full voice bridge, healthcare scale, deep OAuth, enterprise reporting, camp marketplace operations, and 24/7 support. <a class="cite" href="#src-s1">S1</a><a class="cite" href="#src-mtg">MTG</a></td></tr>
+            <tr><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">ROADMAP</strong></td><td><strong>Tranche sequencing</strong> <a class="cite" href="#src-mtg">MTG</a></td><td>Tranche one is deterministic text/email and paid-pilot hardening. Tranche two is voice logistics. Tranche three is parent-side camp/activity registration automation. Plan later tranches now, but do not let them distract from first-loop proof.</td></tr>
+            <tr id="src-o1"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">O1</strong></td><td><strong>Ownership and vesting logic</strong></td><td>Company-owned IP, accounts, and data protect the company. Vesting protects both sides. Tamara keeps founder control. Utlyze / SolutionStream earns upside only as work and responsibility are carried. Counsel must set final documents. <a class="cite" href="#src-mtg">MTG</a></td></tr>
             <tr id="src-v4"><td><strong style="font-family:'JetBrains Mono',monospace;color:var(--ochre);font-size:12px;letter-spacing:0.08em">V4</strong></td><td><strong>Failed automation and browser-work margin risk</strong></td><td>Margins fall when tasks need retries, browser work, provider calls, or human cleanup. This was checked against telecom and AI pricing trends. <a class="cite" href="#src-v1">V1</a><a class="cite" href="#src-v2">V2</a></td></tr>
           </tbody>
         </table>

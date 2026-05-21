@@ -21,6 +21,17 @@ This is a "coordination orchestrator" for a family (built SMS-first):
 
 The product experience is "my assistant talks to my people so I don't have to", but the technical reality is a reliable workflow engine that can handle waiting, retries, and message deduplication.
 
+## Current Strategic Roadmap
+
+The May 21 Tamara meeting clarified the near-term sequence:
+
+1. **Tranche 1:** harden the deterministic saved-contact SMS/email loop, add onboarding, payment,
+   plan caps, task-level COGS, and paid pilot visibility.
+2. **Tranche 2:** add voice logistics after tranche 1 is stable, starting with parent voice intake
+   and carefully scoped scheduling calls.
+3. **Tranche 3:** test camp/activity registration automation for a narrow geography and later
+   seasonal cycle, without turning the first product into a camp marketplace.
+
 ## Status: What Is Completed
 
 Core functionality (Phase 1):

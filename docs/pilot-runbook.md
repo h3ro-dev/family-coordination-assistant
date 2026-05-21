@@ -12,6 +12,19 @@ Key design constraints (safety + simplicity):
 - Max 1 request waiting on a parent reply at a time
 - Message history is retained for 30 days, then deleted (privacy)
 
+## May 21 Roadmap Notes
+
+The first paid pilot should stay in **tranche 1**:
+
+- deterministic SMS/email coordination,
+- manually onboarded trusted contacts,
+- payment and task caps,
+- task-level cost tracking,
+- a clear refund/extension promise if no in-scope task is completed.
+
+Voice is **tranche 2**. Camp/activity registration automation is **tranche 3**. Both can be planned
+now, but they should not expand the first paid pilot promise.
+
 ## Terms (plain English)
 
 - **Family**: One household account in the system.
@@ -110,9 +123,10 @@ You can still do email replies without owning a domain:
 
 See `docs/email-proxy-gmail.md` for concrete options.
 
-## Hybrid Healthcare Flow (Phase 1): Voice Result Ingestion
+## Voice Result Ingestion (Tranche 2 Prep)
 
-Important: Phase 1 does **not** place phone calls yet. It supports the second half of the loop:
+Important: the first paid pilot should not depend on healthcare/provider calls. The system can still
+prove the second half of the future voice loop:
 
 1. A clinic/therapy office is contacted by phone (manually or by a future “voice bridge”).
 2. The result is posted to the API as structured offered time slots.
