@@ -8,9 +8,9 @@ const researchDir = path.join(docsDir, "research");
 const designHandoffDir = path.join(docsDir, "design-handoff");
 const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260512_183321Z_17qarn3x";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/17";
-const issueLabel = "Issue #17";
+const traceId = "trc_20260521_191830Z_obgzi1wn";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/21";
+const issueLabel = "Issue #21";
 
 const sourceDocs = [
   {
@@ -303,6 +303,19 @@ const sourceDocs = [
       "Adds a source register and calculation methodology for proposal pricing, equity, COGS, pilot thresholds, sponsored cohorts, roadmap scope, vendor assumptions, and legal/product risk gates."
   },
   {
+    file: "22-may-21-tamara-meeting-integration.md",
+    title: "May 21 Tamara Meeting Integration",
+    type: "Meeting integration and roadmap update",
+    model: "Codex GPT-5 with Otter.ai transcript review and Product Manager skill",
+    sensitivity: "Public-safe synthesis; raw transcript not published",
+    questions: [
+      "What changed after the May 21 meeting with Tamara?",
+      "How should the roadmap, tranches, ownership terms, and follow-up commitments be updated?"
+    ],
+    summary:
+      "Integrated the May 21 Otter meeting into the Looheru roadmap: deterministic tranche one, voice tranche two, camp automation tranche three, company-owned IP, founder decision control, May 29 decision deadline, and formal follow-up package."
+  },
+  {
     file: "TRACKER.md",
     title: "Research Tracker",
     type: "Audit trail",
@@ -589,6 +602,14 @@ const promptRuns = [
     status: "Completed in local workspace; tracked in GitHub issue #17",
     question:
       "Run a proposal-wide plain-language pass so the proposal feels easy to review for all audiences, with simpler first-read promise, simpler section headings, shorter dense passages, and plain-English summaries while preserving pricing, equity, legal meaning, citations, and source traceability."
+  },
+  {
+    group: "May 21 Tamara follow-up integration",
+    prompt: "Otter transcript synthesis into roadmap and follow-up package",
+    model: "Codex GPT-5 with Otter.ai transcript review and Product Manager skill",
+    status: "Completed in local workspace; tracked in GitHub issue #21",
+    question:
+      "Review the May 21 Tamara meeting, identify what should change, and update the roadmap, proposal, research appendix, and future follow-up commitments."
   }
 ];
 

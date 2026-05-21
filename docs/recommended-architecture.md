@@ -11,11 +11,28 @@ you can reason about the design without being a software engineer.
 The user-facing product is:
 
 - "My assistant talks to my people so I don't have to."
+- "One request. Your people. Zero friction."
 
 The technical product is:
 
 - A durable workflow engine that can send messages, wait, retry, summarize options, and confirm a
   choice without getting confused.
+
+## May 21 Roadmap Update
+
+The May 21 Tamara meeting clarified the build sequence:
+
+1. **Tranche 1: deterministic saved-contact coordination.** Harden the existing SMS/email workflow,
+   keep contact onboarding manual and narrow, add payment/plan caps/cost tracking, and make the
+   first paid pilot reliable.
+2. **Tranche 2: voice logistics.** Plan voice during tranche 1, then test parent voice intake and
+   carefully scoped scheduling calls as family logistics. Do not market the product as health tech
+   or clinical AI.
+3. **Tranche 3: camp/activity registration automation.** Start geographically narrow and automate
+   parent-side discovery/registration where existing camp websites can support it. Do not become a
+   two-sided camp marketplace unless that becomes a deliberate later company.
+
+This sequence keeps the core boring and reliable while leaving room for richer AI interfaces later.
 
 ## Explicit Boundaries (What Is and Is Not Built)
 
@@ -41,6 +58,7 @@ The technical product is:
 - A streaming/realtime voice agent (Twilio Media Streams + OpenAI/Grok/etc.).
 - Calendar booking integrations.
 - Real end-user accounts, dashboards, marketplace, payments.
+- Camp/activity discovery and registration automation.
 - HIPAA compliance program (BAAs, audits, policies).
 
 ## The Core Idea: Coordination Core + Adapters
