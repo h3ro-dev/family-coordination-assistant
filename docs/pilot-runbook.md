@@ -25,6 +25,16 @@ The first paid pilot should stay in **tranche 1**:
 Voice is **tranche 2**. Camp/activity registration automation is **tranche 3**. Both can be planned
 now, but they should not expand the first paid pilot promise.
 
+May 21 follow-up items for the pilot team:
+
+- Keep the first pilot promise simple: one parent request, trusted contacts, clear options, closed
+  loop.
+- Add payment, task caps, cost tracking, and admin visibility before broad feature expansion.
+- Keep healthcare-provider calls positioned as family logistics if they are tested later.
+- Record twice-weekly updates during any active build.
+- Use the Friday, May 29, 2026 checkpoint to confirm the partner option, tranche-one authorization,
+  IP framework, and Option C cost-recovery terms.
+
 ## Terms (plain English)
 
 - **Family**: One household account in the system.
