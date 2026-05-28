@@ -289,6 +289,24 @@
       "summary": "Refines the May 21 page into a practical review packet: what was covered, what has already been updated, the tranche roadmap, internal resourcing assumptions, Duckbill takeaways, legal facilitation notes, and the May 29 draft invite plan."
     },
     {
+      "file": "23-partnership-framework-and-production-tranches.md",
+      "title": "Partnership Framework And Production Tranches",
+      "type": "Partnership framework and 12-18 week production plan",
+      "model": "Codex GPT-5 with Outlook email review, Otter.ai transcript review, Proposal Writer, and proposal-readability-editor",
+      "sensitivity": "Public-safe relationship framework",
+      "hideMetaCard": true,
+      "hideSummaryCard": true,
+      "hideSourceNote": true,
+      "questions": [
+        "What did Tamara ask us to clarify about the partnership relationship?",
+        "What would Utlyze / SolutionStream cover under each option?",
+        "What would Tamara cover as founder/operator?",
+        "How should the three production tranches be articulated over 12-18 weeks?",
+        "What first MVP deliverable should be named clearly?"
+      ],
+      "summary": "Turns the email continuity, May 21 meeting questions, current proposal, and project docs into a clear partnership framework: roles, Option A/B/C responsibility levels, production tranches, first MVP deliverable, and send-ready response direction."
+    },
+    {
       "file": "TRACKER.md",
       "title": "Research Tracker",
       "type": "Audit trail",
