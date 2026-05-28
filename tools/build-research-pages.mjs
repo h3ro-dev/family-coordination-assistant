@@ -8,7 +8,7 @@ const researchDir = path.join(docsDir, "research");
 const designHandoffDir = path.join(docsDir, "design-handoff");
 const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260528_205813Z_qtfbxepb";
+const traceId = "trc_20260528_215502Z_dc9jkh7z";
 const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/26";
 const issueLabel = "Issue #26";
 
@@ -359,6 +359,26 @@ const sourceDocs = [
     ],
     summary:
       "Adds a SOW-style cost breakdown for Options A/B/C across the three production tranches, using Option A as the market cash baseline and translating that baseline into covered value, at-cost recovery, and equity logic for Options B and C."
+  },
+  {
+    file: "25-production-gantt-and-cost-timing.md",
+    title: "Production Gantt And Cost Timing",
+    type: "Gantt schedule and option cost timing",
+    model: "Codex GPT-5 with data-visualization, Proposal Writer, proposal-readability-editor standards, May 29 decision assumption, and SOW tranche model",
+    sensitivity: "Public-safe schedule and cost model",
+    hideMetaCard: true,
+    hideSummaryCard: true,
+    hideSourceNote: true,
+    customPage: "gantt",
+    questions: [
+      "Does the SOW model answer Tamara's questions?",
+      "What starts on May 29 versus Monday, June 1, 2026?",
+      "What is the week-by-week Gantt schedule for all three production tranches?",
+      "When do Options A, B, and C create cash, equity, ownership, or cost-recovery events?",
+      "Which decisions remain open before this becomes a signed SOW or operating agreement?"
+    ],
+    summary:
+      "Adds a week-by-week Gantt and cost-timing page that shows the May 29 decision point, June 1 start assumption, tranche windows, decision gates, Option A/B cash timing, and Option C covered value and direct cost-recovery timing."
   },
   {
     file: "TRACKER.md",
@@ -1065,7 +1085,350 @@ function renderPromptsPage() {
   });
 }
 
+function renderGanttPage(doc) {
+  const weeks = [
+    ["May 29", "Decision"],
+    ["Jun 1", "W1"],
+    ["Jun 8", "W2"],
+    ["Jun 15", "W3"],
+    ["Jun 22", "W4"],
+    ["Jun 29", "W5"],
+    ["Jul 6", "W6"],
+    ["Jul 13", "W7"],
+    ["Jul 20", "W8"],
+    ["Jul 27", "W9"],
+    ["Aug 3", "W10"],
+    ["Aug 10", "W11"],
+    ["Aug 17", "W12"],
+    ["Aug 24", "W13"],
+    ["Aug 31", "W14"],
+    ["Sep 7", "W15"],
+    ["Sep 14", "W16"],
+    ["Sep 21", "W17"],
+    ["Sep 28", "W18"]
+  ];
+
+  const rows = [
+    {
+      lane: "Decision",
+      label: "Select option, approve rates, confirm start",
+      detail: "May 29",
+      start: 1,
+      span: 1,
+      kind: "gate"
+    },
+    {
+      lane: "Agreement",
+      label: "SOW, IP, accounts, counsel list",
+      detail: "May 29-Jun 5",
+      start: 1,
+      span: 2,
+      kind: "prep"
+    },
+    {
+      lane: "Tranche 1",
+      label: "MVP design and architecture",
+      detail: "Jun 1-Jun 12",
+      start: 2,
+      span: 2,
+      kind: "t1"
+    },
+    {
+      lane: "Tranche 1",
+      label: "Core build: setup, trusted contacts, payment, task ledger",
+      detail: "Jun 1-Jul 10",
+      start: 2,
+      span: 6,
+      kind: "t1"
+    },
+    {
+      lane: "Tranche 1",
+      label: "QA, pilot report, paid MVP decision packet",
+      detail: "Jun 22-Jul 10",
+      start: 5,
+      span: 3,
+      kind: "t1"
+    },
+    {
+      lane: "Gate 1",
+      label: "Paid MVP acceptance and voice decision",
+      detail: "Jul 10",
+      start: 7,
+      span: 1,
+      kind: "gate"
+    },
+    {
+      lane: "Tranche 2",
+      label: "Voice architecture and risk boundaries",
+      detail: "Jul 13-Jul 24",
+      start: 8,
+      span: 2,
+      kind: "t2"
+    },
+    {
+      lane: "Tranche 2",
+      label: "Voice logistics build and call-result workflow",
+      detail: "Jul 13-Aug 21",
+      start: 8,
+      span: 6,
+      kind: "t2"
+    },
+    {
+      lane: "Tranche 2",
+      label: "Voice QA, cost controls, counsel prep",
+      detail: "Aug 3-Aug 21",
+      start: 11,
+      span: 3,
+      kind: "t2"
+    },
+    {
+      lane: "Gate 2",
+      label: "Voice expand / hold / narrow decision",
+      detail: "Aug 21",
+      start: 13,
+      span: 1,
+      kind: "gate"
+    },
+    {
+      lane: "Tranche 3",
+      label: "Camp/activity scope and data design",
+      detail: "Aug 24-Sep 4",
+      start: 14,
+      span: 2,
+      kind: "t3"
+    },
+    {
+      lane: "Tranche 3",
+      label: "Inventory, recommendation grid, approval workflow",
+      detail: "Aug 24-Oct 2",
+      start: 14,
+      span: 6,
+      kind: "t3"
+    },
+    {
+      lane: "Tranche 3",
+      label: "QA, failure handling, product-line decision packet",
+      detail: "Sep 14-Oct 2",
+      start: 17,
+      span: 3,
+      kind: "t3"
+    },
+    {
+      lane: "Gate 3",
+      label: "Camp/activity expansion decision",
+      detail: "Oct 2",
+      start: 19,
+      span: 1,
+      kind: "gate"
+    }
+  ];
+
+  const weekHeader = weeks
+    .map(
+      ([date, week]) => `
+              <div class="gantt-week">
+                <strong>${escapeHtml(date)}</strong>
+                <span>${escapeHtml(week)}</span>
+              </div>`
+    )
+    .join("");
+
+  const ganttRows = rows
+    .map(
+      (row) => `
+            <div class="gantt-row">
+              <div class="gantt-label">
+                <strong>${escapeHtml(row.lane)}</strong>
+                <span>${escapeHtml(row.detail)}</span>
+              </div>
+              <div class="gantt-track">
+                <div class="gantt-bar ${escapeHtml(row.kind)}" style="grid-column: ${row.start} / span ${row.span};">
+                  <strong>${escapeHtml(row.label)}</strong>
+                  <span>${escapeHtml(row.detail)}</span>
+                </div>
+              </div>
+            </div>`
+    )
+    .join("");
+
+  const scheduleTableRows = rows
+    .map(
+      (row) => `
+                <tr>
+                  <td>${escapeHtml(row.lane)}</td>
+                  <td>${escapeHtml(row.label)}</td>
+                  <td>${escapeHtml(row.detail)}</td>
+                </tr>`
+    )
+    .join("");
+
+  const body = `
+        <section class="hero">
+          <h1>${escapeHtml(doc.title)}</h1>
+          <p>
+            This turns the SOW model into a time-based view. It shows what happens if the May 29 decision creates agreement
+            and production work starts Monday, June 1, 2026.
+          </p>
+          <div class="mini-nav">
+            <a href="./24-sow-cost-breakdown-by-tranche.html">SOW cost model</a>
+            <a href="./23-partnership-framework-and-production-tranches.html">Partnership framework</a>
+            <a href="./index.html">Research index</a>
+          </div>
+        </section>
+
+        <section class="grid2">
+          <div class="card status-card good">
+            <h2>Does This Answer Her Questions?</h2>
+            <p>
+              Yes for the working proposal. It now answers what each option covers, what each tranche costs, when the work happens,
+              where the gates are, and how Option C cost recovery works.
+            </p>
+          </div>
+          <div class="card status-card open">
+            <h2>What Still Needs Signature</h2>
+            <p>
+              It does not replace the final SOW, operating agreement, counsel review, final rates, equity instrument, IP terms,
+              vendor/API handling, or the start-date approval.
+            </p>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Planning Assumptions</h2>
+          <table class="table">
+            <tbody>
+              <tr><th>Decision point</th><td>Friday, May 29, 2026.</td></tr>
+              <tr><th>Work-start assumption</th><td>Monday, June 1, 2026, if option, rates, and authority to begin are approved by May 29.</td></tr>
+              <tr><th>Schedule style</th><td>Three 4-6 week tranches, shown as six-week windows so we do not overpromise.</td></tr>
+              <tr><th>If signature slips</th><td>Move the whole chart right by the same number of days.</td></tr>
+              <tr><th>Costs</th><td>Option A is the no-equity cash baseline. Options B and C change cash, equity, and risk sharing.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2>Production Gantt</h2>
+          <p class="quiet">
+            The schedule is the same production path for all options. The money and ownership treatment changes by option.
+          </p>
+          <div class="gantt-shell" role="img" aria-label="Looheru production Gantt chart from May 29 through September 28, 2026">
+            <div class="gantt-row gantt-header">
+              <div class="gantt-label"><strong>Workstream</strong><span>Timing</span></div>
+              <div class="gantt-track">${weekHeader}</div>
+            </div>
+${ganttRows}
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Schedule List</h2>
+          <table class="table">
+            <thead><tr><th>Lane</th><th>What happens</th><th>Timing</th></tr></thead>
+            <tbody>${scheduleTableRows}</tbody>
+          </table>
+        </section>
+
+        <section class="grid3">
+          <div class="card option-card option-a">
+            <h2>Option A</h2>
+            <p><strong>Cash services.</strong> Looheru pays market cash. Looheru keeps all equity.</p>
+            <div class="metric">$260K</div>
+            <p>Total low-end baseline across all three tranches.</p>
+          </div>
+          <div class="card option-card option-b">
+            <h2>Option B</h2>
+            <p><strong>Strategic build partner.</strong> Looheru pays less cash. Utlyze / SolutionStream earns upside.</p>
+            <div class="metric">$130K-$170K</div>
+            <p>Cash range across all three tranches, plus 10%-15% equity or warrants.</p>
+          </div>
+          <div class="card option-card option-c">
+            <h2>Option C</h2>
+            <p><strong>Studio / cofounder build.</strong> We build at cost and take company-building risk.</p>
+            <div class="metric">$141.85K</div>
+            <p>Estimated direct cost ledger, with $260K of covered market value and 35%-40% ownership.</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Option A Cash Timing</h2>
+          <p class="quiet">Uses 50% at start, 25% at midpoint, and 25% at acceptance for each authorized tranche.</p>
+          <table class="table">
+            <thead><tr><th>Date</th><th>Event</th><th>Cash due</th><th>Running total</th></tr></thead>
+            <tbody>
+              <tr><td>Jun 1</td><td>Tranche 1 start</td><td>$37,500</td><td>$37,500</td></tr>
+              <tr><td>Jun 15</td><td>Tranche 1 midpoint</td><td>$18,750</td><td>$56,250</td></tr>
+              <tr><td>Jul 10</td><td>Tranche 1 acceptance</td><td>$18,750</td><td>$75,000</td></tr>
+              <tr><td>Jul 13</td><td>Tranche 2 start, if approved</td><td>$45,000</td><td>$120,000</td></tr>
+              <tr><td>Aug 3</td><td>Tranche 2 midpoint</td><td>$22,500</td><td>$142,500</td></tr>
+              <tr><td>Aug 21</td><td>Tranche 2 acceptance</td><td>$22,500</td><td>$165,000</td></tr>
+              <tr><td>Aug 24</td><td>Tranche 3 start, if approved</td><td>$47,500</td><td>$212,500</td></tr>
+              <tr><td>Sep 14</td><td>Tranche 3 midpoint</td><td>$23,750</td><td>$236,250</td></tr>
+              <tr><td>Oct 2</td><td>Tranche 3 acceptance</td><td>$23,750</td><td>$260,000</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2>Option B Cash And Equity Timing</h2>
+          <p class="quiet">
+            Uses the same tranche gates as Option A. Cash is lower because part of the value is covered by Utlyze / SolutionStream.
+          </p>
+          <table class="table">
+            <thead><tr><th>Gate</th><th>Cash range</th><th>Covered value</th><th>Equity / warrant event</th></tr></thead>
+            <tbody>
+              <tr><td>Tranche 1 start to acceptance</td><td>$35,000-$45,000</td><td>$30,000-$40,000</td><td>Initial vesting after paid MVP delivery. Planning range: 3%-4%.</td></tr>
+              <tr><td>Tranche 2 start to acceptance</td><td>$45,000-$60,000</td><td>$30,000-$45,000</td><td>Additional vesting after approved voice logistics delivery. Planning range: 3%-5%.</td></tr>
+              <tr><td>Tranche 3 start to acceptance</td><td>$50,000-$65,000</td><td>$30,000-$45,000</td><td>Additional vesting after camp/activity delivery or operating milestones. Planning range: 4%-6%.</td></tr>
+              <tr><td>Total</td><td>$130,000-$170,000</td><td>$90,000-$130,000</td><td>Total upside target: 10%-15%, subject to final agreement.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2>Option C Cost Recovery Timing</h2>
+          <p class="quiet">
+            Option C does not use market-margin invoices. It uses covered value, an at-cost ledger, COGS-first revenue, then recovery.
+          </p>
+          <table class="table">
+            <thead><tr><th>Timing</th><th>What accrues</th><th>Cash now</th><th>Ownership / recovery event</th></tr></thead>
+            <tbody>
+              <tr><td>May 29-Jun 1</td><td>Company-building commitment is documented.</td><td>No market-margin fee.</td><td>35%-40% ownership is documented, ideally with vesting or repurchase protection.</td></tr>
+              <tr><td>Tranche 1</td><td>$40,500 direct cost ledger. About $6,750/week over six weeks.</td><td>Vendor/API costs are paid as incurred or carried on the ledger.</td><td>$75,000 covered market value.</td></tr>
+              <tr><td>Tranche 2</td><td>$49,450 direct cost ledger. About $8,242/week over six weeks.</td><td>Vendor/API costs are paid as incurred or carried on the ledger.</td><td>$90,000 covered market value.</td></tr>
+              <tr><td>Tranche 3</td><td>$51,900 direct cost ledger. About $8,650/week over six weeks.</td><td>Vendor/API costs are paid as incurred or carried on the ledger.</td><td>$95,000 covered market value.</td></tr>
+              <tr><td>After first revenue</td><td>Live product COGS is paid first.</td><td>Revenue covers direct usage costs first.</td><td>After COGS, approved revenue repays the $141,850 estimated build-cost ledger. After recovery, revenue split follows the agreement.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2>Open Decisions Before This Becomes Final</h2>
+          <ul>
+            <li>Choose Option A, B, or C.</li>
+            <li>Confirm whether June 1, 2026 is the actual work-start date.</li>
+            <li>Approve final rates and vendor/API handling.</li>
+            <li>Define whether Option B uses equity, warrants, or another instrument.</li>
+            <li>Define whether Option C ownership vests by tranche or is issued with repurchase protection.</li>
+            <li>Confirm IP, background IP, account ownership, data boundaries, and counsel review items.</li>
+          </ul>
+        </section>
+`;
+
+  return renderShell({
+    title: `Looheru Research - ${doc.title}`,
+    description: doc.summary,
+    depth: "..",
+    sidebarSubtitle: "Gantt schedule and option cost timing for the May 29 Looheru decision path.",
+    sidebarPill: "Gantt",
+    body
+  });
+}
+
 function renderDocPage(doc) {
+  if (doc.customPage === "gantt") {
+    return renderGanttPage(doc);
+  }
+
   const metaCard = doc.hideMetaCard
     ? ""
     : `

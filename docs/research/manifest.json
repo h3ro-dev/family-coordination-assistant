@@ -1,5 +1,5 @@
 {
-  "traceId": "trc_20260528_205813Z_qtfbxepb",
+  "traceId": "trc_20260528_215502Z_dc9jkh7z",
   "issueUrl": "https://github.com/h3ro-dev/family-coordination-assistant/issues/26",
   "sourceDocs": [
     {
@@ -323,6 +323,25 @@
         "Which SolutionStream SOW structure should shape the final scope of work?"
       ],
       "summary": "Adds a SOW-style cost breakdown for Options A/B/C across the three production tranches, using Option A as the market cash baseline and translating that baseline into covered value, at-cost recovery, and equity logic for Options B and C."
+    },
+    {
+      "file": "25-production-gantt-and-cost-timing.md",
+      "title": "Production Gantt And Cost Timing",
+      "type": "Gantt schedule and option cost timing",
+      "model": "Codex GPT-5 with data-visualization, Proposal Writer, proposal-readability-editor standards, May 29 decision assumption, and SOW tranche model",
+      "sensitivity": "Public-safe schedule and cost model",
+      "hideMetaCard": true,
+      "hideSummaryCard": true,
+      "hideSourceNote": true,
+      "customPage": "gantt",
+      "questions": [
+        "Does the SOW model answer Tamara's questions?",
+        "What starts on May 29 versus Monday, June 1, 2026?",
+        "What is the week-by-week Gantt schedule for all three production tranches?",
+        "When do Options A, B, and C create cash, equity, ownership, or cost-recovery events?",
+        "Which decisions remain open before this becomes a signed SOW or operating agreement?"
+      ],
+      "summary": "Adds a week-by-week Gantt and cost-timing page that shows the May 29 decision point, June 1 start assumption, tranche windows, decision gates, Option A/B cash timing, and Option C covered value and direct cost-recovery timing."
     },
     {
       "file": "TRACKER.md",
