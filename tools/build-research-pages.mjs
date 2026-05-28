@@ -8,9 +8,9 @@ const researchDir = path.join(docsDir, "research");
 const designHandoffDir = path.join(docsDir, "design-handoff");
 const claudeDesignExportPath = path.join(designHandoffDir, "proposal-claude-design-export.html");
 
-const traceId = "trc_20260521_191830Z_obgzi1wn";
-const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/21";
-const issueLabel = "Issue #21";
+const traceId = "trc_20260528_205813Z_qtfbxepb";
+const issueUrl = "https://github.com/h3ro-dev/family-coordination-assistant/issues/26";
+const issueLabel = "Issue #26";
 
 const sourceDocs = [
   {
@@ -340,6 +340,25 @@ const sourceDocs = [
     ],
     summary:
       "Turns the email continuity, May 21 meeting questions, current proposal, and project docs into a clear partnership framework: roles, Option A/B/C responsibility levels, production tranches, first MVP deliverable, and send-ready response direction."
+  },
+  {
+    file: "24-sow-cost-breakdown-by-tranche.md",
+    title: "SOW Cost Breakdown By Tranche",
+    type: "SOW-style tranche cost model",
+    model: "Codex GPT-5 with Outlook SolutionStream SOW template search, current 2026 market-rate checks, Proposal Writer, and proposal-readability-editor",
+    sensitivity: "Public-safe SOW framework",
+    hideMetaCard: true,
+    hideSummaryCard: true,
+    hideSourceNote: true,
+    questions: [
+      "How should the three partnership options be broken down by tranche?",
+      "How does Option A establish the cash baseline?",
+      "What low-end baseline value would Utlyze / SolutionStream cover under Option C?",
+      "How should engineering hours, API/vendor expenses, at-cost recovery, and equity trade-offs be shown?",
+      "Which SolutionStream SOW structure should shape the final scope of work?"
+    ],
+    summary:
+      "Adds a SOW-style cost breakdown for Options A/B/C across the three production tranches, using Option A as the market cash baseline and translating that baseline into covered value, at-cost recovery, and equity logic for Options B and C."
   },
   {
     file: "TRACKER.md",

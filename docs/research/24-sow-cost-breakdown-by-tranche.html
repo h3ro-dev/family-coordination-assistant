@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Looheru Research - SOW Cost Breakdown By Tranche</title>
+    <meta name="description" content="Adds a SOW-style cost breakdown for Options A/B/C across the three production tranches, using Option A as the market cash baseline and translating that baseline into covered value, at-cost recovery, and equity logic for Options B and C." />
+    <link rel="stylesheet" href="../assets/site.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrap">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="title">Looheru Research Appendix</div>
+          <div class="subtitle">Meeting review and prep page for the May 29 decision meeting.</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="pill">Trace: trc_20260528_205813Z_qtfbxepb</span>
+            <span class="pill">Issue #26</span>
+            <span class="pill">Meeting Review</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="../index.html">System Guide</a>
+          <a href="../proposal.html">Proposal</a>
+          <a href="../research/index.html">Research Index</a>
+          <a href="../research/prompts-and-models.html">Prompts + Models</a>
+          <a href="https://github.com/h3ro-dev/family-coordination-assistant">GitHub Repo</a>
+          <a href="https://github.com/h3ro-dev/family-coordination-assistant/issues/26">Tracking Issue</a>
+          
+        </nav>
+        <div class="footer">Repo: h3ro-dev/family-coordination-assistant</div>
+      </aside>
+      <main class="main">
+
+        <section class="hero">
+          <h1>SOW Cost Breakdown By Tranche</h1>
+          <p>Adds a SOW-style cost breakdown for Options A/B/C across the three production tranches, using Option A as the market cash baseline and translating that baseline into covered value, at-cost recovery, and equity logic for Options B and C.</p>
+          <div class="mini-nav">
+            <a href="./index.html">Research index</a>
+            <a href="./prompts-and-models.html">Prompts and models</a>
+            <a href="../proposal.html">Proposal</a>
+          </div>
+        </section>
+
+
+        <section class="card">
+          <h2>Questions / Prompts Used</h2>
+          <ul><li>How should the three partnership options be broken down by tranche?</li><li>How does Option A establish the cash baseline?</li><li>What low-end baseline value would Utlyze / SolutionStream cover under Option C?</li><li>How should engineering hours, API/vendor expenses, at-cost recovery, and equity trade-offs be shown?</li><li>Which SolutionStream SOW structure should shape the final scope of work?</li></ul>
+        </section>
+
+
+        <section class="card source-card">
+          <h2>Research Document</h2>
+
+          <div class="source-content">
+<h2>SOW Cost Breakdown By Tranche</h2>
+<h3>Plain read</h3>
+<p>Tamara is asking for the right thing: not just &quot;what is the option,&quot; but what each option actually covers.</p>
+<p>The cleanest way to show this is to use Option A as the baseline. Option A has no equity. That means it shows the market cash value of the work.</p>
+<p>Then Options B and C become easier to understand:</p>
+<ul><li>Option A: Looheru pays cash. Looheru keeps all equity.</li><li>Option B: Looheru pays less cash. Utlyze / SolutionStream earns 10%-15% equity or warrants for taking part of the build risk.</li><li>Option C: Utlyze / SolutionStream builds at cost and takes 35%-40% ownership. The low-end Option A value becomes the value we are covering or putting at risk.</li></ul>
+<p>This should be written as a scope of work, not as a vague partnership idea.</p>
+<h3>Sources used</h3>
+<table class="table source-table"><thead><tr><th>Source</th><th>How it affects this page</th></tr></thead><tbody><tr><td>Internal SolutionStream SOW templates found in Outlook</td><td>The internal templates separate project-work SOWs from staff-augmentation SOWs and expect customization by client need. This page uses the project-SOW shape: scope, deliverables, timing, fees, expenses, assumptions, acceptance, change control, and IP/account boundaries. Raw internal templates are not published here.</td></tr><tr><td>Tamara email and May 21 meeting continuity</td><td>Tamara asked for relationship clarity, what we would cover, milestones, what each tranche produces, how Option C cost recovery works, and how IP/company ownership should be handled.</td></tr><tr><td>Current proposal and research packet</td><td>The existing proposal already defines Options A/B/C and the product roadmap. This page makes the cost logic and tranche coverage clearer.</td></tr><tr><td>Current market-rate checks</td><td>2026 public sources show broad AI/dev rate dispersion: low marketplace rates, higher senior AI agent rates, and higher blended project/team rates. The numbers below use a low-end U.S. AI-native project-team rate, not a high-enterprise consultancy rate.</td></tr></tbody></table>
+<p>Useful public anchors:</p>
+<ul><li>Upwork lists AI engineers on the marketplace at about $35-$60/hour on average, while also noting experienced AI engineers may be well above $100/hour and that custom AI work can range from thousands to hundreds of thousands depending on complexity: <a href="https://www.upwork.com/hire/artificial-intelligence-engineers/cost/">Upwork AI engineer cost guide</a>.</li><li>Upwork's AI agent developer page says AI developers can range from $30-$150/hour, and that complex multi-agent systems are senior/specialist work: <a href="https://www.upwork.com/hire/ai-agent-developers/">Upwork AI agent developer guide</a>.</li><li>Arc's software developer rate guide shows senior full-stack and backend developers commonly moving into the $100-$200/hour range: <a href="https://arc.dev/hire-developers/software-development">Arc software developer rates</a>.</li><li>Clutch's U.S. custom software listings show U.S. development companies at $50-$99/hour, while Canada/Australia are shown at $100-$149/hour and project cost changes with complexity and hours: <a href="https://clutch.co/developers/pricing">Clutch software development pricing</a>.</li><li>Clutch's AI pricing guide reports average AI project cost above $120,000 and confirms scope and hours drive total cost: <a href="https://clutch.co/developers/artificial-intelligence/pricing">Clutch AI pricing guide</a>.</li><li>Second Talent's May 2026 AI agent rate card says AI agent developers commonly command $80-$250/hour depending on complexity and seniority: <a href="https://www.secondtalent.com/developer-rate-card/ai-agent-developers/">Second Talent AI agent developer rates</a>.</li><li>Cadence's 2026 freelance rate table places AI/RAG specialists around $100-$300/hour in the U.S.: <a href="https://cadence.withremote.ai/blog/freelance-developer-rates-2026">Cadence freelance developer rates</a>.</li><li>OpenAI's API pricing gives current planning anchors for GPT-5.5 and GPT-Realtime-2 model usage: <a href="https://openai.com/api/pricing/">OpenAI API pricing</a>.</li><li>Twilio's U.S. SMS and voice pages give planning anchors for SMS, voice minutes, phone numbers, and carrier/telecom pass-through costs: <a href="https://www.twilio.com/en-us/sms/pricing/usa">Twilio SMS pricing</a> and <a href="https://www.twilio.com/en-us/voice/pricing/us">Twilio voice pricing</a>.</li></ul>
+<h3>Planning rate assumptions</h3>
+<p>These are planning assumptions. Final rates should be written into the signed SOW.</p>
+<table class="table source-table"><thead><tr><th>Rate type</th><th>Planning rate</th><th>Why this is used</th></tr></thead><tbody><tr><td>Option A market SOW blended rate</td><td>$175/hour</td><td>Low-end U.S. AI-native project-team rate. It blends product design, architecture, engineering, QA, release work, and project leadership. It is above basic marketplace labor because the work is a production product, not a simple prototype.</td></tr><tr><td>Option C product / architecture at-cost rate</td><td>$125/hour</td><td>Used only for the cost-recovery ledger if Option C is selected. This is not market margin.</td></tr><tr><td>Option C engineering at-cost rate</td><td>$85/hour</td><td>Used for Matteo plus one additional developer if Option C is selected.</td></tr><tr><td>Option C QA / facilitation / ops at-cost rate</td><td>$70/hour</td><td>Used for sub-facilitation, release support, QA, testing, and operational follow-through.</td></tr><tr><td>Vendor, API, telecom, hosting, and tools</td><td>Pass-through at actual cost</td><td>These should be billed or tracked at actual cost with receipts or usage reports.</td></tr></tbody></table>
+<p>Why $175/hour is the baseline:</p>
+<ul><li>It is lower than many senior AI/RAG or AI-agent specialist ranges.</li><li>It is higher than low marketplace averages because this requires architecture, product judgment, deployment, testing, cost controls, and founder-facing delivery.</li><li>It gives Tamara a simple way to compare cash work against equity-backed work.</li></ul>
+<h3>Option A baseline: no equity, cash services</h3>
+<p>This is the baseline because there is no ownership trade.</p>
+<table class="table source-table"><thead><tr><th>Tranche</th><th>Time box</th><th>Hours</th><th>Labor at $175/hour</th><th>Vendor/API budget</th><th>Low-end baseline SOW value</th></tr></thead><tbody><tr><td>Tranche 1: paid MVP coordination loop</td><td>4-6 weeks</td><td>400</td><td>$70,000</td><td>$5,000</td><td>$75,000</td></tr><tr><td>Tranche 2: voice logistics</td><td>4-6 weeks</td><td>470</td><td>$82,250</td><td>$7,750</td><td>$90,000</td></tr><tr><td>Tranche 3: camp/activity automation</td><td>4-6 weeks</td><td>500</td><td>$87,500</td><td>$7,500</td><td>$95,000</td></tr><tr><td>Total if all three tranches are authorized</td><td>12-18 weeks</td><td>1,370</td><td>$239,750</td><td>$20,250</td><td>$260,000</td></tr></tbody></table>
+<p>Plain read:</p>
+<ul><li>If Looheru buys the work without giving equity, the low-end cash baseline is about $260,000 across all three production tranches.</li><li>Each tranche should still be approved separately.</li><li>This is not a blank check. It is the planning baseline for a detailed SOW.</li></ul>
+<h3>Tranche 1 SOW: paid MVP coordination loop</h3>
+<p>Goal: make the current saved-contact coordination product reliable enough to charge for.</p>
+<p>Estimated scope:</p>
+<table class="table source-table"><thead><tr><th>Work area</th><th>Planned hours</th><th>What is included</th></tr></thead><tbody><tr><td>Product design and architecture</td><td>60</td><td>Confirm the first paid use case, onboarding path, parent request flow, task caps, and success metrics.</td></tr><tr><td>Engineering</td><td>280</td><td>Harden the February repo, improve setup, add payment or paid-pilot intake, build task state, trusted-contact coordination, admin visibility, and cost tracking.</td></tr><tr><td>QA, release, and ops</td><td>60</td><td>Test edge cases, document release steps, set up basic monitoring, and prepare a pilot decision packet.</td></tr><tr><td>Vendor/API budget</td><td>$5,000</td><td>Model/API usage, SMS testing, phone number/registration costs, hosting, database, email/payment tooling, observability, and contingency.</td></tr></tbody></table>
+<p>Deliverables:</p>
+<ul><li>autonomous setup for the first narrow flow,</li><li>no routine human escalation,</li><li>parent-authorized trusted-contact coordination,</li><li>SMS/email request loop,</li><li>payment or paid-pilot intake,</li><li>admin view for task status and failure reasons,</li><li>task-level cost ledger,</li><li>basic privacy and retention rules,</li><li>pilot report showing activation, completion, cost, failure, and repeat-use signals.</li></ul>
+<p>Acceptance test:</p>
+<ul><li>A pilot parent can set up, add trusted contacts, create a task, watch status, and receive a closed-loop result without staff doing the work by hand.</li></ul>
+<p>Decision at the end:</p>
+<ul><li>Scale the first wedge, narrow it, or pause before adding voice.</li></ul>
+<h3>Tranche 2 SOW: voice logistics</h3>
+<p>Goal: add voice only where it helps complete family logistics.</p>
+<p>Estimated scope:</p>
+<table class="table source-table"><thead><tr><th>Work area</th><th>Planned hours</th><th>What is included</th></tr></thead><tbody><tr><td>Product design and voice architecture</td><td>70</td><td>Define call types, parent authorization, disclosure wording, consent rules, and the call-result schema.</td></tr><tr><td>Engineering</td><td>330</td><td>Build parent-facing voice intake, outbound call workflow, tool contracts, result summaries, retry/failure handling, and admin review data.</td></tr><tr><td>QA, release, and risk testing</td><td>70</td><td>Test latency, call outcomes, opt-out handling, transcripts/summaries, cost controls, and blocked workflows.</td></tr><tr><td>Vendor/API budget</td><td>$7,750</td><td>OpenAI realtime/model usage, Twilio voice/SMS/call testing, phone numbers, transcript/summarization costs, monitoring, and contingency.</td></tr></tbody></table>
+<p>Deliverables:</p>
+<ul><li>voice-provider selection memo,</li><li>parent-facing voice intake or confirmation flow,</li><li>parent-authorized outbound logistics call workflow,</li><li>call-type allowlist and blocked-list,</li><li>disclosure and opt-out handling,</li><li>structured call result back into the task system,</li><li>voice cost ledger,</li><li>voice risk checklist for counsel review.</li></ul>
+<p>Acceptance test:</p>
+<ul><li>The system can complete a narrow approved logistics call, summarize the outcome, update the parent, and log cost/failure data.</li></ul>
+<p>Boundary:</p>
+<ul><li>This stays family logistics.</li><li>It should not be marketed as clinical AI.</li><li>It should not collect sensitive health details unless counsel approves that workflow.</li></ul>
+<p>Decision at the end:</p>
+<ul><li>Expand voice, keep it parent-facing only, or hold voice until the product has more paid traction.</li></ul>
+<h3>Tranche 3 SOW: camp and activity automation</h3>
+<p>Goal: test whether Looheru can reduce seasonal planning burden without becoming a camp marketplace.</p>
+<p>Estimated scope:</p>
+<table class="table source-table"><thead><tr><th>Work area</th><th>Planned hours</th><th>What is included</th></tr></thead><tbody><tr><td>Product design and data architecture</td><td>70</td><td>Define the geography, age rules, preference intake, parent approval flow, and success metrics.</td></tr><tr><td>Engineering</td><td>370</td><td>Build camp/activity inventory, recommendation grid, approval flow, registration-prep workflow, status tracking, and failure handling.</td></tr><tr><td>QA, release, and ops</td><td>60</td><td>Test site variability, blocked automation, duplicate options, schedule conflicts, and parent review friction.</td></tr><tr><td>Vendor/API budget</td><td>$7,500</td><td>Browser/search/data tooling, model usage, hosting, monitoring, and contingency.</td></tr></tbody></table>
+<p>Deliverables:</p>
+<ul><li>one-geography camp/activity inventory,</li><li>child age and preference intake,</li><li>week-by-week option grid,</li><li>parent approval flow,</li><li>registration preparation or attempt where supported,</li><li>status and failure handling,</li><li>decision packet on whether this becomes a major product line.</li></ul>
+<p>Acceptance test:</p>
+<ul><li>A parent can review a clear local camp/activity plan and approve the next action with less work than doing the search manually.</li></ul>
+<p>Decision at the end:</p>
+<ul><li>Expand the geography, keep the feature seasonal, or defer until the first coordination product has stronger traction.</li></ul>
+<h3>Option B: strategic build partner</h3>
+<p>Option B should be a real shared-risk structure, not a vague discount.</p>
+<p>Suggested structure:</p>
+<ul><li>Looheru pays part of the cash cost.</li><li>Utlyze / SolutionStream covers the remaining value through reduced fees.</li><li>In exchange, Utlyze / SolutionStream earns 10%-15% equity or warrants.</li><li>Equity should vest by milestones or time.</li><li>Unvested equity should stop if the relationship ends.</li></ul>
+<table class="table source-table"><thead><tr><th>Tranche</th><th>Option A baseline</th><th>Suggested Option B cash</th><th>Value covered by Utlyze / SolutionStream</th><th>Equity logic</th></tr></thead><tbody><tr><td>Tranche 1</td><td>$75,000</td><td>$35,000-$45,000</td><td>$30,000-$40,000</td><td>Initial vesting after paid MVP delivery.</td></tr><tr><td>Tranche 2</td><td>$90,000</td><td>$45,000-$60,000</td><td>$30,000-$45,000</td><td>Additional vesting after approved voice logistics delivery.</td></tr><tr><td>Tranche 3</td><td>$95,000</td><td>$50,000-$65,000</td><td>$30,000-$45,000</td><td>Additional vesting after camp/activity automation delivery.</td></tr><tr><td>Total if all three tranches are authorized</td><td>$260,000</td><td>$130,000-$170,000</td><td>$90,000-$130,000</td><td>10%-15% total upside, subject to final agreement.</td></tr></tbody></table>
+<p>Plain read:</p>
+<ul><li>Option B is a middle path.</li><li>It saves cash compared with Option A.</li><li>It does not ask Utlyze / SolutionStream to carry enough risk to justify 35%-40%.</li><li>The 10%-15% stake needs to be tied to real delivery and operating responsibility.</li></ul>
+<h3>Option C: studio / cofounder build at cost</h3>
+<p>Option C is the deepest partnership.</p>
+<p>This is not &quot;cheap services.&quot; It is a company-building structure.</p>
+<p>Suggested structure:</p>
+<ul><li>Utlyze / SolutionStream builds at cost.</li><li>Utlyze / SolutionStream receives 35%-40% ownership.</li><li>The low-end Option A baseline shows the market value covered.</li><li>Direct vendor/API/engineering cost is tracked separately.</li><li>First revenue pays direct product COGS.</li><li>After COGS, revenue repays approved direct build-cost recovery.</li><li>After recovery, revenue split follows the operating agreement.</li></ul>
+<h4>Option C covered value</h4>
+<table class="table source-table"><thead><tr><th>Tranche</th><th>Low-end Option A value</th><th>Value covered / put at risk in Option C</th></tr></thead><tbody><tr><td>Tranche 1</td><td>$75,000</td><td>$75,000</td></tr><tr><td>Tranche 2</td><td>$90,000</td><td>$90,000</td></tr><tr><td>Tranche 3</td><td>$95,000</td><td>$95,000</td></tr><tr><td>Total if all three tranches are completed</td><td>$260,000</td><td>$260,000</td></tr></tbody></table>
+<p>Plain read:</p>
+<ul><li>If we do Option C, the company-building contribution should be valued against the low-end cash SOW baseline.</li><li>That means the covered value is about $260,000 if all three tranches are completed.</li><li>That covered value supports the 35%-40% ownership discussion.</li></ul>
+<h4>Option C direct cost-recovery ledger</h4>
+<p>This is different from the market value above. It is the estimated at-cost cash ledger that would be recovered from revenue if approved in the agreement.</p>
+<table class="table source-table"><thead><tr><th>Tranche</th><th>Product / architecture at cost</th><th>Engineering at cost</th><th>QA / ops at cost</th><th>Vendor/API pass-through</th><th>Estimated direct cost ledger</th></tr></thead><tbody><tr><td>Tranche 1</td><td>60 hrs x $125 = $7,500</td><td>280 hrs x $85 = $23,800</td><td>60 hrs x $70 = $4,200</td><td>$5,000</td><td>$40,500</td></tr><tr><td>Tranche 2</td><td>70 hrs x $125 = $8,750</td><td>330 hrs x $85 = $28,050</td><td>70 hrs x $70 = $4,900</td><td>$7,750</td><td>$49,450</td></tr><tr><td>Tranche 3</td><td>70 hrs x $125 = $8,750</td><td>370 hrs x $85 = $31,450</td><td>60 hrs x $70 = $4,200</td><td>$7,500</td><td>$51,900</td></tr><tr><td>Total if all three tranches are completed</td><td>$25,000</td><td>$83,300</td><td>$13,300</td><td>$20,250</td><td>$141,850</td></tr></tbody></table>
+<p>Plain read:</p>
+<ul><li>The covered market value is about $260,000.</li><li>The estimated direct cost ledger is about $142,000.</li><li>Those are not the same number.</li><li>The agreement should say which costs are recoverable, who approves them, and when recovery stops.</li></ul>
+<h4>Option C revenue order</h4>
+<p>Recommended order:</p>
+<ol><li>Gross revenue comes into the company.</li><li>Direct COGS is paid first. This includes live API usage, telecom, hosting, payment fees, and other per-task costs.</li><li>Approved build-cost recovery is paid next until the ledger is repaid.</li><li>After recovery, revenue split follows the operating agreement.</li><li>Equity ownership remains governed by the operating agreement, not by monthly revenue alone.</li></ol>
+<h3>Resource allocation</h3>
+<p>This is the planning allocation. It can be adjusted in the final SOW.</p>
+<table class="table source-table"><thead><tr><th>Role</th><th>Planned responsibility</th></tr></thead><tbody><tr><td>James</td><td>Product design, founder alignment, partnership structure, and proposal/SOW clarity.</td></tr><tr><td>Bo Wang</td><td>Product architecture collaboration, technical oversight, and operating review.</td></tr><tr><td>Boe</td><td>Delivery oversight and escalation path.</td></tr><tr><td>Matteo</td><td>Developer on core product and implementation work.</td></tr><tr><td>Additional developer</td><td>Product engineering, integrations, testing support, and implementation capacity.</td></tr><tr><td>Jackson</td><td>Sub-facilitation, testing support, documentation, and operating follow-through.</td></tr></tbody></table>
+<h3>What should be included in the final SOW</h3>
+<p>The signed SOW should include:</p>
+<ul><li>selected option,</li><li>tranche being authorized,</li><li>deliverables,</li><li>acceptance criteria,</li><li>rates,</li><li>vendor/API pass-through rules,</li><li>cost-recovery rules if Option C is selected,</li><li>what is excluded,</li><li>change-control process,</li><li>IP ownership,</li><li>background IP schedule,</li><li>account ownership checklist,</li><li>data and privacy boundaries,</li><li>counsel review items,</li><li>signature and start date.</li></ul>
+<h3>Exclusions unless separately scoped</h3>
+<p>These should not be assumed inside the low-end tranche pricing:</p>
+<ul><li>full mobile app build,</li><li>broad consumer launch,</li><li>employer benefit sales program,</li><li>HIPAA-regulated clinical workflow,</li><li>clinical advice or diagnosis,</li><li>full two-sided camp marketplace,</li><li>nationwide provider/camp database,</li><li>24/7 human support,</li><li>formal legal services,</li><li>full SOC 2 or enterprise security program,</li><li>fundraising materials beyond agreed support.</li></ul>
+<h3>Recommended explanation to Tamara</h3>
+<p>Use this plain language:</p>
+<blockquote>We used the no-equity services path as the baseline because it shows what the build would cost if Looheru simply bought the work. That baseline is about $260,000 across the first three tranches. If we choose Option C, we would not charge that market margin. We would build at cost, track the actual cost ledger, recover approved direct costs from revenue after COGS, and receive 35%-40% ownership because we are covering the market value and taking company-building risk.</blockquote>
+<h3>Confidence level</h3>
+<p>Confidence: medium-high.</p>
+<p>Why:</p>
+<ul><li>The SOW structure is grounded in internal SolutionStream SOW template patterns.</li><li>The tranche scope is grounded in the May 21 meeting and the current product repo/proposal.</li><li>The public market sources support a wide rate range, and the $175/hour baseline is reasonable for a low-end U.S. AI-native project team.</li><li>Vendor/API costs are still estimates until actual usage patterns are measured in the product.</li><li>Final legal and ownership terms still need counsel review.</li></ul>
+<p>The most important next step is to convert this into a signed SOW or operating agreement for only the first authorized tranche.</p>
+          </div>
+        </section>
+
+
+        <div class="footer">
+          Published from the repo's <span class="k">/docs</span> folder using GitHub Pages.
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
