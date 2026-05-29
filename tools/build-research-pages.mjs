@@ -1262,12 +1262,99 @@ function renderGanttPage(doc) {
     )
     .join("");
 
+  const questionCoverage = [
+    {
+      question: "What does the partnership actually look like?",
+      answer:
+        "There are three relationship paths: Option A cash services, Option B strategic build partner, and Option C studio / cofounder build.",
+      where:
+        '<a href="./23-partnership-framework-and-production-tranches.html">Partnership framework</a> and the option cards on this page.',
+      review:
+        "Decide which level of responsibility we are willing to own before the call."
+    },
+    {
+      question: "What does each option cover?",
+      answer:
+        "All options use the same three-tranche production path. The difference is cash, equity, ownership, and who carries risk.",
+      where:
+        '<a href="./24-sow-cost-breakdown-by-tranche.html">SOW cost model</a> and the Production Gantt below.',
+      review:
+        "Check that Tranche 1 is the right first paid MVP and that voice stays in Tranche 2."
+    },
+    {
+      question: "How were the numbers determined?",
+      answer:
+        "Option A sets the no-equity baseline using planned hours, a $175/hour blended market SOW rate, and vendor/API budgets.",
+      where:
+        '<a href="./24-sow-cost-breakdown-by-tranche.html">SOW cost model</a>, especially Planning rate assumptions and Option A baseline.',
+      review:
+        "Confirm the $175/hour market baseline and the at-cost rates: $125, $85, and $70."
+    },
+    {
+      question: "How does Option C work?",
+      answer:
+        "Option C gives 35%-40% ownership, covers $260,000 of market value, and tracks an estimated $141,850 direct cost ledger.",
+      where:
+        "Option C Cost Recovery Timing on this page and Option C direct cost-recovery ledger in the SOW model.",
+      review:
+        "Confirm with Jason whether ownership vests by tranche or is issued with repurchase protection."
+    },
+    {
+      question: "What exactly happens over 12-18 weeks?",
+      answer:
+        "Agreement prep starts at May 29. Production starts June 1 if approved. Each tranche gets a six-week window and a decision gate.",
+      where:
+        "Production Gantt and Schedule List on this page.",
+      review:
+        "Confirm the June 1 start assumption. If it slips, shift every date by the same delay."
+    },
+    {
+      question: "What is the first MVP deliverable?",
+      answer:
+        "A paid coordination loop: setup, trusted contacts, SMS/email coordination, payment or pilot intake, task status, and cost reporting.",
+      where:
+        '<a href="./24-sow-cost-breakdown-by-tranche.html">SOW cost model</a>, Tranche 1 SOW section.',
+      review:
+        "Make sure this is enough to charge for without overbuilding before user proof."
+    },
+    {
+      question: "What about IP, company ownership, and accounts?",
+      answer:
+        "Company-created product IP, accounts, data, and customer relationships should belong to the company. Background IP gets listed and licensed as needed.",
+      where:
+        '<a href="./23-partnership-framework-and-production-tranches.html">Partnership framework</a> and Open Decisions on this page.',
+      review:
+        "Confirm what needs counsel before any production work starts."
+    },
+    {
+      question: "What do we need to decide in the meeting?",
+      answer:
+        "Pick the relationship path, approve or revise numbers, confirm Tranche 1, agree on start date, and name the legal items.",
+      where:
+        "Review Path and Open Decisions on this page.",
+      review:
+        "Use the checklist below as your call agenda."
+    }
+  ];
+
+  const questionRows = questionCoverage
+    .map(
+      (item, index) => `
+              <tr>
+                <td><span class="answer-index">${index + 1}</span>${escapeHtml(item.question)}</td>
+                <td>${escapeHtml(item.answer)}</td>
+                <td>${item.where}</td>
+                <td>${escapeHtml(item.review)}</td>
+              </tr>`
+    )
+    .join("");
+
   const body = `
         <section class="hero">
           <h1>${escapeHtml(doc.title)}</h1>
           <p>
-            This turns the SOW model into a time-based view. It shows what happens if the May 29 decision creates agreement
-            and production work starts Monday, June 1, 2026.
+            Use this as the May 29 review page. It answers Tamara's questions, shows where each answer lives,
+            and gives you the exact items to review before discussing terms with her.
           </p>
           <div class="mini-nav">
             <a href="./24-sow-cost-breakdown-by-tranche.html">SOW cost model</a>
@@ -1276,20 +1363,80 @@ function renderGanttPage(doc) {
           </div>
         </section>
 
+        <section class="review-strip">
+          <div class="review-card primary">
+            <span>Start Here</span>
+            <strong>Read the question map first.</strong>
+            <p>It tells you what Tamara asked, where the answer is, and what you need to check.</p>
+          </div>
+          <div class="review-card">
+            <span>Core Decision</span>
+            <strong>A, B, or C.</strong>
+            <p>Pick the relationship path before debating small scope details.</p>
+          </div>
+          <div class="review-card">
+            <span>Numbers To Confirm</span>
+            <strong>$260K, $130K-$170K, $141.85K.</strong>
+            <p>These are the baseline, discounted cash range, and Option C cost ledger.</p>
+          </div>
+          <div class="review-card">
+            <span>Watch Point</span>
+            <strong>Option C legal shape.</strong>
+            <p>Ownership, vesting, repurchase, IP, and cost recovery need written terms.</p>
+          </div>
+        </section>
+
         <section class="grid2">
           <div class="card status-card good">
             <h2>Does This Answer Her Questions?</h2>
             <p>
-              Yes for the working proposal. It now answers what each option covers, what each tranche costs, when the work happens,
-              where the gates are, and how Option C cost recovery works.
+              Yes for a working proposal. It answers the partnership model, tranche scope, cost logic, schedule,
+              gates, Option C recovery, and what remains for counsel.
             </p>
           </div>
           <div class="card status-card open">
-            <h2>What Still Needs Signature</h2>
+            <h2>What You Still Need To Review</h2>
             <p>
-              It does not replace the final SOW, operating agreement, counsel review, final rates, equity instrument, IP terms,
-              vendor/API handling, or the start-date approval.
+              Review the option we want to recommend, the June 1 start date, the rate assumptions, the Option C ownership shape,
+              and the first-tranche scope.
             </p>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Tamara Questions Answered</h2>
+          <p class="quiet">
+            This is the review table to use before the discussion. It says what was asked, what answer we have, where to find it,
+            and what you should look at before talking with her.
+          </p>
+          <table class="table question-map">
+            <thead><tr><th>Question</th><th>Answer</th><th>Where To Review</th><th>What To Check</th></tr></thead>
+            <tbody>${questionRows}</tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2>Review Path For The Discussion</h2>
+          <div class="review-path">
+            <div><strong>1. Choose the relationship lane.</strong><span>Are we presenting A, B, and C neutrally, or are we steering toward one?</span></div>
+            <div><strong>2. Confirm the first tranche.</strong><span>Tranche 1 should prove paid demand before voice or camp automation expands.</span></div>
+            <div><strong>3. Confirm the numbers.</strong><span>Check the $175/hour market baseline, the Option B discount, and the Option C cost ledger.</span></div>
+            <div><strong>4. Confirm the legal shape.</strong><span>Option C needs ownership, vesting or repurchase, IP, and recovery terms.</span></div>
+            <div><strong>5. Confirm the next action.</strong><span>Either authorize Tranche 1, revise the options, or draft the agreement language.</span></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Edit Checklist Before Sending</h2>
+          <p class="quiet">
+            Use this when Jason, Bo, or Tamara changes a number or term during review.
+          </p>
+          <div class="review-path compact">
+            <div><strong>If start date changes</strong><span>Move the Gantt, payment dates, and planning assumption by the same delay.</span></div>
+            <div><strong>If Option A pricing changes</strong><span>Update the $260K baseline, the start/mid/acceptance payments, and the SOW cost model.</span></div>
+            <div><strong>If Option B changes</strong><span>Update the $130K-$170K cash range, covered value, and 10%-15% equity/warrant language.</span></div>
+            <div><strong>If Option C changes</strong><span>Update the 35%-40% ownership language, the $141,850 cost ledger, and the revenue waterfall.</span></div>
+            <div><strong>If scope changes</strong><span>Update the Gantt row, the schedule list, and the matching tranche SOW section.</span></div>
           </div>
         </section>
 

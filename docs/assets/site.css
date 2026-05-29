@@ -411,6 +411,97 @@ pre {
 .option-card.option-b { border-color: rgba(126, 231, 135, 0.22); }
 .option-card.option-c { border-color: rgba(255, 209, 102, 0.24); }
 
+.review-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.review-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 180px;
+  padding: 16px;
+  border: 1px solid rgba(233, 236, 245, 0.12);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(18, 22, 36, 0.80), rgba(15, 19, 32, 0.72));
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+}
+
+.review-card.primary {
+  border-color: rgba(120, 220, 232, 0.32);
+  background:
+    linear-gradient(180deg, rgba(18, 22, 36, 0.82), rgba(15, 19, 32, 0.76)),
+    linear-gradient(135deg, rgba(120, 220, 232, 0.14), transparent 62%);
+}
+
+.review-card span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.review-card strong {
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.12;
+}
+
+.review-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.question-map td:first-child {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.answer-index {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: rgba(120, 220, 232, 0.12);
+  border: 1px solid rgba(120, 220, 232, 0.24);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.review-path {
+  display: grid;
+  gap: 10px;
+}
+
+.review-path.compact {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.review-path div {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid rgba(233, 236, 245, 0.10);
+  border-radius: 12px;
+  background: rgba(233, 236, 245, 0.04);
+}
+
+.review-path strong {
+  color: var(--text);
+}
+
+.review-path span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .gantt-shell {
   margin-top: 14px;
   overflow-x: auto;
@@ -537,6 +628,8 @@ pre {
   .sidebar { position: relative; top: auto; }
   .grid2 { grid-template-columns: 1fr; }
   .grid3 { grid-template-columns: 1fr; }
+  .review-strip { grid-template-columns: 1fr; }
+  .review-path.compact { grid-template-columns: 1fr; }
   .hero h1 { font-size: 30px; }
   .gantt-row { grid-template-columns: 190px minmax(1120px, 1fr); }
 }
