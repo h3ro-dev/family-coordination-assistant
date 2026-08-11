@@ -3,12 +3,6 @@
 System guide (GitHub Pages):
 
 - https://h3ro-dev.github.io/family-coordination-assistant/
-- Looheru strategic proposal:
-  - `docs/proposal.html`
-- Public-safe research appendix:
-  - `docs/research/index.html`
-- Prompts and model lineage:
-  - `docs/research/prompts-and-models.html`
 - Recommended architecture/design doc:
   - `docs/recommended-architecture.md`
 
@@ -20,27 +14,6 @@ This is a "coordination orchestrator" for a family (built SMS-first):
 4. It confirms the selection and closes the loop.
 
 The product experience is "my assistant talks to my people so I don't have to", but the technical reality is a reliable workflow engine that can handle waiting, retries, and message deduplication.
-
-## Current Strategic Roadmap
-
-The May 21 Tamara meeting clarified the near-term sequence:
-
-1. **Tranche 1:** harden the deterministic saved-contact SMS/email loop, add onboarding, payment,
-   plan caps, task-level COGS, and paid pilot visibility.
-2. **Tranche 2:** add voice logistics after tranche 1 is stable, starting with parent voice intake
-   and carefully scoped scheduling calls.
-3. **Tranche 3:** test camp/activity registration automation for a narrow geography and later
-   seasonal cycle, without turning the first product into a camp marketplace.
-
-May 21 meeting items now reflected in the project system:
-
-- Keep the three partner paths visible: Option A cash services, Option B blended cash/equity, and
-  Option C at-cost company building for 35%-40% ownership.
-- Make company-owned IP, founder decision control, background-IP carveouts, and cost recovery
-  explicit before signature.
-- Use twice-weekly updates as the operating cadence if work proceeds.
-- Treat Friday, May 29, 2026 as the next decision checkpoint. An internal Outlook hold exists for
-  9:00-10:00 a.m. Mountain Time; external invites still need confirmation.
 
 ## Status: What Is Completed
 
